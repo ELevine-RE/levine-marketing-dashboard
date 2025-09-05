@@ -411,9 +411,14 @@ class AIAuditView:
             st.metric("Critical Risks", high_risk)
         
         # Decision timeline
+        # Convert timestamp to datetime and add end time for timeline
+        decisions_df['timestamp_dt'] = pd.to_datetime(decisions_df['timestamp'])
+        decisions_df['end_time'] = decisions_df['timestamp_dt'] + pd.Timedelta(hours=1)
+        
         fig = px.timeline(
             decisions_df, 
-            x_start="timestamp", 
+            x_start="timestamp_dt", 
+            x_end="end_time",
             y="decision_type",
             color="risk_level",
             title="AI Decision Timeline",
