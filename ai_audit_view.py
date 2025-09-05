@@ -25,6 +25,8 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
 import os
 import sys
+import logging
+import traceback
 
 # Add current directory to path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -361,54 +363,92 @@ class AIAuditView:
         ]
     
     def render_ai_audit_page(self):
-        """Render the complete AI audit page"""
-        st.title("🤖 AI Audit Dashboard")
-        st.markdown("**Comprehensive AI Logic, Decision Process, and Action Tracking**")
+        """Render the complete AI audit page with comprehensive error handling"""
+        try:
+            st.title("🤖 AI Audit Dashboard")
+            st.markdown("**Comprehensive AI Logic, Decision Process, and Action Tracking**")
+            
+            # Create tabs for different audit views
+            tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+                "🧠 Decision Logs", "⚡ Action Triggers", "📊 Performance Analysis", 
+                "🛡️ Risk Assessment", "🎓 Learning Patterns", "🎯 Recommendations"
+            ])
+            
+            with tab1:
+                self._render_decision_logs()
+            
+            with tab2:
+                self._render_action_triggers()
+            
+            with tab3:
+                self._render_performance_analysis()
+            
+            with tab4:
+                self._render_risk_assessment()
+            
+            with tab5:
+                self._render_learning_patterns()
+            
+            with tab6:
+                self._render_optimization_recommendations()
+                
+        except Exception as e:
+            # Log the error to app.log
+            error_msg = f"AI Audit Page Error: {str(e)}\nTraceback: {traceback.format_exc()}"
+            logging.error(error_msg)
+            
+            # Show user-friendly error message
+            st.error("🚨 AI Audit page encountered an error. Check app.log for details.")
+            st.code(f"Error: {str(e)}")
+            
+            # Show fallback content
+            st.info("🔄 Loading simplified AI audit view...")
+            self._render_fallback_audit()
+    
+    def _render_fallback_audit(self):
+        """Render simplified fallback audit view when main view fails"""
+        st.header("🤖 AI Audit - Simplified View")
+        st.info("This is a simplified version of the AI audit. Full functionality will be restored after error resolution.")
         
-        # Create tabs for different audit views
-        tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-            "🧠 Decision Logs", "⚡ Action Triggers", "📊 Performance Analysis", 
-            "🛡️ Risk Assessment", "🎓 Learning Patterns", "🎯 Recommendations"
-        ])
+        # Show basic metrics
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Decision Accuracy", "87.3%", "+2.1%")
+        with col2:
+            st.metric("Action Success Rate", "82.1%", "+1.8%")
+        with col3:
+            st.metric("ROI Impact", "24.7%", "+3.2%")
         
-        with tab1:
-            self._render_decision_logs()
-        
-        with tab2:
-            self._render_action_triggers()
-        
-        with tab3:
-            self._render_performance_analysis()
-        
-        with tab4:
-            self._render_risk_assessment()
-        
-        with tab5:
-            self._render_learning_patterns()
-        
-        with tab6:
-            self._render_optimization_recommendations()
+        # Show recent decisions
+        st.subheader("Recent AI Decisions")
+        decisions = self.audit_data["decision_logs"][:3]  # Show only first 3
+        for decision in decisions:
+            with st.expander(f"{decision['decision_type']} - {decision['campaign']}"):
+                st.write(f"**Reasoning:** {decision['ai_reasoning']}")
+                st.write(f"**Decision:** {decision['decision']}")
+                st.write(f"**Confidence:** {decision['confidence']:.1%}")
     
     def _render_decision_logs(self):
         """Render AI decision logs with reasoning"""
-        st.header("🧠 AI Decision Logs")
-        st.markdown("**Real-time AI thought processes and decision reasoning**")
-        
-        decisions_df = pd.DataFrame(self.audit_data["decision_logs"])
-        
-        # Decision overview metrics
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("Total Decisions", len(decisions_df))
-        with col2:
-            approved = len(decisions_df[decisions_df['decision'].str.contains('APPROVED')])
-            st.metric("Approved", approved, f"{approved/len(decisions_df)*100:.1f}%")
-        with col3:
-            avg_confidence = decisions_df['confidence'].mean()
-            st.metric("Avg Confidence", f"{avg_confidence:.1%}")
-        with col4:
-            high_risk = len(decisions_df[decisions_df['risk_level'] == 'Critical'])
-            st.metric("Critical Risks", high_risk)
+        try:
+            st.header("🧠 AI Decision Logs")
+            st.markdown("**Real-time AI thought processes and decision reasoning**")
+            
+            decisions_df = pd.DataFrame(self.audit_data["decision_logs"])
+            
+            # Decision overview metrics
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("Total Decisions", len(decisions_df))
+            with col2:
+                approved = len(decisions_df[decisions_df['decision'].str.contains('APPROVED')])
+                st.metric("Approved", approved, f"{approved/len(decisions_df)*100:.1f}%")
+            with col3:
+                avg_confidence = decisions_df['confidence'].mean()
+                st.metric("Avg Confidence", f"{avg_confidence:.1%}")
+            with col4:
+                high_risk = len(decisions_df[decisions_df['risk_level'] == 'Critical'])
+                st.metric("Critical Risks", high_risk)
         
         # Decision timeline
         # Convert timestamp to datetime and add end time for timeline
@@ -469,6 +509,19 @@ class AIAuditView:
                             "High": "🔴", "Critical": "🚨"
                         }
                         st.metric("Risk Level", f"{risk_color.get(decision['risk_level'], '⚪')} {decision['risk_level']}")
+                        
+        except Exception as e:
+            logging.error(f"Decision Logs Error: {str(e)}\nTraceback: {traceback.format_exc()}")
+            st.error(f"❌ Error loading decision logs: {str(e)}")
+            st.info("🔄 Showing simplified decision view...")
+            
+            # Show simplified decision list
+            decisions = self.audit_data["decision_logs"][:3]
+            for decision in decisions:
+                with st.expander(f"{decision['decision_type']} - {decision['campaign']}"):
+                    st.write(f"**Reasoning:** {decision['ai_reasoning']}")
+                    st.write(f"**Decision:** {decision['decision']}")
+                    st.write(f"**Confidence:** {decision['confidence']:.1%}")
     
     def _render_action_triggers(self):
         """Render AI action triggers and conditions"""
@@ -528,8 +581,9 @@ class AIAuditView:
     
     def _render_performance_analysis(self):
         """Render AI performance analysis"""
-        st.header("📊 AI Performance Analysis")
-        st.markdown("**AI system performance metrics and insights**")
+        try:
+            st.header("📊 AI Performance Analysis")
+            st.markdown("**AI system performance metrics and insights**")
         
         perf_df = pd.DataFrame(self.audit_data["performance_analysis"])
         
@@ -546,18 +600,15 @@ class AIAuditView:
                     delta=row['trend']
                 )
         
-        # Performance trends
-        fig = make_subplots(
-            rows=2, cols=2,
-            subplot_titles=("Decision Accuracy", "Action Success Rate", "ROI Impact", "Risk Mitigation"),
-            specs=[[{"secondary_y": False}, {"secondary_y": False}],
-                   [{"secondary_y": False}, {"secondary_y": False}]]
-        )
-        
+        # Performance trends - use simple bar chart instead of complex subplots
         metrics_data = perf_df.set_index('metric')
         
-        fig.add_trace(
-            go.Indicator(
+        # Create individual gauge charts
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            # Decision Accuracy Gauge
+            fig1 = go.Figure(go.Indicator(
                 mode="gauge+number+delta",
                 value=metrics_data.loc["Decision Accuracy", "current"],
                 domain={'x': [0, 1], 'y': [0, 1]},
@@ -568,12 +619,13 @@ class AIAuditView:
                        'steps': [{'range': [0, 85], 'color': "lightgray"},
                                 {'range': [85, 100], 'color': "gray"}],
                        'threshold': {'line': {'color': "red", 'width': 4},
-                                   'thickness': 0.75, 'value': 90}}),
-            row=1, col=1
-        )
-        
-        fig.add_trace(
-            go.Indicator(
+                                   'thickness': 0.75, 'value': 90}}
+            ))
+            fig1.update_layout(height=300)
+            st.plotly_chart(fig1, use_container_width=True)
+            
+            # Action Success Rate Gauge
+            fig2 = go.Figure(go.Indicator(
                 mode="gauge+number+delta",
                 value=metrics_data.loc["Action Success Rate", "current"],
                 domain={'x': [0, 1], 'y': [0, 1]},
@@ -584,12 +636,14 @@ class AIAuditView:
                        'steps': [{'range': [0, 80], 'color': "lightgray"},
                                 {'range': [80, 100], 'color': "gray"}],
                        'threshold': {'line': {'color': "red", 'width': 4},
-                                   'thickness': 0.75, 'value': 90}}),
-            row=1, col=2
-        )
+                                   'thickness': 0.75, 'value': 90}}
+            ))
+            fig2.update_layout(height=300)
+            st.plotly_chart(fig2, use_container_width=True)
         
-        fig.add_trace(
-            go.Indicator(
+        with col2:
+            # ROI Impact Gauge
+            fig3 = go.Figure(go.Indicator(
                 mode="gauge+number+delta",
                 value=metrics_data.loc["ROI Impact", "current"],
                 domain={'x': [0, 1], 'y': [0, 1]},
@@ -600,12 +654,13 @@ class AIAuditView:
                        'steps': [{'range': [0, 20], 'color': "lightgray"},
                                 {'range': [20, 30], 'color': "gray"}],
                        'threshold': {'line': {'color': "red", 'width': 4},
-                                   'thickness': 0.75, 'value': 25}}),
-            row=2, col=1
-        )
-        
-        fig.add_trace(
-            go.Indicator(
+                                   'thickness': 0.75, 'value': 25}}
+            ))
+            fig3.update_layout(height=300)
+            st.plotly_chart(fig3, use_container_width=True)
+            
+            # Risk Mitigation Gauge
+            fig4 = go.Figure(go.Indicator(
                 mode="gauge+number+delta",
                 value=metrics_data.loc["Risk Mitigation", "current"],
                 domain={'x': [0, 1], 'y': [0, 1]},
@@ -616,18 +671,30 @@ class AIAuditView:
                        'steps': [{'range': [0, 90], 'color': "lightgray"},
                                 {'range': [90, 100], 'color': "gray"}],
                        'threshold': {'line': {'color': "red", 'width': 4},
-                                   'thickness': 0.75, 'value': 95}}),
-            row=2, col=2
-        )
+                                   'thickness': 0.75, 'value': 95}}
+            ))
+            fig4.update_layout(height=300)
+            st.plotly_chart(fig4, use_container_width=True)
         
-        fig.update_layout(height=600, showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
-        
-        # AI Insights
-        st.subheader("🤖 AI Insights")
-        for _, row in perf_df.iterrows():
-            with st.expander(f"Insight: {row['metric']}"):
-                st.info(row['ai_insight'])
+            # AI Insights
+            st.subheader("🤖 AI Insights")
+            for _, row in perf_df.iterrows():
+                with st.expander(f"Insight: {row['metric']}"):
+                    st.info(row['ai_insight'])
+                    
+        except Exception as e:
+            logging.error(f"Performance Analysis Error: {str(e)}\nTraceback: {traceback.format_exc()}")
+            st.error(f"❌ Error loading performance analysis: {str(e)}")
+            st.info("🔄 Showing simplified performance metrics...")
+            
+            # Show simplified metrics
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Decision Accuracy", "87.3%", "+2.1%")
+            with col2:
+                st.metric("Action Success Rate", "82.1%", "+1.8%")
+            with col3:
+                st.metric("ROI Impact", "24.7%", "+3.2%")
     
     def _render_risk_assessment(self):
         """Render AI risk assessment"""
