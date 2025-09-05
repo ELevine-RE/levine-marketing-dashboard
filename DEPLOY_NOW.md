@@ -12,7 +12,7 @@ Your complete AI-powered Google Ads management system is ready to deploy to Stre
 
 ### **Step 2: Create New App**
 1. Click "New app"
-2. **Repository**: `ELevine-RE/unified-marketing-dashboard`
+2. **Repository**: `ELevine-RE/levine-marketing-dashboard`
 3. **Branch**: `main`
 4. **Main file path**: `app.py` (for unified dashboard) OR `dashboard.py` (for comprehensive dashboard)
 5. Click "Deploy"
@@ -59,7 +59,7 @@ You already provided these earlier, so add them to Streamlit Cloud:
 
 ## 🌐 **Your Dashboard URL**
 Once deployed, your dashboard will be available at:
-`https://share.streamlit.io/ELevine-RE/unified-marketing-dashboard/main/app.py`
+`https://share.streamlit.io/ELevine-RE/levine-marketing-dashboard/main/app.py`
 
 ## 🎉 **You're Ready!**
 
