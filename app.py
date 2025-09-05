@@ -147,6 +147,14 @@ except ImportError as e:
     HAS_MARKETING_PLAN = False
     logger.warning(f"⚠️ Marketing Plan view not available. Import error: {e}")
 
+try:
+    from ai_audit_view import AIAuditView
+    HAS_AI_AUDIT = True
+    logger.info("✅ Successfully imported AI Audit view")
+except ImportError as e:
+    HAS_AI_AUDIT = False
+    logger.warning(f"⚠️ AI Audit view not available. Import error: {e}")
+
 # Configure Streamlit page
 st.set_page_config(
     page_title="Levine Real Estate - Marketing Dashboard",
@@ -747,6 +755,7 @@ def main():
             "📅 Marketing Plan & Timeline",
             "📋 Strategic Plan",
             "🎮 Command Center",
+            "🤖 AI Audit",
             "🔧 Diagnostics"
         ]
     )
@@ -791,6 +800,12 @@ def main():
             render_command_center_view(ads_data, analytics_data, crm_data)
         else:
             st.error("Command Center view is not available. Please check the import.")
+    elif page == "🤖 AI Audit":
+        if HAS_AI_AUDIT:
+            ai_audit = AIAuditView()
+            ai_audit.render_ai_audit_page()
+        else:
+            st.error("AI Audit view is not available. Please check the import.")
     elif page == "🔧 Diagnostics":
         dashboard.render_diagnostics()
     
