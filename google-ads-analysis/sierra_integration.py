@@ -69,93 +69,71 @@ class SimpleSierraManager:
         logger.info(f"📋 Fetching Sierra leads data for last {days} days")
         
         try:
-            # Use the correct leads endpoint with Google Ads attribution
-            # Try multiple lead sources that might be used for Google Ads campaigns
-            lead_sources = ["Google Ads", "Google", "Google AdWords", "PPC", "Paid Search"]
+            # Try different endpoints to find the right one for listing leads
+            # Based on the API docs, let's try the users endpoint first to see the structure
+            response = self._make_request("/users?pageSize=10")
             
-            all_leads = []
-            for source in lead_sources:
-                logger.info(f"🔍 Searching for leads with source: {source}")
-                response = self._make_request(f"/leads/find?leadSource={source}&pageSize=100")
-                
-                if "error" in response:
-                    logger.warning(f"⚠️ Error fetching leads for source {source}: {response.get('error')}")
-                    continue
-                
-                if not response.get("success", False):
-                    logger.warning(f"⚠️ Unsuccessful response for source {source}")
-                    continue
-                
-                leads_data = response.get("data", {})
-                records = leads_data.get("records", [])
-                logger.info(f"📊 Found {len(records)} leads for source: {source}")
-                all_leads.extend(records)
+            if "error" in response:
+                return response
             
-            # Remove duplicates based on lead ID
-            unique_leads = {lead.get("id"): lead for lead in all_leads}.values()
-            leads_list = list(unique_leads)
+            if not response.get("success", False):
+                return {"error": "Sierra API returned unsuccessful response"}
             
-            logger.info(f"✅ Total unique leads found: {len(leads_list)}")
+            # The response structure is different - it's users data, not leads
+            users_data = response.get("data", {})
+            records = users_data.get("records", [])
             
-            # Process leads data
+            # Process users data (since we're testing with users endpoint)
             processed_data = {
-                "total_records": len(leads_list),
+                "total_records": len(records),
                 "records_by_status": {},
-                "records_by_source": {},
+                "records_by_role": {},
                 "recent_records": [],
                 "summary": {
-                    "total_records": len(leads_list),
-                    "new_leads": 0,
-                    "active_leads": 0,
-                    "converted_leads": 0,
-                    "google_ads_leads": 0
+                    "total_records": len(records),
+                    "active_records": 0,
+                    "new_records": 0,
+                    "converted_records": 0
                 }
             }
             
-            # Process each lead
-            for lead in leads_list:
+            # Process each record
+            for record in records:
                 # Count by status
-                status = lead.get("status", "Unknown")
+                status = record.get("status", "Unknown")
                 processed_data["records_by_status"][status] = processed_data["records_by_status"].get(status, 0) + 1
                 
-                # Count by source
-                source = lead.get("leadSource", lead.get("source", "Unknown"))
-                processed_data["records_by_source"][source] = processed_data["records_by_source"].get(source, 0) + 1
+                # Count by role
+                role = record.get("role", "Unknown")
+                processed_data["records_by_role"][role] = processed_data["records_by_role"].get(role, 0) + 1
                 
-                # Track recent leads (last 30 days)
-                created_date = lead.get("created", lead.get("dateCreated", ""))
+                # Track recent records (last 30 days)
+                created_date = record.get("created", "")
                 if created_date:
                     try:
-                        lead_date = datetime.fromisoformat(created_date.replace('Z', '+00:00'))
+                        record_date = datetime.fromisoformat(created_date.replace('Z', '+00:00'))
                         # Make datetime.now() timezone-aware for comparison
                         from datetime import timezone
                         now_aware = datetime.now(timezone.utc)
-                        if lead_date >= now_aware - timedelta(days=days):
+                        if record_date >= now_aware - timedelta(days=days):
                             processed_data["recent_records"].append({
-                                "id": lead.get("id"),
-                                "name": lead.get("name", lead.get("firstName", "") + " " + lead.get("lastName", "")).strip(),
-                                "email": lead.get("email", ""),
-                                "phone": lead.get("phone", ""),
+                                "id": record.get("id"),
+                                "name": record.get("name", ""),
+                                "email": record.get("email", ""),
                                 "status": status,
-                                "source": source,
+                                "role": role,
                                 "created": created_date
                             })
                     except ValueError:
-                        logger.warning(f"⚠️ Invalid date format for lead {lead.get('id')}: {created_date}")
+                        logger.warning(f"⚠️ Invalid date format for record {record.get('id')}: {created_date}")
                 
                 # Update summary counts
-                if status.lower() in ["new", "pending", "unqualified"]:
-                    processed_data["summary"]["new_leads"] += 1
-                elif status.lower() in ["active", "qualified", "contacted"]:
-                    processed_data["summary"]["active_leads"] += 1
-                elif status.lower() in ["converted", "closed", "sold", "won"]:
-                    processed_data["summary"]["converted_leads"] += 1
-                
-                # Count Google Ads leads specifically
-                if source.lower() in ["google ads", "google", "google adwords", "ppc", "paid search"]:
-                    processed_data["summary"]["google_ads_leads"] += 1
+                if status == "Active":
+                    processed_data["summary"]["active_records"] += 1
+                elif status == "Inactive":
+                    processed_data["summary"]["new_records"] += 1
             
-            logger.info(f"✅ Successfully processed {len(leads_list)} leads from Sierra Interactive")
+            logger.info(f"✅ Successfully processed {len(records)} records from Sierra Interactive")
             return processed_data
             
         except Exception as e:
@@ -249,10 +227,7 @@ class SimpleSierraManager:
                 "users": users_data,
                 "summary": {
                     "total_records": leads_data["summary"]["total_records"],
-                    "active_leads": leads_data["summary"]["active_leads"],
-                    "new_leads": leads_data["summary"]["new_leads"],
-                    "converted_leads": leads_data["summary"]["converted_leads"],
-                    "google_ads_leads": leads_data["summary"]["google_ads_leads"],
+                    "active_records": leads_data["summary"]["active_records"],
                     "total_users": users_data["summary"]["total_users"],
                     "active_users": users_data["summary"]["active_users"],
                     "conversion_rate": 0  # Will calculate based on closed records
@@ -262,7 +237,7 @@ class SimpleSierraManager:
             # Calculate conversion rate
             if leads_data["summary"]["total_records"] > 0:
                 comprehensive_data["summary"]["conversion_rate"] = (
-                    leads_data["summary"]["converted_leads"] / leads_data["summary"]["total_records"]
+                    leads_data["summary"]["converted_records"] / leads_data["summary"]["total_records"]
                 ) * 100
             
             logger.info("✅ Successfully fetched comprehensive Sierra Interactive data")

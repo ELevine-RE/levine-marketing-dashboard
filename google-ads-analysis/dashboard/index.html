@@ -1,0 +1,1033 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Unified Marketing Dashboard</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+        <style>
+            .metric-card {
+                border-left: 4px solid #007bff;
+                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            }
+            .metric-value {
+                font-size: 2rem;
+                font-weight: bold;
+                color: #007bff;
+            }
+            .status-good { color: #28a745; }
+            .status-warning { color: #ffc107; }
+            .status-danger { color: #dc3545; }
+            
+            /* Heat Map Styles */
+            .heatmap-cell {
+                stroke: #fff;
+                stroke-width: 1px;
+            }
+            .heatmap-label {
+                font-size: 12px;
+                text-anchor: middle;
+                dominant-baseline: middle;
+            }
+            .heatmap-title {
+                font-size: 14px;
+                font-weight: bold;
+                text-anchor: middle;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1>🎯 Unified Marketing Dashboard</h1>
+                    <p class="text-muted">Google Ads + Google Analytics Integration</p>
+                    <p class="text-muted">Last updated: 2025-09-03 22:07:51</p>
+                </div>
+            </div>
+            
+            <!-- Manual Interventions Required -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="intervention-report"><h6 class="text-danger mb-3">⚠️ Manual Interventions Required</h6>
+            <div class="alert alert-danger mb-3">
+                <h6 class="text-danger mb-2">🚨 High Priority - Immediate Action Required</h6>
+            
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <strong>Asset Management</strong>
+                    </div>
+                    <div class="col-md-6">
+                        Add new property photos for Deer Valley listings
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Due: 2025-09-05</small>
+                    </div>
+                </div>
+                <div class="row mb-2"><div class="col-12"><small class="text-muted">Note: Current photos are outdated. Need high-quality images for better ad performance.</small></div></div>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <strong>Campaign Setup</strong>
+                    </div>
+                    <div class="col-md-6">
+                        Set up new campaign for Boulder market expansion
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Due: 2025-09-03</small>
+                    </div>
+                </div>
+                <div class="row mb-2"><div class="col-12"><small class="text-muted">Note: Geo targeting expanded but need new campaign structure.</small></div></div></div>
+            <div class="alert alert-warning mb-3">
+                <h6 class="text-warning mb-2">⚠️ Medium Priority - Action Required Soon</h6>
+            
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <strong>Content Creation</strong>
+                    </div>
+                    <div class="col-md-6">
+                        Create new video ad for luxury properties
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Due: 2025-09-10</small>
+                    </div>
+                </div>
+                <div class="row mb-2"><div class="col-12"><small class="text-muted">Note: Video ads perform 3x better than static images for luxury segment.</small></div></div>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <strong>Website Updates</strong>
+                    </div>
+                    <div class="col-md-6">
+                        Update property search filters
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Due: 2025-09-08</small>
+                    </div>
+                </div>
+                <div class="row mb-2"><div class="col-12"><small class="text-muted">Note: Users requesting more granular search options.</small></div></div></div>
+            <div class="alert alert-info mb-3">
+                <h6 class="text-info mb-2">ℹ️ Low Priority - When Convenient</h6>
+            
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <strong>Creative Assets</strong>
+                    </div>
+                    <div class="col-md-6">
+                        Design new logo variations for different property types
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Due: 2025-09-15</small>
+                    </div>
+                </div>
+                <div class="row mb-2"><div class="col-12"><small class="text-muted">Note: Different logos for luxury vs standard properties.</small></div></div></div></div>
+                </div>
+            </div>
+            
+            <!-- Key Unified Metrics Row -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card metric-card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">ROAS</h5>
+                            <div class="metric-value status-good">$0.00</div>
+                            <small class="text-muted">Return on Ad Spend</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card metric-card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Conversion Rate</h5>
+                            <div class="metric-value status-good">3.0%</div>
+                            <small class="text-muted">Ads to Conversions</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card metric-card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Cost per Session</h5>
+                            <div class="metric-value status-warning">$51.06</div>
+                            <small class="text-muted">Paid Traffic Cost</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card metric-card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Paid Traffic %</h5>
+                            <div class="metric-value status-info">0.0%</div>
+                            <small class="text-muted">of Total Sessions</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Google Ads vs Analytics Comparison -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>📊 Google Ads Performance</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <tr><td>Spend</td><td>$2400</td></tr>
+                                <tr><td>Clicks</td><td>1500</td></tr>
+                                <tr><td>Impressions</td><td>25000</td></tr>
+                                <tr><td>Conversions</td><td>45</td></tr>
+                                <tr><td>CPC</td><td>$1.6</td></tr>
+                                <tr><td>CTR</td><td>6.0%</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>📈 Google Analytics Performance</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <tr><td>Sessions</td><td>47</td></tr>
+                                <tr><td>Users</td><td>25</td></tr>
+                                <tr><td>Page Views</td><td>155</td></tr>
+                                <tr><td>Goals</td><td>0</td></tr>
+                                <tr><td>Bounce Rate</td><td>0.5%</td></tr>
+                                <tr><td>Session Duration</td><td>481s</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Traffic Sources Chart -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Traffic Sources</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="trafficChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Traffic Sources Heat Map -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Traffic Sources Heat Map</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="trafficHeatmap"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Top Pages -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Top Pages</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Page</th>
+                                            <th>Page Views</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>/</td><td>41</td></tr><tr><td>/deer-valley-east-village/</td><td>41</td></tr><tr><td>/property-search/results/</td><td>10</td></tr><tr><td>/communities/</td><td>8</td></tr><tr><td>/property-search/detail/50/12502638/1195-canyon-view-rd-midway-ut-84049/</td><td>4</td></tr><tr><td>/property-search/market-update/midway/</td><td>4</td></tr><tr><td>/aerie/</td><td>2</td></tr><tr><td>/property-search/detail/50/12404657/125-w-300-s-midway-ut-84049/</td><td>2</td></tr><tr><td>/property-search/detail/50/12501409/32-e-500-south-midway-ut-84049/</td><td>2</td></tr><tr><td>/property-search/detail/50/12501618/64-s-450-e-midway-ut-84049/</td><td>2</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Auto-refresh info -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <small>
+                            🔄 Dashboard auto-refreshes every 5 minutes | 
+                            📊 Data collected daily at 8 AM MT | 
+                            📧 Email summaries sent to evan@levine.realestate
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Daily Email Content Section -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>📧 Daily Email Summary Content</h5>
+                            <small class="text-muted">Same content sent to evan@levine.realestate daily at 8 AM MT</small>
+                        </div>
+                        <div class="card-body">
+                            
+    <div class="email-content">
+        <div class="row">
+            <div class="col-12">
+                <!-- Manual Interventions -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="intervention-report"><h6 class="text-danger mb-3">⚠️ Manual Interventions Required</h6>
+            <div class="alert alert-danger mb-3">
+                <h6 class="text-danger mb-2">🚨 High Priority - Immediate Action Required</h6>
+            
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <strong>Asset Management</strong>
+                    </div>
+                    <div class="col-md-6">
+                        Add new property photos for Deer Valley listings
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Due: 2025-09-05</small>
+                    </div>
+                </div>
+                <div class="row mb-2"><div class="col-12"><small class="text-muted">Note: Current photos are outdated. Need high-quality images for better ad performance.</small></div></div>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <strong>Campaign Setup</strong>
+                    </div>
+                    <div class="col-md-6">
+                        Set up new campaign for Boulder market expansion
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Due: 2025-09-03</small>
+                    </div>
+                </div>
+                <div class="row mb-2"><div class="col-12"><small class="text-muted">Note: Geo targeting expanded but need new campaign structure.</small></div></div></div>
+            <div class="alert alert-warning mb-3">
+                <h6 class="text-warning mb-2">⚠️ Medium Priority - Action Required Soon</h6>
+            
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <strong>Content Creation</strong>
+                    </div>
+                    <div class="col-md-6">
+                        Create new video ad for luxury properties
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Due: 2025-09-10</small>
+                    </div>
+                </div>
+                <div class="row mb-2"><div class="col-12"><small class="text-muted">Note: Video ads perform 3x better than static images for luxury segment.</small></div></div>
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <strong>Website Updates</strong>
+                    </div>
+                    <div class="col-md-6">
+                        Update property search filters
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Due: 2025-09-08</small>
+                    </div>
+                </div>
+                <div class="row mb-2"><div class="col-12"><small class="text-muted">Note: Users requesting more granular search options.</small></div></div></div>
+            <div class="alert alert-info mb-3">
+                <h6 class="text-info mb-2">ℹ️ Low Priority - When Convenient</h6>
+            
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <strong>Creative Assets</strong>
+                    </div>
+                    <div class="col-md-6">
+                        Design new logo variations for different property types
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Due: 2025-09-15</small>
+                    </div>
+                </div>
+                <div class="row mb-2"><div class="col-12"><small class="text-muted">Note: Different logos for luxury vs standard properties.</small></div></div></div></div>
+                    </div>
+                </div>
+                
+                <h6 class="text-primary mb-3">📊 Performance Summary</h6>
+                
+                <!-- Time Periods -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6>Last 24 Hours</h6>
+                                <div class="h4 text-primary">1</div>
+                                <small class="text-muted">sessions</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6>Last 7 Days</h6>
+                                <div class="h4 text-primary">11</div>
+                                <small class="text-muted">sessions</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6>Last 14 Days</h6>
+                                <div class="h4 text-primary">23</div>
+                                <small class="text-muted">sessions</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6>Last 30 Days</h6>
+                                <div class="h4 text-primary">47</div>
+                                <small class="text-muted">sessions</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Key Metrics -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h6 class="text-success mb-2">🎯 Key Metrics</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Total Sessions:</strong> 47</li>
+                            <li><strong>Unique Users:</strong> 25</li>
+                            <li><strong>Bounce Rate:</strong> 53.2%</li>
+                            <li><strong>Avg Session Duration:</strong> 8.0 minutes</li>
+                            <li><strong>ROAS:</strong> $0.00</li>
+                            <li><strong>Conversion Rate:</strong> 3.0%</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-info mb-2">🚀 Top Traffic Sources</h6>
+                        <ul class="list-unstyled">
+    <li><strong>(direct)/(none):</strong> 30 sessions</li><li><strong>google/organic:</strong> 7 sessions</li><li><strong>client3.sierrainteractivedev.com/referral:</strong> 6 sessions</li>
+                        </ul>
+                        
+                        <h6 class="text-warning mb-2 mt-3">📄 Top Pages</h6>
+                        <ul class="list-unstyled">
+    <li><strong>/:</strong> 41 views</li><li><strong>/deer-valley-east-village/:</strong> 41 views</li><li><strong>/property-search/results/:</strong> 10 views</li><li><strong>/communities/:</strong> 8 views</li><li><strong>/property-search/detail/50/12502638/1195-canyon-view-rd-midway-ut-84049/:</strong> 4 views</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Planned Changes Section -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h6 class="text-warning mb-2">🔧 Planned Changes</h6>
+                        <div class="alert alert-warning">
+                            <strong>No changes planned for today.</strong><br>
+                            <small>All campaigns are performing within expected parameters.</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Impact Analysis -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h6 class="text-info mb-2">📈 Medium & Long Term Impact</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Medium Term (30 days)</h6>
+                                <ul>
+                                    <li>Strong organic traffic growth</li>
+                                    <li>Good user engagement (8-min sessions)</li>
+                                    <li>Opportunity for paid traffic expansion</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Long Term (90 days)</h6>
+                                <ul>
+                                    <li>Focus on conversion optimization</li>
+                                    <li>Scale successful traffic sources</li>
+                                    <li>Implement advanced tracking</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lever Report -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="lever-report"><h6 class="text-primary mb-3">🔧 Recent Lever Pulls (Last 4 Weeks)</h6>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h6 class="mb-0">Week of 2025-09-01 to 2025-09-07</h6>
+                </div>
+                <div class="card-body">
+            
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <span class="badge bg-success">Budget</span>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>2025-09-01 22:01</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <code>$40/day → $50/day</code>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="badge bg-info">$40/day → $50/day</span>
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Increased budget due to strong performance</small>
+                    </div>
+                </div>
+                </div></div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h6 class="mb-0">Week of 2025-08-25 to 2025-08-31</h6>
+                </div>
+                <div class="card-body">
+            
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <span class="badge bg-warning">Tcpa</span>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>2025-08-26 22:01</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <code>None → $120</code>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="badge bg-info">None → $120</span>
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Introduced tCPA after 30+ conversions</small>
+                    </div>
+                </div>
+                </div></div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h6 class="mb-0">Week of 2025-08-18 to 2025-08-24</h6>
+                </div>
+                <div class="card-body">
+            
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <span class="badge bg-info">Geo Targeting</span>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>2025-08-19 22:01</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <code>Denver Metro → Denver Metro + Boulder</code>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="badge bg-info">Denver Metro → Denver Metro + Boulder</span>
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Expanded to Boulder market</small>
+                    </div>
+                </div>
+                </div></div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h6 class="mb-0">Week of 2025-08-11 to 2025-08-17</h6>
+                </div>
+                <div class="card-body">
+            
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <span class="badge bg-secondary">Asset Group</span>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>2025-08-12 22:01</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <code>3 active groups → 4 active groups</code>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="badge bg-info">3 active groups → 4 active groups</span>
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Added new property type group</small>
+                    </div>
+                </div>
+                </div></div></div>
+                    </div>
+                </div>
+                
+                <!-- Impact Analysis -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="impact-report"><h6 class="text-primary mb-3">📊 Lever Impact Analysis (2 Weeks After Change)</h6>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="mb-0">Budget</h6>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <span class="badge bg-success">Positive</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Change:</strong> $40/day → $50/day
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Date:</strong> 2025-09-01
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <strong>Reason:</strong> Increased budget due to strong performance
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6 class="text-info">📈 Impact on Key Metrics (2 weeks after change):</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th>Change</th>
+                                            <th>Direction</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+            
+                                        <tr>
+                                            <td>Sessions</td>
+                                            <td>+34.3%</td>
+                                            <td>🟢</td>
+                                        </tr>
+                    
+                                        <tr>
+                                            <td>Users</td>
+                                            <td>+38.9%</td>
+                                            <td>🟢</td>
+                                        </tr>
+                    
+                                        <tr>
+                                            <td>Bounce Rate</td>
+                                            <td>-3.3%</td>
+                                            <td>🟡</td>
+                                        </tr>
+                    
+                                        <tr>
+                                            <td>Session Duration</td>
+                                            <td>+6.7%</td>
+                                            <td>🟢</td>
+                                        </tr>
+                    
+                                        <tr>
+                                            <td>Roas</td>
+                                            <td>+0.0%</td>
+                                            <td>🟡</td>
+                                        </tr>
+                    
+                                        <tr>
+                                            <td>Conversion Rate</td>
+                                            <td>+20.0%</td>
+                                            <td>🟢</td>
+                                        </tr>
+                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="alert alert-success">
+                                <strong>Recommendation:</strong> ✅ Budget change was successful. Consider similar adjustments.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="mb-0">Tcpa</h6>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <span class="badge bg-info">Insufficient_Data</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Change:</strong> None → $120
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Date:</strong> 2025-08-26
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <strong>Reason:</strong> Introduced tCPA after 30+ conversions
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6 class="text-info">📈 Impact on Key Metrics (2 weeks after change):</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th>Change</th>
+                                            <th>Direction</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="alert alert-info">
+                                <strong>Recommendation:</strong> Insufficient data to analyze impact.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="mb-0">Geo Targeting</h6>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <span class="badge bg-info">Insufficient_Data</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Change:</strong> Denver Metro → Denver Metro + Boulder
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Date:</strong> 2025-08-19
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <strong>Reason:</strong> Expanded to Boulder market
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6 class="text-info">📈 Impact on Key Metrics (2 weeks after change):</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th>Change</th>
+                                            <th>Direction</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="alert alert-info">
+                                <strong>Recommendation:</strong> Insufficient data to analyze impact.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="mb-0">Asset Group</h6>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <span class="badge bg-info">Insufficient_Data</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Change:</strong> 3 active groups → 4 active groups
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Date:</strong> 2025-08-12
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <strong>Reason:</strong> Added new property type group
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6 class="text-info">📈 Impact on Key Metrics (2 weeks after change):</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th>Change</th>
+                                            <th>Direction</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="alert alert-info">
+                                <strong>Recommendation:</strong> Insufficient data to analyze impact.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+                    </div>
+                </div>
+                
+                <!-- Change Report -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="change-report"><h6 class="text-primary mb-3">📈 Rolling 4-Week Performance Changes</h6>
+            <div class="card mb-3 border border-light">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        Week of 2025-08-25 
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-success">📊 Key Metrics</h6>
+                            <ul class="list-unstyled">
+                                <li><strong>Sessions:</strong> 35</li>
+                                <li><strong>Users:</strong> 18</li>
+                                <li><strong>Bounce Rate:</strong> 55.0%</li>
+                                <li><strong>Session Duration:</strong> 7.5 min</li>
+                                <li><strong>ROAS:</strong> $0.00</li>
+                                <li><strong>Conversion Rate:</strong> 2.5%</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-info">🚀 Top Traffic Sources</h6>
+                            <ul class="list-unstyled">
+            <li><em>No traffic source data</em></li>
+                            </ul>
+                        </div>
+                    </div>
+            </div></div>
+            <div class="card mb-3 border border-primary">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        Week of 2025-09-01 (Current)
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-success">📊 Key Metrics</h6>
+                            <ul class="list-unstyled">
+                                <li><strong>Sessions:</strong> 47</li>
+                                <li><strong>Users:</strong> 25</li>
+                                <li><strong>Bounce Rate:</strong> 53.2%</li>
+                                <li><strong>Session Duration:</strong> 8.0 min</li>
+                                <li><strong>ROAS:</strong> $0.00</li>
+                                <li><strong>Conversion Rate:</strong> 3.0%</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-info">🚀 Top Traffic Sources</h6>
+                            <ul class="list-unstyled">
+            <li><em>No traffic source data</em></li>
+                            </ul>
+                        </div>
+                    </div>
+            </div></div></div>
+                    </div>
+                </div>
+                
+                <!-- Intervention Notice -->
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="text-danger mb-2">⚠️ Intervention Notice</h6>
+                        <div class="alert alert-danger">
+                            <strong>Reply within 2 hours if you want to cancel any planned changes.</strong><br>
+                            <small>Current deadline: 2025-09-04 00:07:51</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            // Traffic sources chart
+            const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+            const trafficData = {"(direct)/(none)": 30, "google/organic": 7, "client3.sierrainteractivedev.com/referral": 6, "google/cpc": 2, "tagassistant.google.com/referral": 2, "(not set)/(not set)": 1};
+            
+            new Chart(trafficCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(trafficData),
+                    datasets: [{
+                        data: Object.values(trafficData),
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#4BC0C0',
+                            '#9966FF',
+                            '#FF9F40'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Auto-refresh every 5 minutes
+            setTimeout(() => {
+                location.reload();
+            }, 5 * 60 * 1000);
+            
+            // Traffic Sources Heat Map
+            const trafficData = {"(direct)/(none)": 30, "google/organic": 7, "client3.sierrainteractivedev.com/referral": 6, "google/cpc": 2, "tagassistant.google.com/referral": 2, "(not set)/(not set)": 1};
+            if (Object.keys(trafficData).length > 0) {
+                const heatmapData = Object.entries(trafficData).map(([source, sessions], index) => ({
+                    source: source.split('/')[0].trim(),
+                    medium: source.split('/')[1] ? source.split('/')[1].trim() : 'direct',
+                    sessions: sessions,
+                    intensity: sessions / Math.max(...Object.values(trafficData))
+                }));
+                
+                const width = 600;
+                const height = 400;
+                const margin = {top: 40, right: 30, bottom: 60, left: 60};
+                
+                const svg = d3.select('#trafficHeatmap')
+                    .append('svg')
+                    .attr('width', width)
+                    .attr('height', height);
+                
+                // Color scale
+                const colorScale = d3.scaleSequential()
+                    .domain([0, 1])
+                    .interpolator(d3.interpolateBlues);
+                
+                // Create heat map cells
+                const cellSize = 80;
+                const cellPadding = 10;
+                
+                heatmapData.forEach((d, i) => {
+                    const row = Math.floor(i / 3);
+                    const col = i % 3;
+                    const x = margin.left + col * (cellSize + cellPadding);
+                    const y = margin.top + row * (cellSize + cellPadding);
+                    
+                    svg.append('rect')
+                        .attr('class', 'heatmap-cell')
+                        .attr('x', x)
+                        .attr('y', y)
+                        .attr('width', cellSize)
+                        .attr('height', cellSize)
+                        .attr('fill', colorScale(d.intensity))
+                        .attr('opacity', 0.8);
+                    
+                    svg.append('text')
+                        .attr('class', 'heatmap-label')
+                        .attr('x', x + cellSize/2)
+                        .attr('y', y + cellSize/2 - 10)
+                        .text(d.source);
+                    
+                    svg.append('text')
+                        .attr('class', 'heatmap-label')
+                        .attr('x', x + cellSize/2)
+                        .attr('y', y + cellSize/2 + 10)
+                        .text(d.medium);
+                    
+                    svg.append('text')
+                        .attr('class', 'heatmap-label')
+                        .attr('x', x + cellSize/2)
+                        .attr('y', y + cellSize/2 + 25)
+                        .text(d.sessions + ' sessions');
+                });
+                
+                // Add title
+                svg.append('text')
+                    .attr('class', 'heatmap-title')
+                    .attr('x', width/2)
+                    .attr('y', 20)
+                    .text('Traffic Sources Heat Map');
+            } else {
+                document.getElementById('trafficHeatmap').innerHTML = 
+                    '<div class="text-center text-muted p-4">No traffic source data available</div>';
+            }
+        </script>
+    </body>
+    </html>
+    

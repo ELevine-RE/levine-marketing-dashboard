@@ -1,0 +1,126 @@
+{
+  "ads_data": {
+    "summary": {
+      "spend": 2400,
+      "clicks": 1500,
+      "impressions": 25000,
+      "conversions": 45,
+      "cpc": 1.6,
+      "ctr": 6.0
+    },
+    "collected_at": "2025-09-03T21:59:14.187713"
+  },
+  "analytics_data": {
+    "summary": {
+      "total_sessions": 47,
+      "total_users": 25,
+      "total_page_views": 155,
+      "avg_bounce_rate": 0.5319148936170213,
+      "avg_session_duration": 480.78494797872344,
+      "total_goals": 0,
+      "date_range": {
+        "start": "2025-08-04",
+        "end": "2025-09-03"
+      }
+    },
+    "traffic_sources": {
+      "(direct)/(none)": 30,
+      "google/organic": 7,
+      "client3.sierrainteractivedev.com/referral": 6,
+      "google/cpc": 2,
+      "tagassistant.google.com/referral": 2,
+      "(not set)/(not set)": 1
+    },
+    "top_pages": {
+      "/": 41,
+      "/deer-valley-east-village/": 41,
+      "/property-search/results/": 10,
+      "/communities/": 8,
+      "/property-search/detail/50/12502638/1195-canyon-view-rd-midway-ut-84049/": 4,
+      "/property-search/market-update/midway/": 4,
+      "/aerie/": 2,
+      "/property-search/detail/50/12404657/125-w-300-s-midway-ut-84049/": 2,
+      "/property-search/detail/50/12501409/32-e-500-south-midway-ut-84049/": 2,
+      "/property-search/detail/50/12501618/64-s-450-e-midway-ut-84049/": 2
+    },
+    "daily_trends": {
+      "20250826": {
+        "sessions": 15,
+        "users": 5,
+        "page_views": 85,
+        "goals": 0
+      },
+      "20250903": {
+        "sessions": 6,
+        "users": 3,
+        "page_views": 24,
+        "goals": 0
+      },
+      "20250825": {
+        "sessions": 5,
+        "users": 0,
+        "page_views": 12,
+        "goals": 0
+      },
+      "20250819": {
+        "sessions": 4,
+        "users": 3,
+        "page_views": 6,
+        "goals": 0
+      },
+      "20250820": {
+        "sessions": 4,
+        "users": 3,
+        "page_views": 8,
+        "goals": 0
+      },
+      "20250823": {
+        "sessions": 4,
+        "users": 3,
+        "page_views": 4,
+        "goals": 0
+      },
+      "20250827": {
+        "sessions": 3,
+        "users": 2,
+        "page_views": 2,
+        "goals": 0
+      },
+      "20250821": {
+        "sessions": 2,
+        "users": 2,
+        "page_views": 5,
+        "goals": 0
+      },
+      "20250822": {
+        "sessions": 2,
+        "users": 2,
+        "page_views": 2,
+        "goals": 0
+      },
+      "20250824": {
+        "sessions": 1,
+        "users": 1,
+        "page_views": 6,
+        "goals": 0
+      },
+      "20250829": {
+        "sessions": 1,
+        "users": 1,
+        "page_views": 1,
+        "goals": 0
+      }
+    },
+    "collected_at": "2025-09-03T21:59:14.187639"
+  },
+  "unified_metrics": {
+    "roas": 0,
+    "conversion_rate": 3.0,
+    "cost_per_session": 51.06382978723404,
+    "paid_traffic_ratio": 0.0,
+    "goal_completion_rate": 0.0,
+    "bounce_rate": 0.5319148936170213,
+    "avg_session_duration": 480.78494797872344
+  },
+  "generated_at": "2025-09-03T21:59:14.190371"
+}

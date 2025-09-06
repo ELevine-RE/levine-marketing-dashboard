@@ -1,0 +1,591 @@
+<h1 id="ai-powered-google-ads-management-system">AI-Powered Google Ads
+Management System</h1>
+<h2 id="design-documentation">Design Documentation</h2>
+<p><strong>Version:</strong> 1.0<br />
+<strong>Date:</strong> December 2024<br />
+<strong>Author:</strong> AI Assistant<br />
+<strong>Project:</strong> Personal Campaign Management Tool</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#executive-summary">Executive Summary</a></li>
+<li><a href="#system-overview">System Overview</a></li>
+<li><a href="#architecture-design">Architecture Design</a></li>
+<li><a href="#technical-specifications">Technical
+Specifications</a></li>
+<li><a href="#user-interface-design">User Interface Design</a></li>
+<li><a href="#data-flow">Data Flow</a></li>
+<li><a href="#security-considerations">Security Considerations</a></li>
+<li><a href="#performance-requirements">Performance
+Requirements</a></li>
+<li><a href="#testing-strategy">Testing Strategy</a></li>
+<li><a href="#deployment-guide">Deployment Guide</a></li>
+<li><a href="#maintenance-plan">Maintenance Plan</a></li>
+<li><a href="#future-enhancements">Future Enhancements</a></li>
+</ol>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The AI-Powered Google Ads Management System is a comprehensive
+solution designed to automate and optimize Google Ads campaign
+management for personal use. The system leverages artificial
+intelligence to provide intelligent insights, automate bulk operations,
+and troubleshoot campaign issues efficiently.</p>
+<h3 id="key-objectives">Key Objectives</h3>
+<ul>
+<li><strong>Automation</strong>: Reduce manual campaign management tasks
+by 80%</li>
+<li><strong>Intelligence</strong>: Provide AI-driven recommendations for
+campaign optimization</li>
+<li><strong>Efficiency</strong>: Enable bulk operations across multiple
+campaigns</li>
+<li><strong>Troubleshooting</strong>: Automatic detection and resolution
+of common issues</li>
+<li><strong>Scalability</strong>: Support multiple accounts and campaign
+types</li>
+</ul>
+<h3 id="success-metrics">Success Metrics</h3>
+<ul>
+<li>50% reduction in time spent on campaign management</li>
+<li>25% improvement in campaign performance through AI
+recommendations</li>
+<li>90% automation of routine tasks</li>
+<li>Real-time issue detection and resolution</li>
+</ul>
+<hr />
+<h2 id="system-overview">System Overview</h2>
+<h3 id="purpose">Purpose</h3>
+<p>The system serves as a personal AI assistant for Google Ads campaign
+management, enabling users to “chat with an expert” to manage campaigns,
+automate changes en masse, and troubleshoot issues efficiently.</p>
+<h3 id="target-users">Target Users</h3>
+<ul>
+<li><strong>Primary</strong>: Individual Google Ads account owners</li>
+<li><strong>Secondary</strong>: Small business owners managing their own
+campaigns</li>
+<li><strong>Tertiary</strong>: Marketing professionals requiring
+personal campaign tools</li>
+</ul>
+<h3 id="core-features">Core Features</h3>
+<ol type="1">
+<li><strong>AI-Powered Analysis</strong>: Intelligent insights and
+recommendations</li>
+<li><strong>Performance Monitoring</strong>: Real-time campaign
+performance tracking</li>
+<li><strong>Bulk Operations</strong>: Automate changes across multiple
+campaigns</li>
+<li><strong>Issue Detection</strong>: Automatic troubleshooting and
+health checks</li>
+<li><strong>Data Export</strong>: Export data for further analysis</li>
+<li><strong>Smart Recommendations</strong>: AI-driven optimization
+suggestions</li>
+</ol>
+<hr />
+<h2 id="architecture-design">Architecture Design</h2>
+<h3 id="high-level-architecture">High-Level Architecture</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                    User Interface Layer                     │
+├─────────────────────────────────────────────────────────────┤
+│                  AI Analysis Engine                         │
+├─────────────────────────────────────────────────────────────┤
+│                Business Logic Layer                         │
+├─────────────────────────────────────────────────────────────┤
+│                 Google Ads API Layer                        │
+├─────────────────────────────────────────────────────────────┤
+│                Authentication Layer                         │
+└─────────────────────────────────────────────────────────────┘</code></pre>
+<h3 id="component-architecture">Component Architecture</h3>
+<h4 id="authentication-layer">1. Authentication Layer</h4>
+<ul>
+<li><strong>OAuth 2.0 Implementation</strong>: Secure token-based
+authentication</li>
+<li><strong>Credential Management</strong>: Secure storage of API
+credentials</li>
+<li><strong>Token Refresh</strong>: Automatic token renewal</li>
+<li><strong>Multi-Account Support</strong>: Manager and client account
+handling</li>
+</ul>
+<h4 id="google-ads-api-layer">2. Google Ads API Layer</h4>
+<ul>
+<li><strong>API Client</strong>: Official Google Ads Python client
+library</li>
+<li><strong>Service Integration</strong>: CampaignService,
+CustomerService, etc.</li>
+<li><strong>Error Handling</strong>: Comprehensive error management</li>
+<li><strong>Rate Limiting</strong>: Respect API quotas and limits</li>
+</ul>
+<h4 id="business-logic-layer">3. Business Logic Layer</h4>
+<ul>
+<li><strong>Campaign Manager</strong>: Core campaign management
+logic</li>
+<li><strong>Data Processor</strong>: Excel file processing and
+validation</li>
+<li><strong>Bulk Operations</strong>: Mass campaign updates</li>
+<li><strong>Performance Analyzer</strong>: Campaign performance
+analysis</li>
+</ul>
+<h4 id="ai-analysis-engine">4. AI Analysis Engine</h4>
+<ul>
+<li><strong>Performance Analysis</strong>: CTR, conversion rate
+analysis</li>
+<li><strong>Recommendation Engine</strong>: AI-driven optimization
+suggestions</li>
+<li><strong>Issue Detection</strong>: Automatic problem
+identification</li>
+<li><strong>Trend Analysis</strong>: Historical performance trends</li>
+</ul>
+<h4 id="user-interface-layer">5. User Interface Layer</h4>
+<ul>
+<li><strong>Command Line Interface</strong>: Rich terminal-based
+interface</li>
+<li><strong>Data Visualization</strong>: Rich tables and formatted
+output</li>
+<li><strong>Interactive Prompts</strong>: User-friendly command
+prompts</li>
+<li><strong>Progress Indicators</strong>: Real-time operation
+feedback</li>
+</ul>
+<h3 id="data-architecture">Data Architecture</h3>
+<h4 id="data-sources">Data Sources</h4>
+<ol type="1">
+<li><strong>Google Ads API</strong>: Campaign data, performance
+metrics</li>
+<li><strong>Excel Configuration Files</strong>: Campaign setup
+specifications</li>
+<li><strong>User Input</strong>: Manual configurations and
+preferences</li>
+<li><strong>Historical Data</strong>: Performance trends and
+patterns</li>
+</ol>
+<h4 id="data-storage">Data Storage</h4>
+<ul>
+<li><strong>Environment Variables</strong>: Secure credential
+storage</li>
+<li><strong>Configuration Files</strong>: Campaign settings and
+preferences</li>
+<li><strong>Temporary Data</strong>: Session-based data processing</li>
+<li><strong>Export Files</strong>: Generated reports and analysis</li>
+</ul>
+<hr />
+<h2 id="technical-specifications">Technical Specifications</h2>
+<h3 id="technology-stack">Technology Stack</h3>
+<h4 id="backend-technologies">Backend Technologies</h4>
+<ul>
+<li><strong>Language</strong>: Python 3.8+</li>
+<li><strong>Framework</strong>: Google Ads API v21</li>
+<li><strong>Authentication</strong>: OAuth 2.0</li>
+<li><strong>Data Processing</strong>: Pandas, NumPy</li>
+<li><strong>Configuration</strong>: python-dotenv</li>
+</ul>
+<h4 id="development-tools">Development Tools</h4>
+<ul>
+<li><strong>Virtual Environment</strong>: venv</li>
+<li><strong>Package Management</strong>: pip</li>
+<li><strong>Code Quality</strong>: Rich, Click</li>
+<li><strong>Documentation</strong>: Markdown</li>
+</ul>
+<h4 id="external-dependencies">External Dependencies</h4>
+<ul>
+<li><strong>Google Ads API</strong>: Official Python client library</li>
+<li><strong>Google Cloud Console</strong>: OAuth credentials</li>
+<li><strong>Google Ads API Center</strong>: Developer token</li>
+</ul>
+<h3 id="system-requirements">System Requirements</h3>
+<h4 id="minimum-requirements">Minimum Requirements</h4>
+<ul>
+<li><strong>Python</strong>: 3.8 or higher</li>
+<li><strong>Memory</strong>: 512MB RAM</li>
+<li><strong>Storage</strong>: 100MB free space</li>
+<li><strong>Network</strong>: Internet connection</li>
+<li><strong>OS</strong>: Windows 10+, macOS 10.14+, Linux</li>
+</ul>
+<h4 id="recommended-requirements">Recommended Requirements</h4>
+<ul>
+<li><strong>Python</strong>: 3.9 or higher</li>
+<li><strong>Memory</strong>: 1GB RAM</li>
+<li><strong>Storage</strong>: 500MB free space</li>
+<li><strong>Network</strong>: High-speed internet</li>
+<li><strong>OS</strong>: Latest stable versions</li>
+</ul>
+<h3 id="api-specifications">API Specifications</h3>
+<h4 id="google-ads-api-integration">Google Ads API Integration</h4>
+<ul>
+<li><strong>API Version</strong>: v21</li>
+<li><strong>Authentication</strong>: OAuth 2.0</li>
+<li><strong>Rate Limits</strong>: Respect Google’s quotas</li>
+<li><strong>Error Handling</strong>: Comprehensive error management</li>
+<li><strong>Retry Logic</strong>: Exponential backoff for failed
+requests</li>
+</ul>
+<h4 id="supported-operations">Supported Operations</h4>
+<ul>
+<li><strong>Campaign Management</strong>: Create, update, pause,
+delete</li>
+<li><strong>Asset Management</strong>: Create and manage assets</li>
+<li><strong>Performance Data</strong>: Retrieve metrics and reports</li>
+<li><strong>Account Management</strong>: Customer and account
+operations</li>
+<li><strong>Bulk Operations</strong>: Mass updates and
+modifications</li>
+</ul>
+<hr />
+<h2 id="user-interface-design">User Interface Design</h2>
+<h3 id="command-line-interface">Command Line Interface</h3>
+<h4 id="design-principles">Design Principles</h4>
+<ul>
+<li><strong>Simplicity</strong>: Clean, intuitive command structure</li>
+<li><strong>Consistency</strong>: Uniform command patterns</li>
+<li><strong>Feedback</strong>: Clear operation status and results</li>
+<li><strong>Error Handling</strong>: User-friendly error messages</li>
+</ul>
+<h4 id="interface-components">Interface Components</h4>
+<h5 id="main-commands">1. Main Commands</h5>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick analysis</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> examples/quick_analysis.py</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Bulk operations</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> examples/bulk_operations.py</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Campaign creation</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> pmax_campaign_creator.py</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Connection testing</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> test_connection.py</span></code></pre></div>
+<h5 id="rich-output-formatting">2. Rich Output Formatting</h5>
+<ul>
+<li><strong>Tables</strong>: Structured data presentation</li>
+<li><strong>Panels</strong>: Highlighted information sections</li>
+<li><strong>Progress Bars</strong>: Operation status indicators</li>
+<li><strong>Color Coding</strong>: Status-based color schemes</li>
+</ul>
+<h5 id="interactive-elements">3. Interactive Elements</h5>
+<ul>
+<li><strong>Prompts</strong>: User input collection</li>
+<li><strong>Confirmations</strong>: Operation confirmations</li>
+<li><strong>Help System</strong>: Built-in documentation</li>
+<li><strong>Error Recovery</strong>: Graceful error handling</li>
+</ul>
+<h3 id="data-visualization">Data Visualization</h3>
+<h4 id="output-formats">Output Formats</h4>
+<ol type="1">
+<li><strong>Rich Tables</strong>: Campaign performance data</li>
+<li><strong>Progress Indicators</strong>: Operation progress</li>
+<li><strong>Status Panels</strong>: System status information</li>
+<li><strong>Error Messages</strong>: Clear error reporting</li>
+</ol>
+<h4 id="color-scheme">Color Scheme</h4>
+<ul>
+<li><strong>Success</strong>: Green (#00FF00)</li>
+<li><strong>Warning</strong>: Yellow (#FFFF00)</li>
+<li><strong>Error</strong>: Red (#FF0000)</li>
+<li><strong>Info</strong>: Blue (#0000FF)</li>
+<li><strong>Neutral</strong>: White (#FFFFFF)</li>
+</ul>
+<hr />
+<h2 id="data-flow">Data Flow</h2>
+<h3 id="authentication-flow">Authentication Flow</h3>
+<pre><code>1. User initiates authentication
+2. System loads OAuth credentials
+3. Google OAuth flow begins
+4. User authorizes application
+5. Refresh token obtained
+6. Token stored securely
+7. API access granted</code></pre>
+<h3 id="campaign-management-flow">Campaign Management Flow</h3>
+<pre><code>1. User requests campaign operation
+2. System authenticates with Google Ads API
+3. API request sent to Google
+4. Response received and processed
+5. Data formatted for display
+6. Results presented to user
+7. Operation logged for audit</code></pre>
+<h3 id="data-processing-flow">Data Processing Flow</h3>
+<pre><code>1. Excel file loaded
+2. Data validated and cleaned
+3. Configuration parsed
+4. API operations generated
+5. Operations executed
+6. Results collected
+7. Summary report generated</code></pre>
+<h3 id="error-handling-flow">Error Handling Flow</h3>
+<pre><code>1. Error detected
+2. Error type identified
+3. Appropriate handler selected
+4. Recovery action attempted
+5. User notified of issue
+6. Alternative solutions suggested
+7. Operation logged for analysis</code></pre>
+<hr />
+<h2 id="security-considerations">Security Considerations</h2>
+<h3 id="authentication-security">Authentication Security</h3>
+<ul>
+<li><strong>OAuth 2.0</strong>: Industry-standard authentication</li>
+<li><strong>Token Storage</strong>: Secure environment variable
+storage</li>
+<li><strong>Token Refresh</strong>: Automatic token renewal</li>
+<li><strong>Access Control</strong>: Principle of least privilege</li>
+</ul>
+<h3 id="data-security">Data Security</h3>
+<ul>
+<li><strong>Encryption</strong>: Secure data transmission</li>
+<li><strong>Access Logging</strong>: Audit trail for all operations</li>
+<li><strong>Input Validation</strong>: Sanitize all user inputs</li>
+<li><strong>Error Handling</strong>: No sensitive data in error
+messages</li>
+</ul>
+<h3 id="api-security">API Security</h3>
+<ul>
+<li><strong>Rate Limiting</strong>: Respect API quotas</li>
+<li><strong>Error Handling</strong>: Secure error management</li>
+<li><strong>Credential Management</strong>: Secure credential
+storage</li>
+<li><strong>Access Monitoring</strong>: Monitor for unauthorized
+access</li>
+</ul>
+<h3 id="best-practices">Best Practices</h3>
+<ul>
+<li><strong>Environment Variables</strong>: Secure credential
+storage</li>
+<li><strong>Input Validation</strong>: Validate all inputs</li>
+<li><strong>Error Handling</strong>: Secure error messages</li>
+<li><strong>Logging</strong>: Audit trail maintenance</li>
+</ul>
+<hr />
+<h2 id="performance-requirements">Performance Requirements</h2>
+<h3 id="response-time">Response Time</h3>
+<ul>
+<li><strong>API Calls</strong>: &lt; 5 seconds average</li>
+<li><strong>Data Processing</strong>: &lt; 10 seconds for large
+datasets</li>
+<li><strong>User Interface</strong>: &lt; 1 second for command
+execution</li>
+<li><strong>Error Recovery</strong>: &lt; 3 seconds for error
+handling</li>
+</ul>
+<h3 id="throughput">Throughput</h3>
+<ul>
+<li><strong>Concurrent Operations</strong>: Support for multiple
+operations</li>
+<li><strong>Data Processing</strong>: Handle large Excel files
+efficiently</li>
+<li><strong>API Requests</strong>: Respect Google’s rate limits</li>
+<li><strong>Memory Usage</strong>: Efficient memory management</li>
+</ul>
+<h3 id="scalability">Scalability</h3>
+<ul>
+<li><strong>Account Support</strong>: Multiple Google Ads accounts</li>
+<li><strong>Campaign Volume</strong>: Handle hundreds of campaigns</li>
+<li><strong>Data Volume</strong>: Process large datasets
+efficiently</li>
+<li><strong>User Growth</strong>: Support multiple users</li>
+</ul>
+<h3 id="reliability">Reliability</h3>
+<ul>
+<li><strong>Uptime</strong>: 99.9% availability</li>
+<li><strong>Error Recovery</strong>: Automatic error recovery</li>
+<li><strong>Data Integrity</strong>: Maintain data consistency</li>
+<li><strong>Backup</strong>: Regular data backups</li>
+</ul>
+<hr />
+<h2 id="testing-strategy">Testing Strategy</h2>
+<h3 id="unit-testing">Unit Testing</h3>
+<ul>
+<li><strong>Component Testing</strong>: Test individual components</li>
+<li><strong>Function Testing</strong>: Test specific functions</li>
+<li><strong>Error Handling</strong>: Test error scenarios</li>
+<li><strong>Edge Cases</strong>: Test boundary conditions</li>
+</ul>
+<h3 id="integration-testing">Integration Testing</h3>
+<ul>
+<li><strong>API Integration</strong>: Test Google Ads API
+integration</li>
+<li><strong>Data Flow</strong>: Test complete data flows</li>
+<li><strong>Authentication</strong>: Test OAuth flow</li>
+<li><strong>Error Recovery</strong>: Test error handling</li>
+</ul>
+<h3 id="user-acceptance-testing">User Acceptance Testing</h3>
+<ul>
+<li><strong>Functionality</strong>: Test all features</li>
+<li><strong>Usability</strong>: Test user interface</li>
+<li><strong>Performance</strong>: Test performance requirements</li>
+<li><strong>Security</strong>: Test security measures</li>
+</ul>
+<h3 id="automated-testing">Automated Testing</h3>
+<ul>
+<li><strong>Continuous Integration</strong>: Automated test
+execution</li>
+<li><strong>Regression Testing</strong>: Prevent feature regression</li>
+<li><strong>Performance Testing</strong>: Monitor performance
+metrics</li>
+<li><strong>Security Testing</strong>: Automated security checks</li>
+</ul>
+<hr />
+<h2 id="deployment-guide">Deployment Guide</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ol type="1">
+<li><strong>Python Environment</strong>: Python 3.8+ installed</li>
+<li><strong>Google Cloud Project</strong>: Project with Google Ads API
+enabled</li>
+<li><strong>OAuth Credentials</strong>: Client ID and client secret</li>
+<li><strong>Developer Token</strong>: Google Ads API access token</li>
+<li><strong>Google Ads Account</strong>: Active Google Ads account</li>
+</ol>
+<h3 id="installation-steps">Installation Steps</h3>
+<h4 id="environment-setup">1. Environment Setup</h4>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clone repository</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone <span class="op">&lt;</span>repository-url<span class="op">&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> google-ads-setup</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create virtual environment</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venv .venv</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate  <span class="co"># On Windows: .venv\Scripts\activate</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Install dependencies</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<h4 id="configuration-setup">2. Configuration Setup</h4>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy environment template</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> .env.example .env</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Edit environment variables</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> .env</span></code></pre></div>
+<h4 id="oauth-setup">3. OAuth Setup</h4>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run OAuth helper</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> oauth_helper.py</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Follow prompts to obtain refresh token</span></span></code></pre></div>
+<h4 id="connection-testing">4. Connection Testing</h4>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test API connection</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> test_connection.py</span></code></pre></div>
+<h3 id="configuration-files">Configuration Files</h3>
+<h4 id="environment-variables-.env">Environment Variables (.env)</h4>
+<pre class="env"><code>GOOGLE_ADS_DEVELOPER_TOKEN=your_developer_token
+GOOGLE_ADS_CLIENT_ID=your_client_id
+GOOGLE_ADS_CLIENT_SECRET=your_client_secret
+GOOGLE_ADS_REFRESH_TOKEN=your_refresh_token
+GOOGLE_ADS_LOGIN_CUSTOMER_ID=manager_account_id
+GOOGLE_ADS_CUSTOMER_ID=target_account_id</code></pre>
+<h4 id="google-ads-configuration-google-ads.yaml">Google Ads
+Configuration (google-ads.yaml)</h4>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">developer_token</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;your_developer_token&quot;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">client_id</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;your_client_id&quot;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">client_secret</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;your_client_secret&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">refresh_token</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;your_refresh_token&quot;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">use_proto_plus</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">login_customer_id</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;manager_account_id&quot;</span></span></code></pre></div>
+<h3 id="deployment-checklist">Deployment Checklist</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" />Python environment
+configured</label></li>
+<li><label><input type="checkbox" />Dependencies installed</label></li>
+<li><label><input type="checkbox" />Environment variables
+set</label></li>
+<li><label><input type="checkbox" />OAuth credentials
+configured</label></li>
+<li><label><input type="checkbox" />API connection tested</label></li>
+<li><label><input type="checkbox" />Permissions verified</label></li>
+<li><label><input type="checkbox" />Documentation reviewed</label></li>
+</ul>
+<hr />
+<h2 id="maintenance-plan">Maintenance Plan</h2>
+<h3 id="regular-maintenance">Regular Maintenance</h3>
+<ul>
+<li><strong>Weekly</strong>: Check for API updates</li>
+<li><strong>Monthly</strong>: Review performance metrics</li>
+<li><strong>Quarterly</strong>: Update dependencies</li>
+<li><strong>Annually</strong>: Security audit</li>
+</ul>
+<h3 id="monitoring">Monitoring</h3>
+<ul>
+<li><strong>Performance Monitoring</strong>: Track response times</li>
+<li><strong>Error Monitoring</strong>: Monitor error rates</li>
+<li><strong>Usage Monitoring</strong>: Track feature usage</li>
+<li><strong>Security Monitoring</strong>: Monitor for security
+issues</li>
+</ul>
+<h3 id="updates">Updates</h3>
+<ul>
+<li><strong>API Updates</strong>: Keep Google Ads API current</li>
+<li><strong>Dependency Updates</strong>: Update Python packages</li>
+<li><strong>Security Updates</strong>: Apply security patches</li>
+<li><strong>Feature Updates</strong>: Add new features</li>
+</ul>
+<h3 id="backup-strategy">Backup Strategy</h3>
+<ul>
+<li><strong>Configuration Backup</strong>: Backup configuration
+files</li>
+<li><strong>Data Backup</strong>: Backup important data</li>
+<li><strong>Code Backup</strong>: Version control for code</li>
+<li><strong>Documentation Backup</strong>: Backup documentation</li>
+</ul>
+<hr />
+<h2 id="future-enhancements">Future Enhancements</h2>
+<h3 id="phase-1-enhanced-ai-features">Phase 1: Enhanced AI Features</h3>
+<ul>
+<li><strong>Predictive Analytics</strong>: Predict campaign
+performance</li>
+<li><strong>Automated Optimization</strong>: Automatic campaign
+optimization</li>
+<li><strong>Smart Budgeting</strong>: AI-driven budget allocation</li>
+<li><strong>Competitive Analysis</strong>: Competitor performance
+analysis</li>
+</ul>
+<h3 id="phase-2-advanced-features">Phase 2: Advanced Features</h3>
+<ul>
+<li><strong>Multi-Platform Support</strong>: Support for other ad
+platforms</li>
+<li><strong>Advanced Reporting</strong>: Custom report generation</li>
+<li><strong>Real-time Monitoring</strong>: Live campaign monitoring</li>
+<li><strong>Mobile Interface</strong>: Mobile app development</li>
+</ul>
+<h3 id="phase-3-enterprise-features">Phase 3: Enterprise Features</h3>
+<ul>
+<li><strong>Multi-User Support</strong>: Team collaboration
+features</li>
+<li><strong>Advanced Security</strong>: Enterprise-grade security</li>
+<li><strong>API Integration</strong>: Third-party integrations</li>
+<li><strong>White-label Solution</strong>: Customizable branding</li>
+</ul>
+<h3 id="phase-4-ai-evolution">Phase 4: AI Evolution</h3>
+<ul>
+<li><strong>Machine Learning</strong>: Advanced ML algorithms</li>
+<li><strong>Natural Language Processing</strong>: Conversational AI</li>
+<li><strong>Predictive Modeling</strong>: Advanced prediction
+models</li>
+<li><strong>Automated Decision Making</strong>: AI-driven decisions</li>
+</ul>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>The AI-Powered Google Ads Management System represents a
+comprehensive solution for personal campaign management. With its robust
+architecture, intelligent features, and scalable design, the system
+provides a solid foundation for efficient Google Ads campaign
+management.</p>
+<p>The system’s modular design allows for easy maintenance and future
+enhancements, while its security features ensure safe operation. The
+comprehensive testing strategy ensures reliability, and the detailed
+deployment guide facilitates easy implementation.</p>
+<p>As the system evolves, additional AI features and advanced
+capabilities will further enhance its value as a personal campaign
+management tool.</p>
+<hr />
+<h2 id="appendices">Appendices</h2>
+<h3 id="appendix-a-api-reference">Appendix A: API Reference</h3>
+<p>Detailed API documentation and usage examples.</p>
+<h3 id="appendix-b-configuration-reference">Appendix B: Configuration
+Reference</h3>
+<p>Complete configuration options and settings.</p>
+<h3 id="appendix-c-troubleshooting-guide">Appendix C: Troubleshooting
+Guide</h3>
+<p>Common issues and solutions.</p>
+<h3 id="appendix-d-performance-benchmarks">Appendix D: Performance
+Benchmarks</h3>
+<p>Performance testing results and benchmarks.</p>
+<hr />
+<p><strong>Document Version:</strong> 1.0<br />
+<strong>Last Updated:</strong> December 2024<br />
+<strong>Next Review:</strong> March 2025</p>

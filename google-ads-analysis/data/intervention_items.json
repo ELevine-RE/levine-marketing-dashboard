@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "category": "Asset Management",
+    "action": "Add new property photos for Deer Valley listings",
+    "priority": "high",
+    "status": "pending",
+    "created_date": "2025-09-03T22:07:47.464828",
+    "due_date": "2025-09-05",
+    "notes": "Current photos are outdated. Need high-quality images for better ad performance.",
+    "assigned_to": "user"
+  },
+  {
+    "id": 2,
+    "category": "Content Creation",
+    "action": "Create new video ad for luxury properties",
+    "priority": "medium",
+    "status": "pending",
+    "created_date": "2025-09-03T22:07:47.465044",
+    "due_date": "2025-09-10",
+    "notes": "Video ads perform 3x better than static images for luxury segment.",
+    "assigned_to": "user"
+  },
+  {
+    "id": 3,
+    "category": "Website Updates",
+    "action": "Update property search filters",
+    "priority": "medium",
+    "status": "pending",
+    "created_date": "2025-09-03T22:07:47.465159",
+    "due_date": "2025-09-08",
+    "notes": "Users requesting more granular search options.",
+    "assigned_to": "user"
+  },
+  {
+    "id": 4,
+    "category": "Creative Assets",
+    "action": "Design new logo variations for different property types",
+    "priority": "low",
+    "status": "pending",
+    "created_date": "2025-09-03T22:07:47.465250",
+    "due_date": "2025-09-15",
+    "notes": "Different logos for luxury vs standard properties.",
+    "assigned_to": "user"
+  },
+  {
+    "id": 5,
+    "category": "Campaign Setup",
+    "action": "Set up new campaign for Boulder market expansion",
+    "priority": "high",
+    "status": "pending",
+    "created_date": "2025-09-03T22:07:47.465332",
+    "due_date": "2025-09-03",
+    "notes": "Geo targeting expanded but need new campaign structure.",
+    "assigned_to": "user"
+  }
+]

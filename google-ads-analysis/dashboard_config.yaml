@@ -1,0 +1,89 @@
+# Dashboard Configuration
+dashboard:
+  title: "Marketing Dashboard - A/B Test"
+  refresh_interval: 300  # seconds
+  theme: "light"
+
+# Campaign Configurations
+campaigns:
+  local_presence:
+    name: "Local Presence"
+    id: "campaign_1_id"  # Replace with actual Google Ads campaign ID
+    budget:
+      month_1: 31.50
+      months_2_5: 34.50
+    goals:
+      conversions: 30
+      cpl: 150
+      phase_1_exit: 30  # conversions needed to exit Phase 1
+    phase: "phase_1"
+    start_date: "2025-09-04"
+    
+  feeder_markets:
+    name: "Feeder Markets"
+    id: "campaign_2_id"  # Replace with actual Google Ads campaign ID
+    budget:
+      month_1: 73.50
+      months_2_5: 80.50
+    goals:
+      conversions: 30
+      cpl: 200
+      phase_1_exit: 30  # conversions needed to exit Phase 1
+    phase: "phase_1"
+    start_date: "2025-09-04"
+
+# Test Configuration
+ab_test:
+  duration_days: 150
+  start_date: "2025-09-04"
+  end_date: "2026-02-01"
+  success_metrics:
+    - "conversion_rate"
+    - "cost_per_lead"
+    - "lead_quality_score"
+    - "roas"
+
+# Google Analytics Configuration
+google_analytics:
+  property_id: "GA_PROPERTY_ID"  # Replace with actual GA4 property ID
+  metrics:
+    - "sessions"
+    - "users"
+    - "pageviews"
+    - "bounce_rate"
+    - "avg_session_duration"
+  conversions:
+    - "lead_form_submission"
+    - "phone_call"
+    - "email_signup"
+
+# Alert Thresholds
+alerts:
+  conversion_drought_days: 7
+  cpl_exceed_threshold: 1.5  # 50% above goal
+  budget_overspend_threshold: 1.2  # 20% above budget
+  ctr_low_threshold: 0.03  # 3%
+
+# Phase Progression Rules
+phase_rules:
+  phase_1_to_2:
+    min_conversions: 30
+    min_days: 14
+    cpl_stability_threshold: 0.2  # ±20%
+    no_changes_days: 7
+    
+  phase_2_to_3:
+    min_tcpa_days: 30
+    cpl_min: 80
+    cpl_max: 150
+    lead_quality_threshold: 5.0
+    pacing_threshold: 0.8
+
+# Display Settings
+display:
+  charts:
+    default_height: 400
+    color_scheme: "plotly"
+  tables:
+    max_rows: 50
+    page_size: 10

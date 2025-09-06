@@ -1,0 +1,151 @@
+name: Crawl/Walk Strategy Automation
+
+on:
+  schedule:
+    # Run daily at 9 AM UTC (2 AM PST / 3 AM PDT)
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+    # Allow manual triggering
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: true
+        default: 'analyze'
+        type: choice
+        options:
+        - analyze
+        - execute
+        - test
+
+jobs:
+  crawl-walk-automation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install google-ads google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
+    
+    - name: Set up Google Ads API credentials
+      run: |
+        mkdir -p ~/.google-ads
+        echo '${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN }}' > ~/.google-ads/developer_token.txt
+        echo '${{ secrets.GOOGLE_ADS_CLIENT_ID }}' > ~/.google-ads/client_id.txt
+        echo '${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}' > ~/.google-ads/client_secret.txt
+        echo '${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}' > ~/.google-ads/refresh_token.txt
+        echo '${{ secrets.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}' > ~/.google-ads/login_customer_id.txt
+        echo '${{ secrets.GOOGLE_ADS_CUSTOMER_ID }}' > ~/.google-ads/customer_id.txt
+    
+    - name: Set up Google Drive API credentials
+      run: |
+        echo '${{ secrets.GOOGLE_CLIENT_ID }}' > ~/.google-ads/drive_client_id.txt
+        echo '${{ secrets.GOOGLE_CLIENT_SECRET }}' > ~/.google-ads/drive_client_secret.txt
+        echo '${{ secrets.GOOGLE_REFRESH_TOKEN }}' > ~/.google-ads/drive_refresh_token.txt
+    
+    - name: Set up email credentials
+      run: |
+        echo '${{ secrets.EMAIL_SENDER }}' > ~/.google-ads/email_sender.txt
+        echo '${{ secrets.EMAIL_PASSWORD }}' > ~/.google-ads/email_password.txt
+        echo '${{ secrets.EMAIL_RECIPIENT }}' > ~/.google-ads/email_recipient.txt
+    
+    - name: Create environment file
+      run: |
+        cat > .env << EOF
+        GOOGLE_ADS_DEVELOPER_TOKEN=${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN }}
+        GOOGLE_ADS_CLIENT_ID=${{ secrets.GOOGLE_ADS_CLIENT_ID }}
+        GOOGLE_ADS_CLIENT_SECRET=${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}
+        GOOGLE_ADS_REFRESH_TOKEN=${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}
+        GOOGLE_ADS_LOGIN_CUSTOMER_ID=${{ secrets.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}
+        GOOGLE_ADS_CUSTOMER_ID=${{ secrets.GOOGLE_ADS_CUSTOMER_ID }}
+        GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+        GOOGLE_REFRESH_TOKEN=${{ secrets.GOOGLE_REFRESH_TOKEN }}
+        EMAIL_SENDER=${{ secrets.EMAIL_SENDER }}
+        EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
+        EMAIL_RECIPIENT=${{ secrets.EMAIL_RECIPIENT }}
+        EOF
+    
+    - name: Run Crawl/Walk Analysis
+      if: github.event.inputs.action == 'analyze' || github.event_name == 'schedule'
+      run: |
+        cd google-ads-analysis/tools
+        python execute_crawl_walk.py analyze
+      env:
+        GOOGLE_ADS_DEVELOPER_TOKEN: ${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN }}
+        GOOGLE_ADS_CLIENT_ID: ${{ secrets.GOOGLE_ADS_CLIENT_ID }}
+        GOOGLE_ADS_CLIENT_SECRET: ${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}
+        GOOGLE_ADS_REFRESH_TOKEN: ${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}
+        GOOGLE_ADS_LOGIN_CUSTOMER_ID: ${{ secrets.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}
+        GOOGLE_ADS_CUSTOMER_ID: ${{ secrets.GOOGLE_ADS_CUSTOMER_ID }}
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+        EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
+    
+    - name: Execute Crawl/Walk Strategy
+      if: github.event.inputs.action == 'execute'
+      run: |
+        cd google-ads-analysis/tools
+        python execute_crawl_walk.py execute
+      env:
+        GOOGLE_ADS_DEVELOPER_TOKEN: ${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN }}
+        GOOGLE_ADS_CLIENT_ID: ${{ secrets.GOOGLE_ADS_CLIENT_ID }}
+        GOOGLE_ADS_CLIENT_SECRET: ${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}
+        GOOGLE_ADS_REFRESH_TOKEN: ${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}
+        GOOGLE_ADS_LOGIN_CUSTOMER_ID: ${{ secrets.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}
+        GOOGLE_ADS_CUSTOMER_ID: ${{ secrets.GOOGLE_ADS_CUSTOMER_ID }}
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+        EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
+    
+    - name: Test System
+      if: github.event.inputs.action == 'test'
+      run: |
+        cd google-ads-analysis/tools
+        python -c "
+        import crawl_walk_campaign_creator
+        import enhanced_quick_analysis
+        import execute_crawl_walk
+        print('✅ All modules import successfully')
+        "
+    
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: crawl-walk-logs
+        path: |
+          app.log
+          data/
+        retention-days: 30
+    
+    - name: Create summary
+      if: always()
+      run: |
+        echo "## Crawl/Walk Automation Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Action:** ${{ github.event.inputs.action || 'schedule' }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Timestamp:** $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "**Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ -f "app.log" ]; then
+          echo "**Recent Logs:**" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -20 app.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        fi

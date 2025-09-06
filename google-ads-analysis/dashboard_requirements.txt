@@ -1,0 +1,20 @@
+# Dashboard Dependencies - Compatible with Python 3.13 and Streamlit Cloud
+streamlit>=1.28.0
+pandas>=2.0.0
+plotly>=5.15.0
+numpy>=1.24.0
+pyyaml>=6.0
+
+# Google Ads API - Latest compatible version
+google-ads>=22.0.0,<29.0.0
+
+# Rich for better terminal output
+rich>=13.0.0
+
+# Additional dependencies for dashboard
+python-dateutil>=2.8.0
+click>=8.1.0
+schedule>=1.2.0
+
+# Note: Removed google-analytics-data due to protobuf conflicts
+# Will implement GA integration using alternative methods

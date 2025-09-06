@@ -1,0 +1,176 @@
+{
+  "success": true,
+  "campaign_name": "L.R - PMax - General",
+  "audit_timestamp": "2025-09-05T18:56:24.298971",
+  "campaign_data": {
+    "id": 22974056109,
+    "name": "L.R - PMax - General",
+    "status": "ENABLED",
+    "budget_id": "customers/5426234549/campaignBudgets/14913372181",
+    "channel_type": "PERFORMANCE_MAX",
+    "channel_sub_type": null,
+    "target_cpa": null,
+    "target_roas": null,
+    "bidding_strategy": "MAXIMIZE_CONVERSIONS",
+    "start_date": "2025-09-03",
+    "end_date": "2037-12-30",
+    "budget_amount": 50.0,
+    "budget_delivery": "STANDARD",
+    "budget_period": "DAILY",
+    "budget_type": "STANDARD",
+    "performance": [
+      {
+        "date": "",
+        "impressions": 22,
+        "clicks": 2,
+        "ctr": 0.09090909090909091,
+        "average_cpc": 1403983.0,
+        "cost": 2.807966,
+        "conversions": 0.0,
+        "conversions_value": 0.0,
+        "cost_per_conversion": 0.0,
+        "value_per_conversion": 0.0,
+        "search_impression_share": 0.10852713178294573,
+        "search_budget_lost_impression_share": 0.0,
+        "search_rank_lost_impression_share": 0.8914728682170543,
+        "all_conversions": 0.0,
+        "all_conversions_value": 0.0,
+        "cost_per_all_conversions": 0.0,
+        "value_per_all_conversions": 0.0
+      }
+    ],
+    "assets": [
+      {
+        "asset_set_name": "PMax Page Feed - LevineRealestate",
+        "asset_set_type": "PAGE_FEED"
+      }
+    ],
+    "keywords": []
+  },
+  "analysis": {
+    "structure": {
+      "campaign_type": "PERFORMANCE_MAX",
+      "bidding_strategy": "MAXIMIZE_CONVERSIONS",
+      "budget_amount": 50.0,
+      "budget_delivery": "STANDARD",
+      "target_cpa": null,
+      "target_roas": null,
+      "status": "ENABLED",
+      "issues": [
+        "Budget $50.0 may be too low for effective performance"
+      ],
+      "strengths": [
+        "Using Performance Max - good for automated optimization",
+        "Using Maximize Conversions - good for new campaigns",
+        "Using standard budget delivery - good for consistent spending"
+      ]
+    },
+    "performance": {
+      "total_impressions": 22,
+      "total_clicks": 2,
+      "total_cost": 2.807966,
+      "total_conversions": 0.0,
+      "avg_ctr": 9.090909090909092,
+      "avg_cpc": 1.403983,
+      "conversion_rate": 0.0,
+      "cost_per_conversion": 0,
+      "issues": [
+        "No conversions yet - check conversion tracking"
+      ],
+      "strengths": [
+        "CTR 9.09% is excellent",
+        "CPC $1.40 is within reasonable range",
+        "Cost per conversion $0.00 is excellent"
+      ],
+      "recommendations": [
+        "Verify conversion tracking is properly set up"
+      ]
+    },
+    "targeting": {
+      "total_keywords": 0,
+      "match_types": {},
+      "keyword_performance": {},
+      "issues": [
+        "No keywords found - Performance Max campaigns use automated targeting"
+      ],
+      "strengths": [],
+      "recommendations": [
+        "Consider adding negative keywords to exclude irrelevant traffic"
+      ]
+    },
+    "assets": {
+      "total_assets": 1,
+      "asset_types": {
+        "null": 1
+      },
+      "asset_sets": {
+        "PMax Page Feed - LevineRealestate": 1
+      },
+      "issues": [
+        "Missing IMAGE assets",
+        "Missing TEXT assets",
+        "Missing LOGO assets",
+        "Only 1 assets - need more for optimal performance"
+      ],
+      "strengths": [],
+      "recommendations": [
+        "Add IMAGE assets for better ad variety",
+        "Add TEXT assets for better ad variety",
+        "Add LOGO assets for better ad variety",
+        "Add more assets to improve ad variety and performance"
+      ]
+    },
+    "budget": {
+      "budget_amount": 50.0,
+      "bidding_strategy": "MAXIMIZE_CONVERSIONS",
+      "target_cpa": null,
+      "target_roas": null,
+      "issues": [
+        "Budget $50.0 is very low - may limit performance"
+      ],
+      "strengths": [
+        "Using Maximize Conversions - good for new campaigns"
+      ],
+      "recommendations": [
+        "Consider increasing budget to $1,000+ for better results"
+      ]
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "High",
+      "category": "Assets",
+      "issue": "Insufficient assets",
+      "recommendation": "Add more images, videos, and text assets",
+      "impact": "High"
+    },
+    {
+      "priority": "High",
+      "category": "Budget",
+      "issue": "Budget too low",
+      "recommendation": "Increase budget to $1,000+ for better performance",
+      "impact": "High"
+    },
+    {
+      "priority": "Medium",
+      "category": "Targeting",
+      "issue": "No keyword targeting",
+      "recommendation": "Add negative keywords to exclude irrelevant traffic",
+      "impact": "Medium"
+    },
+    {
+      "priority": "Low",
+      "category": "Assets",
+      "issue": "Could use more assets",
+      "recommendation": "Add more assets for better ad variety",
+      "impact": "Low"
+    }
+  ],
+  "summary": {
+    "total_recommendations": 4,
+    "high_priority": 2,
+    "medium_priority": 1,
+    "low_priority": 1,
+    "overall_status": "Critical"
+  }
+}

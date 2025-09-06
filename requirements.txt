@@ -1,14 +1,30 @@
+# Core Streamlit and Data Processing
 streamlit>=1.28.0
 pandas>=2.0.0
 plotly>=5.15.0
 numpy>=1.24.0
-pyyaml>=6.0
+
+# Google APIs
 google-ads>=22.0.0
-rich>=13.0.0
-gunicorn>=21.0.0
-python-dotenv>=1.0.0
-google-generativeai>=0.3.0
 google-auth>=2.0.0
 google-auth-oauthlib>=1.0.0
 google-auth-httplib2>=0.1.0
 google-api-python-client>=2.0.0
+
+# AI and Environment
+python-dotenv>=1.0.0
+google-generativeai>=0.3.0
+
+# Email and Notifications
+smtplib-ssl>=1.0.0
+
+# Utilities
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+Pillow>=10.0.0
+lxml>=4.9.0
+PyYAML>=6.0.0
+schedule>=1.2.0
+
+# Logging and Monitoring
+logging>=0.4.9.6

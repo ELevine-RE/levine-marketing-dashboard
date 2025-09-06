@@ -1,0 +1,117 @@
+[
+  {
+    "lever": {
+      "lever_type": "budget",
+      "old_value": "$40/day",
+      "new_value": "$50/day",
+      "reason": "Increased budget due to strong performance",
+      "impact": "Expected 25% more impressions",
+      "timestamp": "2025-09-01T22:01:24.411623",
+      "date": "2025-09-01",
+      "campaign": "L.R - PMax - General",
+      "change": "$40/day \u2192 $50/day",
+      "status": "completed"
+    },
+    "analysis_period": {
+      "before": "2025-08-25 to 2025-08-31",
+      "after": "2025-09-02 to 2025-09-15"
+    },
+    "impact": {
+      "sessions": {
+        "change_pct": 34.285714285714285,
+        "change_abs": 12.0,
+        "direction": "positive"
+      },
+      "users": {
+        "change_pct": 38.88888888888889,
+        "change_abs": 7.0,
+        "direction": "positive"
+      },
+      "bounce_rate": {
+        "change_pct": -3.2727272727272676,
+        "change_abs": -1.7999999999999972,
+        "direction": "neutral"
+      },
+      "session_duration": {
+        "change_pct": 6.666666666666667,
+        "change_abs": 0.5,
+        "direction": "positive"
+      },
+      "roas": {
+        "change_pct": 0,
+        "change_abs": 0.0,
+        "direction": "neutral"
+      },
+      "conversion_rate": {
+        "change_pct": 20.0,
+        "change_abs": 0.5,
+        "direction": "positive"
+      }
+    },
+    "significance": "positive",
+    "recommendation": "\u2705 Budget change was successful. Consider similar adjustments."
+  },
+  {
+    "lever": {
+      "lever_type": "tCPA",
+      "old_value": "None",
+      "new_value": "$120",
+      "reason": "Introduced tCPA after 30+ conversions",
+      "impact": "Targeting cost per acquisition",
+      "timestamp": "2025-08-26T22:01:24.411633",
+      "date": "2025-08-26",
+      "campaign": "L.R - PMax - General",
+      "change": "None \u2192 $120",
+      "status": "completed"
+    },
+    "analysis_period": {
+      "before": "No data",
+      "after": "No data"
+    },
+    "impact": {},
+    "significance": "insufficient_data",
+    "recommendation": "Insufficient data to analyze impact."
+  },
+  {
+    "lever": {
+      "lever_type": "geo_targeting",
+      "old_value": "Denver Metro",
+      "new_value": "Denver Metro + Boulder",
+      "reason": "Expanded to Boulder market",
+      "impact": "Additional 15% reach",
+      "timestamp": "2025-08-19T22:01:24.411634",
+      "date": "2025-08-19",
+      "campaign": "L.R - PMax - General",
+      "change": "Denver Metro \u2192 Denver Metro + Boulder",
+      "status": "completed"
+    },
+    "analysis_period": {
+      "before": "No data",
+      "after": "No data"
+    },
+    "impact": {},
+    "significance": "insufficient_data",
+    "recommendation": "Insufficient data to analyze impact."
+  },
+  {
+    "lever": {
+      "lever_type": "asset_group",
+      "old_value": "3 active groups",
+      "new_value": "4 active groups",
+      "reason": "Added new property type group",
+      "impact": "Better ad relevance",
+      "timestamp": "2025-08-12T22:01:24.411634",
+      "date": "2025-08-12",
+      "campaign": "L.R - PMax - General",
+      "change": "3 active groups \u2192 4 active groups",
+      "status": "completed"
+    },
+    "analysis_period": {
+      "before": "No data",
+      "after": "No data"
+    },
+    "impact": {},
+    "significance": "insufficient_data",
+    "recommendation": "Insufficient data to analyze impact."
+  }
+]

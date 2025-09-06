@@ -1,0 +1,1893 @@
+[
+  {
+    "id": "change_20250903_173431",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:34:30.663676",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:34:30.663676",
+    "created_at": "2025-09-03T17:34:31.327130",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_173431",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:34:31.330795",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-03T19:34:31.330795",
+    "created_at": "2025-09-03T17:34:31.529942",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_173431",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:34:31.534211",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:34:31.534211",
+    "created_at": "2025-09-03T17:34:31.732577",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_173431",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:34:31.734551",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:34:31.734551",
+    "created_at": "2025-09-03T17:34:31.965868",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_173432",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:34:31.967588",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:34:31.967588",
+    "created_at": "2025-09-03T17:34:32.171871",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_173432",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:34:32.173834",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:34:32.173834",
+    "created_at": "2025-09-03T17:34:32.389411",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174249",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:42:48.745420",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:42:48.745420",
+    "created_at": "2025-09-03T17:42:49.348693",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174249",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:42:49.351932",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-03T19:42:49.351932",
+    "created_at": "2025-09-03T17:42:49.556512",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174249",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:42:49.562082",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:42:49.562082",
+    "created_at": "2025-09-03T17:42:49.767689",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174249",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:42:49.770195",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:42:49.770195",
+    "created_at": "2025-09-03T17:42:49.964700",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174250",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:42:49.967401",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:42:49.967401",
+    "created_at": "2025-09-03T17:42:50.210683",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174250",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:42:50.213618",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:42:50.213618",
+    "created_at": "2025-09-03T17:42:50.427867",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174316",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:43:16.189808",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:43:16.189808",
+    "created_at": "2025-09-03T17:43:16.760125",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174316",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:43:16.763453",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-03T19:43:16.763453",
+    "created_at": "2025-09-03T17:43:16.964583",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174317",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:43:16.970101",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:43:16.970101",
+    "created_at": "2025-09-03T17:43:17.197918",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174317",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:43:17.200745",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:43:17.200745",
+    "created_at": "2025-09-03T17:43:17.408590",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174317",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:43:17.415405",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:43:17.415405",
+    "created_at": "2025-09-03T17:43:17.638749",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_174317",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:43:17.641748",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:43:17.641748",
+    "created_at": "2025-09-03T17:43:17.859563",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175606",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:05.738682",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:05.738682",
+    "created_at": "2025-09-03T17:56:06.298912",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175606",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:06.302485",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-03T19:56:06.302485",
+    "created_at": "2025-09-03T17:56:06.503470",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175606",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:06.509122",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:06.509122",
+    "created_at": "2025-09-03T17:56:06.723261",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175606",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:06.726265",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:06.726265",
+    "created_at": "2025-09-03T17:56:06.955435",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175607",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:06.958464",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:06.958464",
+    "created_at": "2025-09-03T17:56:07.142109",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175607",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:07.144705",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:07.144705",
+    "created_at": "2025-09-03T17:56:07.321863",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175634",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:34.385836",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:34.385836",
+    "created_at": "2025-09-03T17:56:34.904103",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175635",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:34.907146",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-03T19:56:34.907146",
+    "created_at": "2025-09-03T17:56:35.091451",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175635",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:35.097016",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:35.097016",
+    "created_at": "2025-09-03T17:56:35.288668",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175635",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:35.291457",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:35.291457",
+    "created_at": "2025-09-03T17:56:35.509422",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175635",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:35.512734",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:35.512734",
+    "created_at": "2025-09-03T17:56:35.694430",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175635",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:35.697141",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:35.697141",
+    "created_at": "2025-09-03T17:56:35.907319",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175645",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:45.146445",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:45.146445",
+    "created_at": "2025-09-03T17:56:45.676364",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175645",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:45.680008",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-03T19:56:45.680008",
+    "created_at": "2025-09-03T17:56:45.853983",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175646",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:45.859504",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:45.859504",
+    "created_at": "2025-09-03T17:56:46.037786",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175646",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:46.040525",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:46.040525",
+    "created_at": "2025-09-03T17:56:46.236133",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175646",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:46.240238",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:46.240238",
+    "created_at": "2025-09-03T17:56:46.459342",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_175646",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T19:56:46.462895",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T19:56:46.462895",
+    "created_at": "2025-09-03T17:56:46.667692",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180116",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:01:16.293788",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:01:16.293788",
+    "created_at": "2025-09-03T18:01:16.938130",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180117",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:01:16.941415",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-03T20:01:16.941415",
+    "created_at": "2025-09-03T18:01:17.119335",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180117",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:01:17.125192",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:01:17.125192",
+    "created_at": "2025-09-03T18:01:17.304242",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180117",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:01:17.307018",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:01:17.307018",
+    "created_at": "2025-09-03T18:01:17.496290",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180117",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:01:17.499784",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:01:17.499784",
+    "created_at": "2025-09-03T18:01:17.704038",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180117",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:01:17.707543",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:01:17.707543",
+    "created_at": "2025-09-03T18:01:17.941843",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180525",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:24.805088",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:05:24.805088",
+    "created_at": "2025-09-03T18:05:25.362552",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180525",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:25.366160",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-03T20:05:25.366160",
+    "created_at": "2025-09-03T18:05:25.547808",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180525",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:25.553955",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:05:25.553955",
+    "created_at": "2025-09-03T18:05:25.745776",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180525",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:25.749964",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:05:25.749964",
+    "created_at": "2025-09-03T18:05:25.957304",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180526",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:25.960466",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:05:25.960466",
+    "created_at": "2025-09-03T18:05:26.143052",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180526",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:26.146188",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:05:26.146188",
+    "created_at": "2025-09-03T18:05:26.331463",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180536",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:35.771729",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:05:35.771729",
+    "created_at": "2025-09-03T18:05:36.258542",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180536",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:36.261879",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-03T20:05:36.261879",
+    "created_at": "2025-09-03T18:05:36.515012",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180536",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:36.522712",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:05:36.522712",
+    "created_at": "2025-09-03T18:05:36.724121",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180536",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:36.727400",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:05:36.727400",
+    "created_at": "2025-09-03T18:05:36.907662",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180537",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:36.911011",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:05:36.911011",
+    "created_at": "2025-09-03T18:05:37.102428",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180537",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:05:37.105696",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:05:37.105696",
+    "created_at": "2025-09-03T18:05:37.295210",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180840",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:08:39.991182",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:08:39.991182",
+    "created_at": "2025-09-03T18:08:40.571537",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180840",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:08:40.575519",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-03T20:08:40.575519",
+    "created_at": "2025-09-03T18:08:40.868003",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180841",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:08:40.875548",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:08:40.875548",
+    "created_at": "2025-09-03T18:08:41.059014",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180841",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:08:41.063878",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:08:41.063878",
+    "created_at": "2025-09-03T18:08:41.238332",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180841",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:08:41.243580",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:08:41.243580",
+    "created_at": "2025-09-03T18:08:41.425293",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250903_180841",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-03T20:08:41.431083",
+      "alerts": []
+    },
+    "execute_after": "2025-09-03T20:08:41.431083",
+    "created_at": "2025-09-03T18:08:41.612499",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101507",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:15:06.675722",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:15:06.675722",
+    "created_at": "2025-09-04T10:15:07.208518",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101513",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:15:12.704427",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:15:12.704427",
+    "created_at": "2025-09-04T10:15:13.198093",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101513",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:15:13.201491",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-04T12:15:13.201491",
+    "created_at": "2025-09-04T10:15:13.417126",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101513",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:15:13.425131",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:15:13.425131",
+    "created_at": "2025-09-04T10:15:13.655959",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101513",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:15:13.660327",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:15:13.660327",
+    "created_at": "2025-09-04T10:15:13.900788",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101514",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:15:13.904687",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:15:13.904687",
+    "created_at": "2025-09-04T10:15:14.165501",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101514",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:15:14.170160",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:15:14.170160",
+    "created_at": "2025-09-04T10:15:14.415897",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101738",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:17:37.567756",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:17:37.567756",
+    "created_at": "2025-09-04T10:17:38.187152",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101738",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:17:38.191070",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-04T12:17:38.191070",
+    "created_at": "2025-09-04T10:17:38.410741",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101738",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:17:38.418771",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:17:38.418771",
+    "created_at": "2025-09-04T10:17:38.643220",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101738",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:17:38.649075",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:17:38.649075",
+    "created_at": "2025-09-04T10:17:38.888592",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101739",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:17:38.892080",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:17:38.892080",
+    "created_at": "2025-09-04T10:17:39.119431",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101739",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:17:39.123373",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:17:39.123373",
+    "created_at": "2025-09-04T10:17:39.334275",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101821",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:21.099265",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:18:21.099265",
+    "created_at": "2025-09-04T10:18:21.565895",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101821",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:21.569462",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-04T12:18:21.569462",
+    "created_at": "2025-09-04T10:18:21.752487",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101821",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:21.758621",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:18:21.758621",
+    "created_at": "2025-09-04T10:18:21.973607",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101822",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:21.976026",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:18:21.976026",
+    "created_at": "2025-09-04T10:18:22.147540",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101822",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:22.149660",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:18:22.149660",
+    "created_at": "2025-09-04T10:18:22.356065",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101822",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:22.359413",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:18:22.359413",
+    "created_at": "2025-09-04T10:18:22.553674",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101851",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:51.203821",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:18:51.203821",
+    "created_at": "2025-09-04T10:18:51.708088",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101851",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:51.711614",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-04T12:18:51.711614",
+    "created_at": "2025-09-04T10:18:51.937615",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101852",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:51.946130",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:18:51.946130",
+    "created_at": "2025-09-04T10:18:52.164423",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101852",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:52.168107",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:18:52.168107",
+    "created_at": "2025-09-04T10:18:52.378370",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101852",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:52.383222",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:18:52.383222",
+    "created_at": "2025-09-04T10:18:52.591460",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101852",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:18:52.596441",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:18:52.596441",
+    "created_at": "2025-09-04T10:18:52.796322",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101944",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:19:43.879594",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:19:43.879594",
+    "created_at": "2025-09-04T10:19:44.500795",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101944",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:19:44.504655",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-04T12:19:44.504655",
+    "created_at": "2025-09-04T10:19:44.729991",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101944",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:19:44.737896",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:19:44.737896",
+    "created_at": "2025-09-04T10:19:44.922202",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101945",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:19:44.925869",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:19:44.925869",
+    "created_at": "2025-09-04T10:19:45.140275",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101945",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:19:45.144706",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:19:45.144706",
+    "created_at": "2025-09-04T10:19:45.372840",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_101945",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:19:45.376891",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:19:45.376891",
+    "created_at": "2025-09-04T10:19:45.590678",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_102012",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:20:12.245920",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:20:12.245920",
+    "created_at": "2025-09-04T10:20:12.737555",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_102013",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:20:12.741105",
+      "alerts": [
+        "STOP-LOSS: Spend $120.00 exceeds 2.0x budget with 0 conversions - propose pause"
+      ]
+    },
+    "execute_after": "2025-09-04T12:20:12.741105",
+    "created_at": "2025-09-04T10:20:13.009086",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_102013",
+    "change_request": {
+      "type": "asset_group_modification",
+      "action": "add_assets"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Asset group modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:20:13.016314",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:20:13.016314",
+    "created_at": "2025-09-04T10:20:13.246318",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_102013",
+    "change_request": {
+      "type": "budget_adjustment",
+      "new_daily_budget": 60.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Budget adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:20:13.251038",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:20:13.251038",
+    "created_at": "2025-09-04T10:20:13.444145",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_102013",
+    "change_request": {
+      "type": "geo_targeting_modification",
+      "action": "add_location",
+      "location_type": "presence"
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Geo targeting modification meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:20:13.450568",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:20:13.450568",
+    "created_at": "2025-09-04T10:20:13.653252",
+    "status": "pending"
+  },
+  {
+    "id": "change_20250904_102013",
+    "change_request": {
+      "type": "target_cpa_adjustment",
+      "new_target_cpa": 110.0
+    },
+    "verdict": {
+      "approved": true,
+      "modified_change": null,
+      "reasons": [
+        "Target CPA adjustment meets all guardrail requirements"
+      ],
+      "execute_after": "2025-09-04T12:20:13.656407",
+      "alerts": []
+    },
+    "execute_after": "2025-09-04T12:20:13.656407",
+    "created_at": "2025-09-04T10:20:13.838719",
+    "status": "pending"
+  }
+]

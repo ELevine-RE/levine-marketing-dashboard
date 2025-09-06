@@ -1,3 +1,8 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
 # Python
 __pycache__/
 *.py[cod]
@@ -19,36 +24,45 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
-# Virtual Environment
-.venv/
+# Virtual environments
 venv/
-ENV/
 env/
-
-# Environment Variables
-.env
-.env.local
-.env.*.local
-
-# Logs
-*.log
-app.log
-
-# Streamlit
-.streamlit/secrets.toml
+ENV/
+env.bak/
+venv.bak/
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Credentials
+# Logs
+*.log
+logs/
+
+# Data files
+data/
+*.json
+*.csv
+*.xlsx
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Google credentials
+google-ads.yaml
 client_secret.json
 google-analytics-credentials.json
-google-ads.yaml

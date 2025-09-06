@@ -1,0 +1,28 @@
+[
+  {
+    "week_start": "2025-08-25",
+    "week_end": "2025-08-31",
+    "timestamp": "2025-08-28T12:00:00",
+    "metrics": {
+      "sessions": 35,
+      "users": 18,
+      "bounce_rate": 55.0,
+      "session_duration": 7.5,
+      "roas": 0,
+      "conversion_rate": 2.5
+    }
+  },
+  {
+    "week_start": "2025-09-01",
+    "week_end": "2025-09-07",
+    "timestamp": "2025-09-04T12:00:00",
+    "metrics": {
+      "sessions": 47,
+      "users": 25,
+      "bounce_rate": 53.2,
+      "session_duration": 8.0,
+      "roas": 0,
+      "conversion_rate": 3.0
+    }
+  }
+]

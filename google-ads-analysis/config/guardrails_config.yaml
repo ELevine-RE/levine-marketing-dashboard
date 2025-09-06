@@ -1,0 +1,87 @@
+# Guardrails Configuration for Google Ads Performance Max Campaigns
+# This file contains all guardrail limits and thresholds for campaign safety
+
+# Budget Guardrails
+budget_limits:
+  min_daily: 30.0
+  max_daily: 250.0  # Increased from 100.0 for competitive real estate market
+  max_adjustment_percent: 30
+  min_adjustment_percent: 20
+  max_frequency_days: 7
+
+# Target CPA Guardrails
+target_cpa_limits:
+  min_value: 80.0
+  max_value: 350.0  # Increased from 200.0 for competitive real estate market
+  max_adjustment_percent: 15
+  min_adjustment_percent: 10
+  max_frequency_days: 14
+  min_conversions: 30
+
+# Asset Requirements for PMax
+asset_requirements:
+  headlines:
+    min: 5
+    aim: [7, 10]
+  long_headlines:
+    min: 1
+    aim: [1, 2]
+  descriptions:
+    min: 2
+    aim: [3, 4]
+  business_name:
+    required: true
+  logos:
+    "1_1":
+      min: 1
+      aim: [1, 2]
+    "4_1":
+      min: 1
+      aim: [1, 2]
+  images:
+    "1_91_1":
+      min: 3
+      aim: [3, 5]
+    "1_1":
+      min: 3
+      aim: [3, 5]
+  video:
+    min: 1
+    auto_gen_allowed: true
+
+# Geo Targeting Guardrails
+geo_targeting_limits:
+  presence_only_required: true
+  max_changes_per_period: 1
+  period_days: 21  # Conservative 21 days
+
+# Required URL Exclusions
+required_url_exclusions:
+  - "/buyers/*"
+  - "/sellers/*"
+  - "/featured-listings/*"
+  - "/contact/*"
+  - "/blog/*"
+  - "/property-search/*"
+  - "/idx/*"
+  - "/privacy/*"
+  - "/about/*"
+
+# Safety Stop-Loss Thresholds
+safety_limits:
+  spend_multiplier_threshold: 2.0
+  conversion_dry_spell_days: 14
+  budget_overspend_days: 7
+
+# Change Window and Frequency Controls
+change_controls:
+  change_window_hours: 2
+  one_lever_per_week_days: 7
+
+# Market-Specific Settings
+market_settings:
+  real_estate:
+    competitive_bidding: true
+    high_value_leads: true
+    extended_budget_limits: true
+    extended_tcpa_limits: true

@@ -1,0 +1,20 @@
+2025-09-05 11:53:08,406 - __main__ - INFO - ✅ Successfully imported Google Ads integration
+2025-09-05 11:53:08,459 - __main__ - INFO - ✅ Successfully imported local modules
+2025-09-05 11:53:08,541 - __main__ - INFO - 🎯 Starting Marketing Dashboard application
+2025-09-05 11:53:08,541 - __main__ - INFO - 🚀 Initializing MarketingDashboard
+2025-09-05 11:53:09,125 - __main__ - INFO - ✅ Google Ads integration initialized
+2025-09-05 11:53:09,128 - __main__ - INFO - ✅ Initialized with local modules
+2025-09-05 11:53:09,129 - __main__ - INFO - 🚀 Starting dashboard rendering
+2025-09-05 11:53:09,129 - __main__ - INFO - 📊 Loading data sources...
+2025-09-05 11:53:09,129 - __main__ - INFO - 📊 Loading Google Analytics data
+2025-09-05 11:53:09,131 - __main__ - INFO - 🎯 Loading Google Ads data
+2025-09-05 11:53:09,131 - __main__ - INFO - 📡 Attempting to fetch real Google Ads data
+2025-09-05 11:53:09,131 - google_ads_integration - INFO - 🎯 Fetching Google Ads data for last 30 days
+2025-09-05 11:53:10,075 - google_ads_integration - INFO - ✅ Successfully fetched data for 1 campaigns
+2025-09-05 11:53:10,075 - __main__ - INFO - ✅ Successfully loaded real data for 1 campaigns
+2025-09-05 11:53:10,075 - __main__ - INFO - ✅ Data loaded successfully
+2025-09-05 11:53:10,075 - __main__ - INFO - 🎨 Rendering dashboard sections...
+2025-09-05 11:53:10,075 - __main__ - INFO - 🎨 Rendering dashboard header
+2025-09-05 11:53:10,076 - __main__ - INFO - 📈 Rendering overview metrics
+2025-09-05 11:53:10,210 - __main__ - INFO - ✅ Dashboard rendering completed successfully
+2025-09-05 11:53:10,210 - __main__ - INFO - ✅ Dashboard application completed successfully
