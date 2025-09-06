@@ -350,9 +350,13 @@ class UnifiedMarketingDashboard:
     
     def __init__(self):
         # Only initialize with real data - no mock data
+        # Try to get real data, but handle failures gracefully
         self.ads_data = self.get_real_ads_data() if HAS_GOOGLE_ADS else None
         self.analytics_data = self.get_real_analytics_data() if HAS_GOOGLE_ANALYTICS else None
         self.sierra_data = self.get_real_sierra_data() if HAS_SIERRA else None
+        
+        # Log data availability status
+        logger.info(f"Data availability - Ads: {self.ads_data is not None}, Analytics: {self.analytics_data is not None}, Sierra: {self.sierra_data is not None}")
         
         # Initialize chatbot
         if "chatbot" not in st.session_state:
@@ -453,44 +457,44 @@ class UnifiedMarketingDashboard:
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            if self.ads_data is not None:
+            if self.ads_data is not None and 'metrics' in self.ads_data:
                 st.metric(
                     "Total Clicks",
                     f"{self.ads_data['metrics']['total_clicks']:,}",
                     delta="+12%"
                 )
             else:
-                st.metric("Total Clicks", "N/A")
+                st.metric("Total Clicks", "N/A", delta="No API data")
         
         with col2:
-            if self.ads_data is not None:
+            if self.ads_data is not None and 'metrics' in self.ads_data:
                 st.metric(
                     "Total Cost",
                     f"${self.ads_data['metrics']['total_cost']:,.2f}",
                     delta="+8%"
                 )
             else:
-                st.metric("Total Cost", "N/A")
+                st.metric("Total Cost", "N/A", delta="No API data")
         
         with col3:
-            if self.ads_data is not None:
+            if self.ads_data is not None and 'metrics' in self.ads_data:
                 st.metric(
                     "Conversions",
                     f"{self.ads_data['metrics']['total_conversions']}",
                     delta="+25%"
                 )
             else:
-                st.metric("Conversions", "N/A")
+                st.metric("Conversions", "N/A", delta="No API data")
         
         with col4:
-            if self.ads_data is not None:
+            if self.ads_data is not None and 'metrics' in self.ads_data:
                 st.metric(
                     "Avg CPC",
                     f"${self.ads_data['metrics']['avg_cpc']:.2f}",
                     delta="-5%"
                 )
             else:
-                st.metric("Avg CPC", "N/A")
+                st.metric("Avg CPC", "N/A", delta="No API data")
         
         # Campaign Performance Chart
         st.subheader("Campaign Performance")
