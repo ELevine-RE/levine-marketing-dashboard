@@ -1,184 +1,154 @@
-# 🚀 Crawl/Walk Strategy Dashboard
+# 🤖 AI Google Ads Management System
 
-A streamlined dashboard focused entirely on the Crawl/Walk campaign strategy with automated milestone detection and GitHub Actions integration.
+**Your AI assistant handles the day-to-day, you intervene as needed**
 
-## 🎯 **What This Dashboard Does**
+## 🎯 Core Vision
 
-### **📊 Strategy Visualization**
-- **Crawl Phase:** Local Presence campaign ($49/day, Park City, UT)
-- **Walk Phase:** Feeder Markets campaign ($41/day, HNW markets)
-- **Milestone Detection:** Automatic Phase 1 exit detection
-- **Performance Tracking:** Real-time campaign metrics
+This is a **simplified, focused AI-driven Google Ads management system** that allows you to act as an executive while the AI handles the majority of day-to-day operations.
 
-### **🤖 Automation Features**
-- **Daily Analysis:** Automated milestone detection
-- **Email Alerts:** Milestone notifications
-- **GitHub Actions:** Cloud-based execution
-- **Campaign Creation:** Automated campaign setup
+### What You Get Daily
+- **📧 Email Summary**: Status, goals, planned changes with 2-hour intervention window
+- **📊 Simple Dashboard**: Campaign diagnostics, staged changes, marketing calendar
+- **⏳ Staging System**: Review/approve AI-recommended changes (auto-approve if ignored)
+- **🤖 AI Chat Agent**: Intervene and modify via Cursor when needed
 
-## 🚀 **Quick Start**
+## 🚀 Quick Start
 
-### **1. Run Dashboard Locally**
+### 1. Run the Simple Dashboard
 ```bash
-streamlit run crawl_walk_dashboard.py
+streamlit run simple_dashboard.py
 ```
 
-### **2. Execute Strategy**
+### 2. Test Daily Email System
 ```bash
-cd google-ads-analysis/tools
-python execute_crawl_walk.py execute
+python daily_email_system.py
 ```
 
-### **3. Run Analysis**
+### 3. Test AI Campaign Builder
 ```bash
-python execute_crawl_walk.py analyze
+python ai_campaign_builder.py
 ```
 
-## 🔧 **GitHub Actions Setup**
+## 📋 Core Components
 
-### **1. Configure Secrets**
-Follow the guide in `GITHUB_SECRETS_SETUP.md` to set up:
-- Google Ads API credentials
-- Google Drive API credentials  
-- Email notification settings
+### 1. **Simple Dashboard** (`simple_dashboard.py`)
+- **Campaign Diagnostics**: Real-time performance, spend, conversions
+- **Staged Changes**: Review AI recommendations, approve/reject/modify
+- **Marketing Calendar**: Campaign timeline and planned activities
+- **Goals & Status**: Progress tracking and system health
 
-### **2. Automation Schedule**
-- **Daily at 9 AM UTC:** Automatic milestone analysis
-- **Manual trigger:** Execute strategy or run tests
-- **Email alerts:** Milestone notifications
+### 2. **Daily Email System** (`daily_email_system.py`)
+- **Executive Summary**: Status, goals, staged changes
+- **Automated Delivery**: Daily at 8 AM MT
+- **Intervention Window**: 2-hour delay before auto-execution
 
-## 📋 **Dashboard Features**
+### 3. **AI Campaign Builder** (`ai_campaign_builder.py`)
+- **Intelligent Creation**: Parses campaign names for smart defaults
+- **Guardrails Integration**: Validates all changes against safety rules
+- **Automated Asset Management**: Extracts and uploads assets
+- **Audit Trail**: Logs all campaign creation activities
 
-### **📊 Strategy Overview Tab**
-- Crawl/Walk phase visualization
-- Campaign status and metrics
-- Strategy timeline
-- Performance indicators
+## 🛡️ Guardrails System
 
-### **🎯 Campaign Performance Tab**
-- Real-time campaign data
-- Conversion tracking
-- Cost analysis
-- Phase progression
+The system enforces critical safety rules:
 
-### **🔍 Milestone Detection Tab**
-- Active milestone alerts
-- Milestone history
-- Analysis results
-- Action requirements
+### Budget Limits
+- **Min**: $30/day
+- **Max**: $250/day
+- **Adjustment**: ±20-30% per change
+- **Frequency**: No more than once per week
 
-### **⚙️ Execution Controls Tab**
-- Campaign creation tools
-- Analysis runners
-- Email testing
-- Automation status
+### Safety Stop-Loss
+- **Spend > 2× budget in 7d with 0 conversions** → Pause campaign
+- **No conversions in 14 days** → Freeze changes
 
-## 🛠️ **Components**
-
-### **Core Files**
-- `crawl_walk_dashboard.py` - Main dashboard
-- `google-ads-analysis/tools/crawl_walk_campaign_creator.py` - Campaign creation
-- `google-ads-analysis/tools/enhanced_quick_analysis.py` - Milestone detection
-- `google-ads-analysis/tools/execute_crawl_walk.py` - CLI interface
-
-### **Automation**
-- `.github/workflows/crawl-walk-automation.yml` - GitHub Actions workflow
-- `GITHUB_SECRETS_SETUP.md` - Secrets configuration guide
-- `deploy_crawl_walk.py` - Deployment script
-
-## 🎯 **Strategy Details**
-
-### **🦎 Crawl Phase (Immediate)**
-- **Campaign:** L.R - PMax - Local Presence
-- **Budget:** $49/day ($1,500/month)
-- **Target:** Park City, UT
-- **Goal:** 15-30 conversions to exit Phase 1
-
-### **🏃 Walk Phase (Triggered)**
-- **Campaign:** L.R - PMax - Feeder Markets
-- **Budget:** $41/day (remaining allocation)
-- **Target:** HNW zip codes (Dallas, LA, NYC)
-- **Trigger:** When Crawl exits Phase 1
-
-## 🚨 **Milestone Alerts**
-
-When the Local Presence campaign reaches Phase 2 or 3:
+### Required URL Exclusions
 ```
-🚨 MILESTONE REACHED: Campaign 'Local Presence' is now optimized. 
-Please review the 'Scheduled Campaign Launch' Google Doc to launch 
-the 'Feeder Markets' campaign.
+/buyers/*, /sellers/*, /featured-listings/*, /contact/*, 
+/blog/*, /property-search/*, /idx/*, /privacy/*, /about/*
 ```
 
-## 📧 **Email Notifications**
+## 📧 Email Configuration
 
-- **Milestone Alerts:** Immediate notifications for phase exits
-- **Daily Summaries:** Comprehensive performance reports
-- **Action Required:** Clear next steps and requirements
-
-## 🔧 **Environment Setup**
-
-### **Required Environment Variables**
-```bash
+Set up your `.env` file:
+```env
 # Google Ads API
-GOOGLE_ADS_CUSTOMER_ID=5426234549
-GOOGLE_ADS_LOGIN_CUSTOMER_ID=5426234549
 GOOGLE_ADS_DEVELOPER_TOKEN=your_token
 GOOGLE_ADS_CLIENT_ID=your_client_id
-GOOGLE_ADS_CLIENT_SECRET=your_client_secret
+GOOGLE_ADS_CLIENT_SECRET=your_secret
 GOOGLE_ADS_REFRESH_TOKEN=your_refresh_token
+GOOGLE_ADS_LOGIN_CUSTOMER_ID=5426234549
+GOOGLE_ADS_CUSTOMER_ID=8335511794
 
-# Google Drive API
-GOOGLE_CLIENT_ID=your_client_id
-GOOGLE_CLIENT_SECRET=your_client_secret
-GOOGLE_REFRESH_TOKEN=your_refresh_token
-
-# Email Notifications
-EMAIL_SENDER=evan@levine.realestate
+# Email System
+EMAIL_SENDER=your_email@gmail.com
 EMAIL_PASSWORD=your_app_password
 EMAIL_RECIPIENT=evan@levine.realestate
 ```
 
-## 🚀 **Deployment**
+## 🎯 Usage Workflow
 
-### **Local Development**
+### Daily Routine
+1. **Morning**: Check email summary
+2. **Review**: Staged changes in dashboard
+3. **Intervene**: Use Cursor chat if needed
+4. **Monitor**: Let AI handle optimization
+
+### Weekly Tasks
+1. **Review**: Campaign performance trends
+2. **Approve**: Batch of staged changes
+3. **Plan**: New campaign strategies
+4. **Adjust**: Goals and targets
+
+## 🔧 Development
+
+### Project Structure
+```
+WebTool/
+├── simple_dashboard.py          # Main dashboard
+├── daily_email_system.py        # Email automation
+├── ai_campaign_builder.py       # Campaign creation
+├── google-ads-analysis/         # Core AI systems
+│   ├── guardrails.py           # Safety rules
+│   ├── change_management.py    # Change tracking
+│   ├── phase_manager.py        # Campaign phases
+│   └── tools/                  # Utilities
+├── data/                       # Data storage
+│   ├── staged_changes.json     # Pending changes
+│   └── campaign_creation_log.json
+├── requirements.txt            # Dependencies
+└── README.md                  # This file
+```
+
+## 🚀 Deployment
+
+### Local Development
 ```bash
 # Install dependencies
 pip install -r requirements.txt
 
 # Run dashboard
-streamlit run crawl_walk_dashboard.py
+streamlit run simple_dashboard.py
 
-# Test deployment
-python deploy_crawl_walk.py
+# Test email system
+python daily_email_system.py
 ```
 
-### **GitHub Actions**
-1. Set up secrets (see `GITHUB_SECRETS_SETUP.md`)
-2. Push to repository
-3. Monitor Actions tab for automation
-4. Check email for milestone alerts
+### Production (GitHub Actions)
+The system includes automated workflows for:
+- Daily email summaries
+- Campaign analysis
+- Milestone detection
+- Change execution
 
-## 📊 **Monitoring**
+## 📞 Support
 
-### **Daily Automation**
-- **9 AM UTC:** Automatic milestone analysis
-- **Email alerts:** Milestone notifications
-- **Logs:** Complete audit trail
-- **Artifacts:** Performance data storage
+For issues or questions:
+1. Check the dashboard for system status
+2. Review staged changes for pending actions
+3. Use Cursor chat for AI interventions
+4. Check email summaries for daily updates
 
-### **Manual Controls**
-- **Execute strategy:** Create campaigns and schedules
-- **Run analysis:** Check milestones and performance
-- **Test system:** Verify all components
+---
 
-## 🎉 **Perfect for Your Strategy**
-
-This dashboard is designed specifically for your Crawl/Walk strategy:
-- ✅ **Sequential Launch:** Crawl first, then Walk
-- ✅ **Milestone Detection:** Automatic Phase 1 exit detection
-- ✅ **Budget Optimization:** $49/$41 split for $1,500/month
-- ✅ **Market Targeting:** Local → HNW progression
-- ✅ **Automation:** GitHub Actions for cloud execution
-- ✅ **Monitoring:** Real-time performance tracking
-
-**Your streamlined Crawl/Walk dashboard is ready!** 🚀
+**Your AI assistant is ready to manage your Google Ads campaigns! 🎯**
