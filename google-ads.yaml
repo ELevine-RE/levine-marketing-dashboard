@@ -1,0 +1,32 @@
+# Google Ads API Configuration File
+# ===================================
+# Replace the placeholder values below with your actual Google Ads API credentials
+# 
+# To obtain these credentials:
+# 1. Go to https://developers.google.com/google-ads/api/docs/get-started/oauth-cloud-project
+# 2. Create a Google Cloud Project and enable the Google Ads API
+# 3. Create OAuth 2.0 credentials
+# 4. Generate a refresh token using the OAuth Playground or the provided scripts
+#
+# IMPORTANT: Keep this file secure and never commit it to version control!
+
+# Your Google Ads Developer Token
+# Get this from your Google Ads account under Tools & Settings > API Center
+developer_token: INSERT_YOUR_DEVELOPER_TOKEN_HERE
+
+# OAuth2 Client ID from Google Cloud Console
+client_id: INSERT_YOUR_CLIENT_ID_HERE
+
+# OAuth2 Client Secret from Google Cloud Console  
+client_secret: INSERT_YOUR_CLIENT_SECRET_HERE
+
+# OAuth2 Refresh Token
+# Generate using: https://developers.google.com/google-ads/api/docs/client-libs/python/oauth-web
+refresh_token: INSERT_YOUR_REFRESH_TOKEN_HERE
+
+# Google Ads Login Customer ID (MCC Account ID without hyphens)
+# This is your manager account ID if you're using an MCC account
+login_customer_id: INSERT_YOUR_LOGIN_CUSTOMER_ID_HERE
+
+# Optional: Use proto-plus messages (recommended for better performance)
+use_proto_plus: true

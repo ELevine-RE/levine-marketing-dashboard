@@ -1,0 +1,28 @@
+# Park City Real Estate PPC Dashboard Requirements
+# Python 3.8+ required
+
+# Core Dashboard Framework
+streamlit>=1.28.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Google APIs
+google-ads>=22.0.0
+pytrends>=4.9.0
+
+# Visualization
+plotly>=5.17.0
+
+# Statistical Analysis
+scipy>=1.10.0
+
+# Configuration
+pyyaml>=6.0
+
+# Environment Management (optional but recommended)
+python-dotenv>=1.0.0
+
+# Date/Time handling (included in standard library but good to specify version)
+python-dateutil>=2.8.2

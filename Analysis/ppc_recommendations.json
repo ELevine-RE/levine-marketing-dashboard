@@ -1,0 +1,784 @@
+{
+  "market_opportunities": [
+    [
+      "Victory Ranch",
+      49.14503816793893
+    ],
+    [
+      "Park City",
+      39.69083969465649
+    ],
+    [
+      "Ski in Ski Out Home for Sale",
+      23.797709923664122
+    ],
+    [
+      "Heber Utah",
+      21.65267175572519
+    ],
+    [
+      "Red Ledges",
+      6.068702290076335
+    ],
+    [
+      "Deer Valley East",
+      5.240458015267175
+    ],
+    [
+      "Deer Valley",
+      3.5916030534351147
+    ],
+    [
+      "Glenwild",
+      2.767175572519084
+    ],
+    [
+      "Kamas",
+      0.8244274809160306
+    ],
+    [
+      "Promontory Park City ",
+      0.3816793893129771
+    ]
+  ],
+  "high_value_keywords": [
+    [
+      "utah real estate",
+      {
+        "markets": [
+          "Deer Valley",
+          "Kamas",
+          "Park City",
+          "Heber Utah"
+        ],
+        "total_score": 351,
+        "max_score": 100,
+        "avg_score": 87.75
+      }
+    ],
+    [
+      "park city utah",
+      {
+        "markets": [
+          "Promontory Park City ",
+          "Ski in Ski Out Home for Sale",
+          "Victory Ranch",
+          "Park City"
+        ],
+        "total_score": 290,
+        "max_score": 100,
+        "avg_score": 72.5
+      }
+    ],
+    [
+      "utah",
+      {
+        "markets": [
+          "Ski in Ski Out Home for Sale",
+          "Park City"
+        ],
+        "total_score": 172,
+        "max_score": 100,
+        "avg_score": 86.0
+      }
+    ],
+    [
+      "glenwild park city",
+      {
+        "markets": [
+          "Glenwild"
+        ],
+        "total_score": 100,
+        "max_score": 100,
+        "avg_score": 100.0
+      }
+    ],
+    [
+      "red ledges heber utah",
+      {
+        "markets": [
+          "Red Ledges"
+        ],
+        "total_score": 100,
+        "max_score": 100,
+        "avg_score": 100.0
+      }
+    ],
+    [
+      "deer park real estate",
+      {
+        "markets": [
+          "Deer Valley"
+        ],
+        "total_score": 100,
+        "max_score": 100,
+        "avg_score": 100.0
+      }
+    ],
+    [
+      "promontory utah",
+      {
+        "markets": [
+          "Promontory Park City "
+        ],
+        "total_score": 100,
+        "max_score": 100,
+        "avg_score": 100.0
+      }
+    ],
+    [
+      "ski utah",
+      {
+        "markets": [
+          "Ski in Ski Out Home for Sale"
+        ],
+        "total_score": 100,
+        "max_score": 100,
+        "avg_score": 100.0
+      }
+    ],
+    [
+      "victory ranch utah",
+      {
+        "markets": [
+          "Victory Ranch"
+        ],
+        "total_score": 100,
+        "max_score": 100,
+        "avg_score": 100.0
+      }
+    ],
+    [
+      "real estate in park city",
+      {
+        "markets": [
+          "Park City"
+        ],
+        "total_score": 100,
+        "max_score": 100,
+        "avg_score": 100.0
+      }
+    ],
+    [
+      "deer valley phoenix",
+      {
+        "markets": [
+          "Deer Valley East"
+        ],
+        "total_score": 100,
+        "max_score": 100,
+        "avg_score": 100.0
+      }
+    ],
+    [
+      "heber springs",
+      {
+        "markets": [
+          "Heber Utah"
+        ],
+        "total_score": 100,
+        "max_score": 100,
+        "avg_score": 100.0
+      }
+    ],
+    [
+      "kamas utah",
+      {
+        "markets": [
+          "Kamas"
+        ],
+        "total_score": 99,
+        "max_score": 99,
+        "avg_score": 99.0
+      }
+    ],
+    [
+      "heber springs real estate",
+      {
+        "markets": [
+          "Heber Utah"
+        ],
+        "total_score": 99,
+        "max_score": 99,
+        "avg_score": 99.0
+      }
+    ],
+    [
+      "park city golf club",
+      {
+        "markets": [
+          "Glenwild"
+        ],
+        "total_score": 96,
+        "max_score": 96,
+        "avg_score": 96.0
+      }
+    ],
+    [
+      "heber city utah",
+      {
+        "markets": [
+          "Red Ledges",
+          "Heber Utah"
+        ],
+        "total_score": 125,
+        "max_score": 65,
+        "avg_score": 62.5
+      }
+    ],
+    [
+      "red ledges golf",
+      {
+        "markets": [
+          "Red Ledges"
+        ],
+        "total_score": 94,
+        "max_score": 94,
+        "avg_score": 94.0
+      }
+    ],
+    [
+      "heber city real estate",
+      {
+        "markets": [
+          "Heber Utah"
+        ],
+        "total_score": 89,
+        "max_score": 89,
+        "avg_score": 89.0
+      }
+    ],
+    [
+      "heber utah",
+      {
+        "markets": [
+          "Heber Utah"
+        ],
+        "total_score": 88,
+        "max_score": 88,
+        "avg_score": 88.0
+      }
+    ],
+    [
+      "heber city",
+      {
+        "markets": [
+          "Heber Utah"
+        ],
+        "total_score": 87,
+        "max_score": 87,
+        "avg_score": 87.0
+      }
+    ],
+    [
+      "deer valley real estate for sale",
+      {
+        "markets": [
+          "Deer Valley"
+        ],
+        "total_score": 82,
+        "max_score": 82,
+        "avg_score": 82.0
+      }
+    ],
+    [
+      "park city real estate",
+      {
+        "markets": [
+          "Deer Valley"
+        ],
+        "total_score": 78,
+        "max_score": 78,
+        "avg_score": 78.0
+      }
+    ],
+    [
+      "deer valley utah",
+      {
+        "markets": [
+          "Deer Valley East"
+        ],
+        "total_score": 76,
+        "max_score": 76,
+        "avg_score": 76.0
+      }
+    ],
+    [
+      "deer valley ski",
+      {
+        "markets": [
+          "Deer Valley East"
+        ],
+        "total_score": 76,
+        "max_score": 76,
+        "avg_score": 76.0
+      }
+    ],
+    [
+      "park city utah real estate",
+      {
+        "markets": [
+          "Park City"
+        ],
+        "total_score": 74,
+        "max_score": 74,
+        "avg_score": 74.0
+      }
+    ],
+    [
+      "deer valley resort",
+      {
+        "markets": [
+          "Deer Valley East"
+        ],
+        "total_score": 64,
+        "max_score": 64,
+        "avg_score": 64.0
+      }
+    ],
+    [
+      "park city ski resort",
+      {
+        "markets": [
+          "Ski in Ski Out Home for Sale"
+        ],
+        "total_score": 63,
+        "max_score": 63,
+        "avg_score": 63.0
+      }
+    ],
+    [
+      "park city resort",
+      {
+        "markets": [
+          "Ski in Ski Out Home for Sale"
+        ],
+        "total_score": 63,
+        "max_score": 63,
+        "avg_score": 63.0
+      }
+    ],
+    [
+      "red ledges golf course",
+      {
+        "markets": [
+          "Red Ledges"
+        ],
+        "total_score": 62,
+        "max_score": 62,
+        "avg_score": 62.0
+      }
+    ],
+    [
+      "promontory club",
+      {
+        "markets": [
+          "Promontory Park City "
+        ],
+        "total_score": 61,
+        "max_score": 61,
+        "avg_score": 61.0
+      }
+    ],
+    [
+      "heber city utah real estate",
+      {
+        "markets": [
+          "Heber Utah"
+        ],
+        "total_score": 59,
+        "max_score": 59,
+        "avg_score": 59.0
+      }
+    ],
+    [
+      "ledges golf course",
+      {
+        "markets": [
+          "Red Ledges"
+        ],
+        "total_score": 58,
+        "max_score": 58,
+        "avg_score": 58.0
+      }
+    ],
+    [
+      "the ranch",
+      {
+        "markets": [
+          "Victory Ranch"
+        ],
+        "total_score": 55,
+        "max_score": 55,
+        "avg_score": 55.0
+      }
+    ],
+    [
+      "park city real estate for sale",
+      {
+        "markets": [
+          "Park City"
+        ],
+        "total_score": 53,
+        "max_score": 53,
+        "avg_score": 53.0
+      }
+    ],
+    [
+      "park city hotels",
+      {
+        "markets": [
+          "Ski in Ski Out Home for Sale"
+        ],
+        "total_score": 52,
+        "max_score": 52,
+        "avg_score": 52.0
+      }
+    ],
+    [
+      "heber springs ar",
+      {
+        "markets": [
+          "Heber Utah"
+        ],
+        "total_score": 51,
+        "max_score": 51,
+        "avg_score": 51.0
+      }
+    ],
+    [
+      "victory ranch golf",
+      {
+        "markets": [
+          "Victory Ranch"
+        ],
+        "total_score": 49,
+        "max_score": 49,
+        "avg_score": 49.0
+      }
+    ],
+    [
+      "heber az",
+      {
+        "markets": [
+          "Heber Utah"
+        ],
+        "total_score": 49,
+        "max_score": 49,
+        "avg_score": 49.0
+      }
+    ],
+    [
+      "park city resorts",
+      {
+        "markets": [
+          "Ski in Ski Out Home for Sale"
+        ],
+        "total_score": 48,
+        "max_score": 48,
+        "avg_score": 48.0
+      }
+    ],
+    [
+      "park city ski resorts",
+      {
+        "markets": [
+          "Ski in Ski Out Home for Sale"
+        ],
+        "total_score": 48,
+        "max_score": 48,
+        "avg_score": 48.0
+      }
+    ],
+    [
+      "the promontory",
+      {
+        "markets": [
+          "Promontory Park City "
+        ],
+        "total_score": 47,
+        "max_score": 47,
+        "avg_score": 47.0
+      }
+    ],
+    [
+      "deer valley map",
+      {
+        "markets": [
+          "Deer Valley East"
+        ],
+        "total_score": 45,
+        "max_score": 45,
+        "avg_score": 45.0
+      }
+    ],
+    [
+      "red ledges utah homes for sale",
+      {
+        "markets": [
+          "Red Ledges"
+        ],
+        "total_score": 43,
+        "max_score": 43,
+        "avg_score": 43.0
+      }
+    ],
+    [
+      "heber overgaard real estate",
+      {
+        "markets": [
+          "Heber Utah"
+        ],
+        "total_score": 41,
+        "max_score": 41,
+        "avg_score": 41.0
+      }
+    ],
+    [
+      "heber overgaard",
+      {
+        "markets": [
+          "Heber Utah"
+        ],
+        "total_score": 41,
+        "max_score": 41,
+        "avg_score": 41.0
+      }
+    ],
+    [
+      "park city mountain",
+      {
+        "markets": [
+          "Ski in Ski Out Home for Sale",
+          "Park City"
+        ],
+        "total_score": 42,
+        "max_score": 31,
+        "avg_score": 21.0
+      }
+    ],
+    [
+      "deer valley homes",
+      {
+        "markets": [
+          "Deer Valley East"
+        ],
+        "total_score": 37,
+        "max_score": 37,
+        "avg_score": 37.0
+      }
+    ],
+    [
+      "park city golf",
+      {
+        "markets": [
+          "Promontory Park City "
+        ],
+        "total_score": 34,
+        "max_score": 34,
+        "avg_score": 34.0
+      }
+    ],
+    [
+      "heber springs arkansas",
+      {
+        "markets": [
+          "Heber Utah"
+        ],
+        "total_score": 34,
+        "max_score": 34,
+        "avg_score": 34.0
+      }
+    ],
+    [
+      "red canyon utah",
+      {
+        "markets": [
+          "Red Ledges"
+        ],
+        "total_score": 33,
+        "max_score": 33,
+        "avg_score": 33.0
+      }
+    ]
+  ],
+  "campaign_recommendations": {
+    "primary_campaigns": [
+      {
+        "market": "Park City",
+        "focus": "High-intent buyers",
+        "budget_priority": "High",
+        "keywords": [
+          "real estate in park city",
+          "utah real estate",
+          "park city utah",
+          "park city utah real estate",
+          "utah",
+          "park city real estate for sale"
+        ]
+      },
+      {
+        "market": "Heber Utah",
+        "focus": "High-intent buyers",
+        "budget_priority": "High",
+        "keywords": [
+          "heber springs",
+          "heber springs real estate",
+          "utah real estate",
+          "heber city real estate",
+          "heber utah",
+          "heber city",
+          "heber city utah",
+          "heber city utah real estate",
+          "heber springs ar"
+        ]
+      },
+      {
+        "market": "Deer Valley",
+        "focus": "High-intent buyers",
+        "budget_priority": "High",
+        "keywords": [
+          "deer park real estate",
+          "deer valley real estate for sale",
+          "utah real estate",
+          "park city real estate"
+        ]
+      }
+    ],
+    "secondary_campaigns": [
+      {
+        "market": "Red Ledges",
+        "focus": "Niche luxury buyers",
+        "budget_priority": "Medium",
+        "keywords": [
+          "red ledges heber utah",
+          "red ledges golf",
+          "heber city utah",
+          "red ledges golf course",
+          "ledges golf course"
+        ]
+      },
+      {
+        "market": "Victory Ranch",
+        "focus": "Niche luxury buyers",
+        "budget_priority": "Medium",
+        "keywords": [
+          "victory ranch utah",
+          "the ranch"
+        ]
+      },
+      {
+        "market": "Glenwild",
+        "focus": "Niche luxury buyers",
+        "budget_priority": "Medium",
+        "keywords": [
+          "glenwild park city",
+          "park city golf club"
+        ]
+      }
+    ],
+    "keyword_strategy": {
+      "exact_match": [
+        "park city real estate",
+        "heber utah real estate",
+        "deer valley real estate"
+      ],
+      "phrase_match": [
+        "park city homes for sale",
+        "utah real estate",
+        "park city utah"
+      ],
+      "broad_match": [
+        "ski in ski out",
+        "golf course homes",
+        "mountain real estate"
+      ],
+      "negative_keywords": [
+        "rental",
+        "apartment",
+        "commercial",
+        "kansas city",
+        "overland park"
+      ]
+    },
+    "geographic_strategy": {
+      "primary_locations": [
+        "Salt Lake City UT",
+        "Billings MT",
+        "Denver CO",
+        "Las Vegas NV"
+      ],
+      "secondary_locations": [
+        "San Francisco CA",
+        "Los Angeles CA",
+        "New York NY",
+        "Chicago IL"
+      ],
+      "excluded_locations": [
+        "Kansas City MO",
+        "Overland Park KS"
+      ]
+    },
+    "budget_allocation": {
+      "Park City": "40%",
+      "Heber Utah": "25%",
+      "Deer Valley": "20%",
+      "Other Markets": "15%"
+    },
+    "seasonal_strategy": {
+      "peak_seasons": [
+        "January-March",
+        "June-August"
+      ],
+      "low_seasons": [
+        "October-December"
+      ],
+      "adjustment": "Increase bids 20% during peak seasons"
+    }
+  },
+  "sierra_recommendations": {
+    "lead_capture_strategy": {
+      "primary_forms": [
+        "Park City Home Search",
+        "Heber Valley Property Alerts",
+        "Deer Valley Luxury Homes",
+        "Utah Real Estate Market Report"
+      ],
+      "lead_magnets": [
+        "Free Home Valuation",
+        "Market Analysis Report",
+        "New Listing Alerts",
+        "Buyer's Guide to Utah Real Estate"
+      ]
+    },
+    "landing_page_strategy": {
+      "market_specific_pages": [
+        "park-city-real-estate",
+        "heber-utah-homes",
+        "deer-valley-luxury",
+        "promontory-golf-homes"
+      ],
+      "conversion_elements": [
+        "Property search functionality",
+        "Market statistics",
+        "Agent testimonials",
+        "Recent sales data"
+      ]
+    },
+    "follow_up_automation": {
+      "email_sequences": [
+        "New lead welcome series",
+        "Market update newsletters",
+        "Property recommendation emails",
+        "Seasonal market reports"
+      ],
+      "crm_integration": [
+        "Lead scoring based on search behavior",
+        "Automated follow-up scheduling",
+        "Property matching algorithms",
+        "Market trend notifications"
+      ]
+    }
+  },
+  "analysis_date": "2025-09-08T10:52:45.133676"
+}
