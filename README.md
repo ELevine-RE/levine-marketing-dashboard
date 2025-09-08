@@ -48,7 +48,13 @@ pip install -r requirements.txt
 
 3. **Configure Google Ads API credentials**
 
-Edit the `google-ads.yaml` file and replace the placeholder values with your actual credentials:
+Copy the template file and add your credentials:
+
+```bash
+cp google-ads.yaml.template google-ads.yaml
+```
+
+Then edit the `google-ads.yaml` file and replace the placeholder values with your actual credentials:
 
 ```yaml
 developer_token: YOUR_DEVELOPER_TOKEN
@@ -57,6 +63,8 @@ client_secret: YOUR_CLIENT_SECRET
 refresh_token: YOUR_REFRESH_TOKEN
 login_customer_id: YOUR_LOGIN_CUSTOMER_ID
 ```
+
+**Note:** The `google-ads.yaml` file is in `.gitignore` for security - your credentials will not be committed to the repository.
 
 ### Getting Google Ads API Credentials
 
