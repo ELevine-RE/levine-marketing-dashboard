@@ -1337,7 +1337,6 @@ def create_expert_park_city_campaign(client, customer_id, config):
                 'target_content_network': False,
                 'target_partner_search_network': False
             },
-            'geo_targeting': create_park_city_geo_targeting(config['geo_targeting']),
             'language_settings': ['1000'],  # English
             'bidding_strategy_type': 'TARGET_CPA',
             'target_cpa': {
@@ -1355,6 +1354,9 @@ def create_expert_park_city_campaign(client, customer_id, config):
         )
         
         campaign_id = campaign_response.results[0].resource_name.split('/')[-1]
+        
+        # Add geographic targeting
+        add_geographic_targeting(client, customer_id, campaign_id, config['geo_targeting'])
         
         # Create ad groups and keywords
         ad_group_count, keyword_count = create_park_city_ad_groups_and_keywords(
@@ -1374,34 +1376,49 @@ def create_expert_park_city_campaign(client, customer_id, config):
         st.error(f"❌ Error creating Park City campaign: {e}")
         return None
 
-def create_park_city_geo_targeting(locations):
-    """Create geographic targeting for Park City campaign."""
+def add_geographic_targeting(client, customer_id, campaign_id, locations):
+    """Add geographic targeting to the campaign."""
     
-    geo_targets = []
-    
-    # Location mapping for Google Ads
-    location_map = {
-        'Billings, MT': '2010',  # Montana
-        'Salt Lake City, UT': '2010',  # Utah
-        'Butte-Bozeman, MT': '2010',  # Montana
-        'Denver, CO': '2010',  # Colorado
-        'Las Vegas, NV': '2010',  # Nevada
-        'San Francisco, CA': '2010',  # California
-        'Los Angeles, CA': '2010',  # California
-        'New York, NY': '2010',  # New York
-        'Chicago, IL': '2010',  # Illinois
-        'Dallas, TX': '2010',  # Texas
-        'Phoenix, AZ': '2010',  # Arizona
-        'Seattle, WA': '2010'   # Washington
-    }
-    
-    for location in locations:
-        if location in location_map:
-            geo_targets.append({
-                'geo_target_constant': f"geoTargetConstants/{location_map[location]}"
-            })
-    
-    return geo_targets
+    try:
+        campaign_criterion_service = client.get_service('CampaignCriterionService')
+        
+        # Location mapping for Google Ads (using state-level targeting for simplicity)
+        location_map = {
+            'Billings, MT': '2010',  # Montana
+            'Salt Lake City, UT': '2010',  # Utah
+            'Butte-Bozeman, MT': '2010',  # Montana
+            'Denver, CO': '2010',  # Colorado
+            'Las Vegas, NV': '2010',  # Nevada
+            'San Francisco, CA': '2010',  # California
+            'Los Angeles, CA': '2010',  # California
+            'New York, NY': '2010',  # New York
+            'Chicago, IL': '2010',  # Illinois
+            'Dallas, TX': '2010',  # Texas
+            'Phoenix, AZ': '2010',  # Arizona
+            'Seattle, WA': '2010'   # Washington
+        }
+        
+        operations = []
+        for location in locations[:5]:  # Limit to 5 locations to avoid complexity
+            if location in location_map:
+                criterion = {
+                    'campaign': f"customers/{customer_id}/campaigns/{campaign_id}",
+                    'criterion': {
+                        'geo_target_constant': f"geoTargetConstants/{location_map[location]}"
+                    },
+                    'type': 'LOCATION'
+                }
+                operations.append({'create': criterion})
+        
+        if operations:
+            campaign_criterion_service.mutate_campaign_criteria(
+                customer_id=str(customer_id),
+                operations=operations
+            )
+            
+    except Exception as e:
+        st.warning(f"⚠️ Could not add geographic targeting: {e}")
+        # Don't fail the entire campaign creation for this
 
 def create_park_city_ad_groups_and_keywords(client, customer_id, campaign_id, config):
     """Create ad groups and keywords for Park City campaign."""
@@ -1587,10 +1604,15 @@ def create_campaign_budget(client, customer_id, daily_budget):
     try:
         budget_service = client.get_service('CampaignBudgetService')
         
+        # Ensure budget is a multiple of minimum currency unit (1 cent = 10,000 micros)
+        budget_micros = int(round(daily_budget * 1000000))
+        # Round to nearest 10,000 micros (1 cent)
+        budget_micros = round(budget_micros / 10000) * 10000
+        
         budget = {
-            'name': f"Budget - {daily_budget:.2f} daily",
+            'name': f"Budget - ${daily_budget:.2f} daily",
             'delivery_method': 'STANDARD',
-            'amount_micros': int(daily_budget * 1000000),  # Convert to micros
+            'amount_micros': budget_micros,
             'type': 'STANDARD'
         }
         
