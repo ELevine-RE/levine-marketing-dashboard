@@ -1337,7 +1337,6 @@ def create_expert_park_city_campaign(client, customer_id, config):
                 'target_content_network': False,
                 'target_partner_search_network': False
             },
-            'language_settings': ['1000'],  # English
             'bidding_strategy_type': 'TARGET_CPA',
             'target_cpa': {
                 'target_cpa_micros': int(daily_budget * 0.25 * 1000000)  # 25% of daily budget as target CPA
@@ -1357,6 +1356,9 @@ def create_expert_park_city_campaign(client, customer_id, config):
         
         # Add geographic targeting
         add_geographic_targeting(client, customer_id, campaign_id, config['geo_targeting'])
+        
+        # Add language targeting (English)
+        add_language_targeting(client, customer_id, campaign_id)
         
         # Create ad groups and keywords
         ad_group_count, keyword_count = create_park_city_ad_groups_and_keywords(
@@ -1418,6 +1420,30 @@ def add_geographic_targeting(client, customer_id, campaign_id, locations):
             
     except Exception as e:
         st.warning(f"⚠️ Could not add geographic targeting: {e}")
+        # Don't fail the entire campaign creation for this
+
+def add_language_targeting(client, customer_id, campaign_id):
+    """Add language targeting to the campaign (English)."""
+    
+    try:
+        campaign_criterion_service = client.get_service('CampaignCriterionService')
+        
+        # English language criterion
+        criterion = {
+            'campaign': f"customers/{customer_id}/campaigns/{campaign_id}",
+            'criterion': {
+                'language_constant': 'languageConstants/1000'  # English
+            },
+            'type': 'LANGUAGE'
+        }
+        
+        campaign_criterion_service.mutate_campaign_criteria(
+            customer_id=str(customer_id),
+            operations=[{'create': criterion}]
+        )
+            
+    except Exception as e:
+        st.warning(f"⚠️ Could not add language targeting: {e}")
         # Don't fail the entire campaign creation for this
 
 def create_park_city_ad_groups_and_keywords(client, customer_id, campaign_id, config):
