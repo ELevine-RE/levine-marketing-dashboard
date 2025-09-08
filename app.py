@@ -402,14 +402,157 @@ def generate_comprehensive_strategy(trends_data, ppc_data, google_ads_data):
     
     return strategy
 
+# --- NEW PRACTICAL FUNCTIONS ---
+
+def show_keyword_recommendations(trends_data, budget):
+    """Show practical keyword recommendations based on budget."""
+    
+    if not trends_data:
+        st.warning("No trends data available")
+        return
+    
+    # Extract top keywords from all markets
+    all_keywords = []
+    for market, data in trends_data.items():
+        for timeframe in ['1_year', '2_year', '5_year']:
+            if f"{timeframe}_queries" in data:
+                queries_df = data[f"{timeframe}_queries"]
+                if not queries_df.empty:
+                    # Get top keywords (assuming first column has keywords)
+                    keywords = queries_df.iloc[:, 0].dropna().head(5)
+                    for keyword in keywords:
+                        all_keywords.append({
+                            'keyword': keyword,
+                            'market': market,
+                            'timeframe': timeframe
+                        })
+    
+    if not all_keywords:
+        st.warning("No keywords found in trends data")
+        return
+    
+    # Create keyword recommendations based on budget
+    st.subheader(f"🎯 Top Keywords for ${budget}/month Budget")
+    
+    # Budget-based recommendations
+    if budget <= 1500:
+        st.info("**Starting Phase:** Focus on 2-3 high-volume, low-competition keywords")
+        top_keywords = all_keywords[:3]
+    elif budget <= 2200:
+        st.info("**Growing Phase:** Target 3-4 keywords with good search volume")
+        top_keywords = all_keywords[:4]
+    else:
+        st.info("**Scaling Phase:** Multiple keyword groups across markets")
+        top_keywords = all_keywords[:6]
+    
+    # Display recommendations
+    for i, kw in enumerate(top_keywords, 1):
+        col1, col2, col3 = st.columns([3, 2, 1])
+        with col1:
+            st.write(f"**{i}. {kw['keyword']}**")
+        with col2:
+            st.write(f"Market: {kw['market']}")
+        with col3:
+            st.write(f"Trend: {kw['timeframe']}")
+    
+    st.markdown("**💡 Next Steps:**")
+    st.markdown("1. Set up Google Ads campaigns for these keywords")
+    st.markdown("2. Start with $50-100 daily budget per keyword")
+    st.markdown("3. Monitor performance for 2 weeks before scaling")
+
+def show_market_trends(trends_data):
+    """Show market trend analysis."""
+    
+    if not trends_data:
+        st.warning("No trends data available")
+        return
+    
+    st.subheader("📈 Market Performance Overview")
+    
+    # Create a simple market comparison
+    market_summary = []
+    for market, data in trends_data.items():
+        # Count available data points
+        data_points = sum(1 for key in data.keys() if 'year' in key)
+        market_summary.append({
+            'Market': market,
+            'Data Points': data_points,
+            'Status': '✅ Active' if data_points >= 2 else '⚠️ Limited'
+        })
+    
+    df = pd.DataFrame(market_summary)
+    st.dataframe(df, use_container_width=True)
+    
+    st.markdown("**🎯 Recommended Markets to Target:**")
+    st.markdown("1. **Park City Real Estate** - Highest search volume")
+    st.markdown("2. **Deer Valley Real Estate** - Premium market")
+    st.markdown("3. **Heber Utah Real Estate** - Growing market")
+
+def show_budget_allocation(budget, phase):
+    """Show practical budget allocation strategy."""
+    
+    st.subheader(f"💰 Budget Allocation for {phase}")
+    
+    # Calculate allocations based on budget
+    if budget <= 1500:
+        allocations = {
+            "Google Ads": budget * 0.8,  # 80% to ads
+            "Testing & Optimization": budget * 0.15,  # 15% for testing
+            "Tools & Software": budget * 0.05  # 5% for tools
+        }
+    elif budget <= 2200:
+        allocations = {
+            "Google Ads": budget * 0.75,  # 75% to ads
+            "Testing & Optimization": budget * 0.20,  # 20% for testing
+            "Tools & Software": budget * 0.05  # 5% for tools
+        }
+    else:
+        allocations = {
+            "Google Ads": budget * 0.70,  # 70% to ads
+            "Testing & Optimization": budget * 0.25,  # 25% for testing
+            "Tools & Software": budget * 0.05  # 5% for tools
+        }
+    
+    # Display allocation chart
+    fig = go.Figure(data=[go.Pie(
+        labels=list(allocations.keys()),
+        values=list(allocations.values()),
+        hole=0.3
+    )])
+    fig.update_layout(title="Monthly Budget Allocation")
+    st.plotly_chart(fig, use_container_width=True)
+    
+    # Show detailed breakdown
+    st.subheader("📊 Detailed Breakdown")
+    for category, amount in allocations.items():
+        col1, col2 = st.columns([2, 1])
+        with col1:
+            st.write(f"**{category}**")
+        with col2:
+            st.write(f"${amount:.0f}")
+    
+    st.markdown("**🎯 Action Items:**")
+    st.markdown(f"1. **Set daily budget:** ${budget/30:.0f}/day")
+    st.markdown(f"2. **Max CPC target:** ${budget/100:.0f}")
+    st.markdown("3. **Monitor daily:** Check performance every morning")
+    st.markdown("4. **Weekly review:** Adjust bids and keywords")
+
 # --- Main Dashboard ---
 
 def main():
     """Main dashboard application."""
     
     # Header
-    st.title("🏔️ Park City Real Estate Campaign Strategy Dashboard")
-    st.markdown("**For:** levine.realestate | **Data Integration:** Google Trends + Google Ads API")
+    st.title("🏔️ Evan Levine Real Estate - PPC Campaign Planner")
+    st.markdown("**Budget: $1.5k-$3k | Single Agent | Actionable Next Steps**")
+    
+    # Budget input
+    col1, col2 = st.columns(2)
+    with col1:
+        monthly_budget = st.number_input("Monthly PPC Budget ($)", min_value=500, max_value=5000, value=2000, step=100)
+    with col2:
+        campaign_phase = st.selectbox("Campaign Phase", ["Starting Out ($1.5k)", "Growing ($2.2k)", "Scaling ($3k+)"])
+    
     st.markdown("---")
     
     # Load existing data
@@ -426,6 +569,61 @@ def main():
             st.success("✅ Loaded existing analysis and recommendations")
         else:
             st.warning("⚠️ No existing analysis found")
+    
+    # PRACTICAL NEXT STEPS SECTION
+    st.header("🎯 What To Do Next (Your Action Plan)")
+    
+    # Budget breakdown
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Daily Budget", f"${monthly_budget/30:.0f}")
+    with col2:
+        st.metric("Weekly Budget", f"${monthly_budget/4:.0f}")
+    with col3:
+        st.metric("Max CPC (Est.)", f"${monthly_budget/100:.0f}")
+    
+    # Action steps based on budget
+    if monthly_budget <= 1500:
+        st.info("**🚀 Starting Phase ($1.5k):** Focus on 2-3 high-converting keywords, test 1 market")
+    elif monthly_budget <= 2200:
+        st.info("**📈 Growing Phase ($2.2k):** Expand to 3-4 keywords, test 2 markets")
+    else:
+        st.info("**🎯 Scaling Phase ($3k+):** Multiple campaigns, 5+ keywords, full market coverage")
+    
+    # Quick action buttons
+    st.subheader("⚡ Quick Actions")
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if st.button("🔍 Find Top Keywords", use_container_width=True):
+            st.session_state.show_keywords = True
+    
+    with col2:
+        if st.button("📊 View Market Trends", use_container_width=True):
+            st.session_state.show_trends = True
+    
+    with col3:
+        if st.button("💰 Budget Allocation", use_container_width=True):
+            st.session_state.show_budget = True
+    
+    st.markdown("---")
+    
+    # CONDITIONAL SECTIONS BASED ON BUTTON CLICKS
+    if st.session_state.get('show_keywords', False):
+        st.header("🔍 Top Keywords for Your Budget")
+        show_keyword_recommendations(trends_data, monthly_budget)
+        st.markdown("---")
+    
+    if st.session_state.get('show_trends', False):
+        st.header("📊 Market Trends Analysis")
+        show_market_trends(trends_data)
+        st.markdown("---")
+    
+    if st.session_state.get('show_budget', False):
+        st.header("💰 Budget Allocation Strategy")
+        show_budget_allocation(monthly_budget, campaign_phase)
+        st.markdown("---")
     
     # Sidebar
     with st.sidebar:
