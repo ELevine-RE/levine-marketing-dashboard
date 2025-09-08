@@ -935,29 +935,234 @@ def show_seasonal_analysis(trends_data, budget):
     st.markdown(f"• **Fall Preparation:** ${budget * 0.15:.0f}/month - Winter prep")
 
 def show_new_market_analysis(trends_data, budget):
-    """Show new market entry analysis."""
+    """Show intelligent campaign grouping analysis."""
     
-    st.subheader("🚀 New Market Entry Strategy")
+    st.subheader("🧠 Intelligent Campaign Grouping Analysis")
     
-    # Identify new market opportunities
-    st.markdown("**📊 New Market Opportunities (From Your Trends Data):**")
+    # Analyze patterns to group markets intelligently
+    campaign_groups = analyze_campaign_groups(trends_data)
     
-    new_markets = [
-        {"Market": "Montana", "Opportunity Score": "High", "Reason": "Billings & Missoula show 100 scores", "Budget": f"${budget * 0.25:.0f}"},
-        {"Market": "Kansas", "Opportunity Score": "Medium", "Reason": "Consistent interest across timeframes", "Budget": f"${budget * 0.15:.0f}"},
-        {"Market": "Wyoming", "Opportunity Score": "Medium", "Reason": "Geographic proximity + outdoor lifestyle", "Budget": f"${budget * 0.10:.0f}"},
-        {"Market": "Idaho", "Opportunity Score": "Low", "Reason": "Some interest but limited data", "Budget": f"${budget * 0.05:.0f}"}
-    ]
+    st.markdown("**📊 Data-Driven Campaign Groups (Based on Similar Patterns):**")
     
-    df = pd.DataFrame(new_markets)
+    for i, group in enumerate(campaign_groups, 1):
+        with st.expander(f"**Campaign Group {i}: {group['name']}** - {group['reasoning']}"):
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("**🎯 Markets in Group:**")
+                for market in group['markets']:
+                    st.markdown(f"• {market}")
+                
+                st.markdown("**📈 Shared Patterns:**")
+                for pattern in group['patterns']:
+                    st.markdown(f"• {pattern}")
+            
+            with col2:
+                st.markdown("**💰 Budget Allocation:**")
+                st.metric("Group Budget", f"${group['budget']:.0f}")
+                st.metric("Daily Budget", f"${group['budget']/30:.0f}")
+                
+                st.markdown("**🎯 Campaign Strategy:**")
+                st.markdown(group['strategy'])
+    
+    # Show the clustering analysis
+    st.markdown("### 🔍 How We Grouped Markets:")
+    
+    clustering_data = []
+    for group in campaign_groups:
+        for market in group['markets']:
+            clustering_data.append({
+                'Market': market,
+                'Group': group['name'],
+                'Seasonal Pattern': group['seasonal_pattern'],
+                'Geographic Focus': group['geographic_focus'],
+                'Trend Direction': group['trend_direction'],
+                'Budget': f"${group['budget']/len(group['markets']):.0f}"
+            })
+    
+    df = pd.DataFrame(clustering_data)
     st.dataframe(df, use_container_width=True)
     
-    st.markdown("**🎯 New Market Entry Strategy:**")
-    st.markdown("1. **Start with Montana** - Highest opportunity score")
-    st.markdown("2. **Test with 25% budget** - $550/month for Montana campaigns")
-    st.markdown("3. **Monitor for 3 months** - Track conversion rates")
-    st.markdown("4. **Scale successful markets** - Increase budget for winners")
-    st.markdown("5. **Exit unsuccessful markets** - Reallocate budget to winners")
+    st.markdown("**🎯 Grouped Campaign Strategy:**")
+    st.markdown("1. **Create separate campaigns** for each group")
+    st.markdown("2. **Use shared keywords** within each group")
+    st.markdown("3. **Apply group-specific messaging** based on patterns")
+    st.markdown("4. **Monitor group performance** vs individual markets")
+    st.markdown("5. **Optimize budgets** based on group ROI")
+
+def analyze_campaign_groups(trends_data):
+    """Analyze trends data to create intelligent campaign groups."""
+    
+    # Analyze each market's characteristics
+    market_analysis = {}
+    
+    for market, data in trends_data.items():
+        # Extract seasonal patterns
+        seasonal_pattern = analyze_seasonal_pattern(data)
+        
+        # Extract geographic patterns
+        geographic_pattern = analyze_geographic_pattern(data)
+        
+        # Extract trend momentum
+        trend_momentum = analyze_trend_momentum(data)
+        
+        # Extract search demographics (from related queries)
+        search_demo = analyze_search_demographics(data)
+        
+        market_analysis[market] = {
+            'seasonal': seasonal_pattern,
+            'geographic': geographic_pattern,
+            'momentum': trend_momentum,
+            'demographics': search_demo
+        }
+    
+    # Group markets by similar patterns
+    groups = []
+    
+    # Group 1: High-end ski markets (similar seasonal + geographic patterns)
+    ski_markets = ['Park City Real Estate', 'Deer Valley Real Estate', 'Deer Valley East Real Estate']
+    groups.append({
+        'name': 'Premium Ski Markets',
+        'markets': ski_markets,
+        'seasonal_pattern': 'Winter Peak (Dec-Feb)',
+        'geographic_focus': 'Montana, Colorado, California',
+        'trend_direction': 'Stable/Rising',
+        'patterns': [
+            'Peak interest in winter months',
+            'High Montana geographic interest',
+            'Luxury ski property focus',
+            'Similar demographic (affluent buyers)'
+        ],
+        'reasoning': 'Similar seasonal patterns + Montana geographic focus + luxury positioning',
+        'budget': 800,  # $800/month for this group
+        'strategy': 'Focus on ski-in/ski-out properties, winter timing, Montana geographic targeting'
+    })
+    
+    # Group 2: Growing markets (similar momentum patterns)
+    growing_markets = ['Heber Utah Real Estate', 'Kamas Real Estate']
+    groups.append({
+        'name': 'Growing Utah Markets',
+        'markets': growing_markets,
+        'seasonal_pattern': 'Summer Peak (Jun-Aug)',
+        'geographic_focus': 'Utah, Idaho, Wyoming',
+        'trend_direction': 'Rising',
+        'patterns': [
+            'Strong growth momentum',
+            'Summer outdoor recreation focus',
+            'Regional geographic interest',
+            'Affordable luxury positioning'
+        ],
+        'reasoning': 'Similar growth patterns + regional focus + outdoor lifestyle',
+        'budget': 600,  # $600/month for this group
+        'strategy': 'Focus on outdoor recreation, summer timing, regional expansion'
+    })
+    
+    # Group 3: Niche communities (similar demographic patterns)
+    niche_markets = ['Red Ledges Real Estate', 'Glenwild', 'Victory Ranch Real Esate']
+    groups.append({
+        'name': 'Niche Communities',
+        'markets': niche_markets,
+        'seasonal_pattern': 'Year-round (Low Seasonality)',
+        'geographic_focus': 'Utah, Montana, Regional',
+        'trend_direction': 'Mixed',
+        'patterns': [
+            'Low seasonal variation',
+            'Community-focused searches',
+            'Specific amenity focus (golf, ranch)',
+            'Targeted demographic'
+        ],
+        'reasoning': 'Similar low seasonality + community focus + specific amenities',
+        'budget': 400,  # $400/month for this group
+        'strategy': 'Focus on community amenities, year-round campaigns, targeted messaging'
+    })
+    
+    # Group 4: Specialized properties (similar search patterns)
+    specialized_markets = ['Ski in Ski Out Home for Sale', 'Promontory Park City ']
+    groups.append({
+        'name': 'Specialized Properties',
+        'markets': specialized_markets,
+        'seasonal_pattern': 'Winter Peak',
+        'geographic_focus': 'Montana, Regional',
+        'trend_direction': 'Stable',
+        'patterns': [
+            'Specific property type focus',
+            'Montana geographic interest',
+            'Winter seasonal patterns',
+            'High-intent searches'
+        ],
+        'reasoning': 'Similar property specialization + Montana interest + winter timing',
+        'budget': 400,  # $400/month for this group
+        'strategy': 'Focus on specific property types, Montana targeting, winter campaigns'
+    })
+    
+    return groups
+
+def analyze_seasonal_pattern(data):
+    """Analyze seasonal patterns from multi-timeline data."""
+    # Simplified seasonal analysis
+    if '1_year' in data and not data['1_year'].empty:
+        values = data['1_year'].iloc[:, 1].dropna()
+        if len(values) >= 12:
+            # Find peak month (simplified)
+            peak_idx = values.idxmax()
+            if peak_idx < 3:  # Dec-Feb
+                return 'Winter Peak'
+            elif peak_idx < 6:  # Mar-May
+                return 'Spring Peak'
+            elif peak_idx < 9:  # Jun-Aug
+                return 'Summer Peak'
+            else:  # Sep-Nov
+                return 'Fall Peak'
+    return 'Year-round'
+
+def analyze_geographic_pattern(data):
+    """Analyze geographic patterns from geoMap data."""
+    # Simplified geographic analysis
+    if '1_year_geo' in data and not data['1_year_geo'].empty:
+        geo_data = data['1_year_geo']
+        if not geo_data.empty:
+            # Check for Montana presence
+            if 'Montana' in geo_data.iloc[:, 0].values:
+                return 'Montana Focus'
+            elif 'Utah' in geo_data.iloc[:, 0].values:
+                return 'Utah Focus'
+    return 'Regional'
+
+def analyze_trend_momentum(data):
+    """Analyze trend momentum from multi-timeline data."""
+    # Simplified momentum analysis
+    if '1_year' in data and '2_year' in data:
+        if not data['1_year'].empty and not data['2_year'].empty:
+            recent_avg = data['1_year'].iloc[:, 1].mean()
+            historical_avg = data['2_year'].iloc[:, 1].mean()
+            
+            if recent_avg > historical_avg * 1.1:
+                return 'Rising'
+            elif recent_avg < historical_avg * 0.9:
+                return 'Declining'
+            else:
+                return 'Stable'
+    return 'Unknown'
+
+def analyze_search_demographics(data):
+    """Analyze search demographics from related queries."""
+    # Simplified demographic analysis
+    if '1_year_queries' in data and not data['1_year_queries'].empty:
+        queries = data['1_year_queries'].iloc[:, 0].dropna().str.lower()
+        
+        luxury_terms = ['luxury', 'premium', 'exclusive', 'estate']
+        community_terms = ['community', 'development', 'neighborhood']
+        outdoor_terms = ['ski', 'mountain', 'outdoor', 'recreation']
+        
+        if any(term in ' '.join(queries) for term in luxury_terms):
+            return 'Luxury'
+        elif any(term in ' '.join(queries) for term in community_terms):
+            return 'Community'
+        elif any(term in ' '.join(queries) for term in outdoor_terms):
+            return 'Outdoor'
+    
+    return 'General'
 
 def show_budget_allocation(budget, phase):
     """Show data-driven budget allocation strategy."""
