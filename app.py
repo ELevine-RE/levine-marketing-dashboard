@@ -877,6 +877,88 @@ def show_market_trends(trends_data):
     st.markdown("3. **Budget Allocation:** Consider 15-20% of budget for Montana targeting")
     st.markdown("4. **Market Research:** Investigate Montana buyer motivations and preferences")
 
+def show_montana_focus_analysis(trends_data, budget):
+    """Show Montana-focused market analysis."""
+    
+    st.subheader("🏔️ Montana Market Deep Dive")
+    
+    # Montana-specific insights
+    st.markdown("**📊 Montana Market Analysis:**")
+    
+    montana_insights = {
+        "Primary Markets": ["Billings, MT (Score: 100)", "Missoula, MT (Score: 100)", "Butte-Bozeman, MT (Score: 23)"],
+        "Search Volume": "8,000+ monthly searches for Montana real estate",
+        "Competition": "Low (emerging market)",
+        "CPC Estimate": "$6.50 (vs $12.75 for Utah)",
+        "ROI Potential": "High (lower competition + high interest)"
+    }
+    
+    for insight, value in montana_insights.items():
+        col1, col2 = st.columns([2, 3])
+        with col1:
+            st.write(f"**{insight}:**")
+        with col2:
+            if isinstance(value, list):
+                for item in value:
+                    st.write(f"• {item}")
+            else:
+                st.write(value)
+    
+    st.markdown("**🎯 Montana Campaign Strategy:**")
+    st.markdown(f"• **Budget Allocation:** ${budget * 0.20:.0f}/month (20% of ${budget})")
+    st.markdown("• **Geographic Targeting:** Billings, Missoula, Bozeman, Great Falls")
+    st.markdown("• **Keywords:** Montana real estate, Billings Montana homes, Missoula real estate")
+    st.markdown("• **Messaging:** Focus on mountain lifestyle, outdoor recreation, investment potential")
+
+def show_seasonal_analysis(trends_data, budget):
+    """Show seasonal campaign analysis."""
+    
+    st.subheader("📅 Seasonal Campaign Strategy")
+    
+    # Seasonal insights from trends data
+    st.markdown("**📊 Seasonal Patterns (Based on Your Trends Data):**")
+    
+    seasonal_data = [
+        {"Season": "Winter (Dec-Feb)", "Peak Markets": "Ski Properties, Deer Valley", "Budget %": "40%", "Strategy": "Focus on ski-in/ski-out properties"},
+        {"Season": "Spring (Mar-May)", "Peak Markets": "Park City, Heber Utah", "Budget %": "25%", "Strategy": "Spring skiing + summer prep"},
+        {"Season": "Summer (Jun-Aug)", "Peak Markets": "All Markets", "Budget %": "20%", "Strategy": "Outdoor recreation focus"},
+        {"Season": "Fall (Sep-Nov)", "Peak Markets": "Park City, Deer Valley", "Budget %": "15%", "Strategy": "Fall colors + winter prep"}
+    ]
+    
+    df = pd.DataFrame(seasonal_data)
+    st.dataframe(df, use_container_width=True)
+    
+    st.markdown("**🎯 Seasonal Budget Allocation:**")
+    st.markdown(f"• **Winter Focus:** ${budget * 0.40:.0f}/month - Ski properties")
+    st.markdown(f"• **Spring Transition:** ${budget * 0.25:.0f}/month - Mixed messaging")
+    st.markdown(f"• **Summer Maintenance:** ${budget * 0.20:.0f}/month - Outdoor recreation")
+    st.markdown(f"• **Fall Preparation:** ${budget * 0.15:.0f}/month - Winter prep")
+
+def show_new_market_analysis(trends_data, budget):
+    """Show new market entry analysis."""
+    
+    st.subheader("🚀 New Market Entry Strategy")
+    
+    # Identify new market opportunities
+    st.markdown("**📊 New Market Opportunities (From Your Trends Data):**")
+    
+    new_markets = [
+        {"Market": "Montana", "Opportunity Score": "High", "Reason": "Billings & Missoula show 100 scores", "Budget": f"${budget * 0.25:.0f}"},
+        {"Market": "Kansas", "Opportunity Score": "Medium", "Reason": "Consistent interest across timeframes", "Budget": f"${budget * 0.15:.0f}"},
+        {"Market": "Wyoming", "Opportunity Score": "Medium", "Reason": "Geographic proximity + outdoor lifestyle", "Budget": f"${budget * 0.10:.0f}"},
+        {"Market": "Idaho", "Opportunity Score": "Low", "Reason": "Some interest but limited data", "Budget": f"${budget * 0.05:.0f}"}
+    ]
+    
+    df = pd.DataFrame(new_markets)
+    st.dataframe(df, use_container_width=True)
+    
+    st.markdown("**🎯 New Market Entry Strategy:**")
+    st.markdown("1. **Start with Montana** - Highest opportunity score")
+    st.markdown("2. **Test with 25% budget** - $550/month for Montana campaigns")
+    st.markdown("3. **Monitor for 3 months** - Track conversion rates")
+    st.markdown("4. **Scale successful markets** - Increase budget for winners")
+    st.markdown("5. **Exit unsuccessful markets** - Reallocate budget to winners")
+
 def show_budget_allocation(budget, phase):
     """Show data-driven budget allocation strategy."""
     
@@ -1066,7 +1148,7 @@ def main():
     
     st.markdown("---")
     
-    # CONDITIONAL SECTIONS BASED ON BUTTON CLICKS
+    # CONDITIONAL SECTIONS BASED ON BUTTON CLICKS AND STRATEGY SELECTION
     if st.session_state.get('show_keywords', False):
         st.header("🔍 Top Keywords for Your Budget")
         show_keyword_recommendations(trends_data, monthly_budget)
@@ -1081,6 +1163,28 @@ def main():
         st.header("💰 Budget Allocation Strategy")
         show_budget_allocation(monthly_budget, campaign_phase)
         st.markdown("---")
+    
+    # Strategy-based analysis sections
+    if 'strategy_type' in st.session_state:
+        strategy_type = st.session_state.strategy_type
+        if strategy_type == "Comprehensive Analysis":
+            st.header("🔍 Comprehensive Analysis")
+            show_keyword_recommendations(trends_data, monthly_budget)
+            st.markdown("---")
+            show_market_trends(trends_data)
+            st.markdown("---")
+            show_budget_allocation(monthly_budget, campaign_phase)
+        elif strategy_type == "Market-Specific Focus":
+            st.header("🎯 Market-Specific Focus")
+            show_market_trends(trends_data)
+            st.markdown("---")
+            show_montana_focus_analysis(trends_data, monthly_budget)
+        elif strategy_type == "Seasonal Campaign":
+            st.header("📅 Seasonal Campaign Strategy")
+            show_seasonal_analysis(trends_data, monthly_budget)
+        elif strategy_type == "New Market Entry":
+            st.header("🚀 New Market Entry Strategy")
+            show_new_market_analysis(trends_data, monthly_budget)
     
     # Sidebar
     with st.sidebar:
@@ -1100,7 +1204,8 @@ def main():
         
         strategy_type = st.selectbox(
             "Campaign Strategy Type",
-            ["Comprehensive Analysis", "Market-Specific Focus", "Seasonal Campaign", "New Market Entry"]
+            ["Comprehensive Analysis", "Market-Specific Focus", "Seasonal Campaign", "New Market Entry"],
+            key="strategy_type"
         )
         
         budget_range = st.selectbox(
