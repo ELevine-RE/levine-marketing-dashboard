@@ -1060,6 +1060,120 @@ def show_new_market_analysis(trends_data, budget):
         if st.button("🔍 Check Existing Campaigns", use_container_width=True):
             check_existing_campaigns()
 
+def create_park_city_campaign(budget=1500):
+    """Create the primary Park City Real Estate campaign based on trends data."""
+    
+    st.subheader("🏔️ Creating Park City Real Estate Campaign...")
+    
+    client, customer_id = load_google_ads_client()
+    if not client:
+        st.error("❌ Google Ads API not connected. Please check your credentials.")
+        return
+    
+    st.success("✅ Google Ads API Connected - Creating Park City campaign...")
+    
+    # Campaign configuration based on trends data analysis
+    campaign_config = {
+        'name': 'Park City Real Estate - Primary Campaign',
+        'budget': budget * 0.85,  # 85% of total budget ($1,275)
+        'markets': ['Park City Real Estate'],
+        'keywords': [
+            'utah real estate',           # Score: 351 (highest)
+            'park city utah',            # Score: 290
+            'real estate in park city',  # Score: 100
+            'park city utah real estate', # Score: 74
+            'park city real estate for sale', # Score: 53
+            'park city mountain',        # Score: 31
+            'park city ski resort',      # Score: 63
+            'park city resort',          # Score: 63
+            'park city hotels',          # Score: 52
+            'park city resorts',         # Score: 48
+            'park city ski resorts',     # Score: 48
+            'park city golf',            # Score: 34
+            'park city mountain resort', # Score: 31
+            'park city utah homes',      # Estimated high-intent
+            'park city real estate agent', # Estimated high-intent
+            'park city homes for sale',  # Estimated high-intent
+            'park city condos for sale', # Estimated high-intent
+            'park city townhomes',       # Estimated high-intent
+            'park city luxury homes',    # Estimated high-intent
+            'park city investment property' # Estimated high-intent
+        ],
+        'geo_targeting': [
+            'Billings, MT',      # Score: 100 (highest from trends)
+            'Salt Lake City, UT', # Score: 66
+            'Butte-Bozeman, MT', # Score: 23
+            'Denver, CO',        # Estimated high-value
+            'Las Vegas, NV',     # Estimated high-value
+            'San Francisco, CA', # Estimated high-value
+            'Los Angeles, CA',   # Estimated high-value
+            'New York, NY',      # Estimated high-value
+            'Chicago, IL',       # Estimated high-value
+            'Dallas, TX',        # Estimated high-value
+            'Phoenix, AZ',       # Estimated high-value
+            'Seattle, WA'        # Estimated high-value
+        ],
+        'negative_keywords': [
+            'rental', 'apartment', 'commercial', 'kansas city', 'overland park',
+            'jobs', 'employment', 'career', 'work', 'job', 'hire',
+            'weather', 'forecast', 'temperature', 'snow report',
+            'events', 'festival', 'concert', 'tickets',
+            'restaurants', 'dining', 'food', 'menu',
+            'hotels', 'lodging', 'accommodation', 'booking',
+            'skiing', 'snowboarding', 'lessons', 'rentals',
+            'golf', 'course', 'tee times', 'membership'
+        ]
+    }
+    
+    try:
+        with st.spinner("Creating Park City Real Estate Campaign..."):
+            campaign_result = create_expert_park_city_campaign(client, customer_id, campaign_config)
+            
+            if campaign_result:
+                st.success(f"✅ Park City Campaign Created Successfully!")
+                st.markdown(f"**Campaign ID:** {campaign_result['campaign_id']}")
+                st.markdown(f"**Campaign Name:** {campaign_result['name']}")
+                st.markdown(f"**Daily Budget:** ${campaign_result['daily_budget']:.2f}")
+                st.markdown(f"**Keywords:** {campaign_result['keyword_count']}")
+                st.markdown(f"**Ad Groups:** {campaign_result['ad_group_count']}")
+                st.markdown(f"**Status:** {campaign_result['status']}")
+                
+                # Show campaign details
+                st.markdown("### 📊 Campaign Configuration")
+                
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    st.markdown("**🎯 Top Keywords (from Trends Data):**")
+                    for keyword in campaign_config['keywords'][:10]:
+                        st.markdown(f"• {keyword}")
+                
+                with col2:
+                    st.markdown("**📍 Geographic Targeting:**")
+                    for location in campaign_config['geo_targeting'][:6]:
+                        st.markdown(f"• {location}")
+                
+                st.markdown("### 🚀 Next Steps")
+                st.markdown("1. **Review campaign** in Google Ads interface")
+                st.markdown("2. **Add responsive search ads** with compelling copy")
+                st.markdown("3. **Set up conversion tracking** for leads")
+                st.markdown("4. **Create landing pages** for Park City properties")
+                st.markdown("5. **Monitor performance** and optimize bids")
+                st.markdown("6. **Launch campaign** when ready")
+                
+                return campaign_result
+            else:
+                st.error("❌ Failed to create Park City campaign")
+                return None
+                
+    except Exception as e:
+        st.error(f"❌ Error creating Park City campaign: {e}")
+        st.markdown("**Debug Info:**")
+        st.markdown(f"• Customer ID: {customer_id}")
+        st.markdown(f"• Budget: ${campaign_config['budget']}")
+        st.markdown("• Check Google Ads API permissions")
+        return None
+
 def create_google_ads_campaigns(campaign_groups, budget):
     """Create Google Ads campaigns with expert PPC manager settings."""
     
@@ -1196,6 +1310,218 @@ def check_existing_campaigns():
         st.markdown("• Check your Google Ads API credentials")
         st.markdown("• Verify you have the correct customer ID")
         st.markdown("• Ensure you have campaign management permissions")
+
+def create_expert_park_city_campaign(client, customer_id, config):
+    """Create the Park City Real Estate campaign with expert settings."""
+    
+    try:
+        # Calculate campaign budget
+        campaign_budget = config['budget']
+        daily_budget = campaign_budget / 30
+        
+        # Create campaign
+        campaign_service = client.get_service('CampaignService')
+        
+        # Create campaign budget first
+        budget_id = create_campaign_budget(client, customer_id, daily_budget)
+        
+        # Campaign settings (expert PPC manager configuration)
+        campaign = {
+            'name': f"{config['name']} - {datetime.now().strftime('%Y%m%d')}",
+            'advertising_channel_type': 'SEARCH',
+            'status': 'PAUSED',  # Start paused for review
+            'campaign_budget': f"customers/{customer_id}/campaignBudgets/{budget_id}",
+            'network_settings': {
+                'target_google_search': True,
+                'target_search_network': True,
+                'target_content_network': False,
+                'target_partner_search_network': False
+            },
+            'geo_targeting': create_park_city_geo_targeting(config['geo_targeting']),
+            'language_settings': ['1000'],  # English
+            'bidding_strategy_type': 'TARGET_CPA',
+            'target_cpa': {
+                'target_cpa_micros': int(daily_budget * 0.25 * 1000000)  # 25% of daily budget as target CPA
+            },
+            'start_date': datetime.now().strftime('%Y-%m-%d'),
+            'end_date': (datetime.now() + timedelta(days=365)).strftime('%Y-%m-%d')
+        }
+        
+        # Create campaign
+        campaign_operation = {'create': campaign}
+        campaign_response = campaign_service.mutate_campaigns(
+            customer_id=str(customer_id),
+            operations=[campaign_operation]
+        )
+        
+        campaign_id = campaign_response.results[0].resource_name.split('/')[-1]
+        
+        # Create ad groups and keywords
+        ad_group_count, keyword_count = create_park_city_ad_groups_and_keywords(
+            client, customer_id, campaign_id, config
+        )
+        
+        return {
+            'name': campaign['name'],
+            'campaign_id': campaign_id,
+            'daily_budget': daily_budget,
+            'keyword_count': keyword_count,
+            'ad_group_count': ad_group_count,
+            'status': 'PAUSED'
+        }
+        
+    except Exception as e:
+        st.error(f"❌ Error creating Park City campaign: {e}")
+        return None
+
+def create_park_city_geo_targeting(locations):
+    """Create geographic targeting for Park City campaign."""
+    
+    geo_targets = []
+    
+    # Location mapping for Google Ads
+    location_map = {
+        'Billings, MT': '2010',  # Montana
+        'Salt Lake City, UT': '2010',  # Utah
+        'Butte-Bozeman, MT': '2010',  # Montana
+        'Denver, CO': '2010',  # Colorado
+        'Las Vegas, NV': '2010',  # Nevada
+        'San Francisco, CA': '2010',  # California
+        'Los Angeles, CA': '2010',  # California
+        'New York, NY': '2010',  # New York
+        'Chicago, IL': '2010',  # Illinois
+        'Dallas, TX': '2010',  # Texas
+        'Phoenix, AZ': '2010',  # Arizona
+        'Seattle, WA': '2010'   # Washington
+    }
+    
+    for location in locations:
+        if location in location_map:
+            geo_targets.append({
+                'geo_target_constant': f"geoTargetConstants/{location_map[location]}"
+            })
+    
+    return geo_targets
+
+def create_park_city_ad_groups_and_keywords(client, customer_id, campaign_id, config):
+    """Create ad groups and keywords for Park City campaign."""
+    
+    try:
+        ad_group_service = client.get_service('AdGroupService')
+        keyword_service = client.get_service('AdGroupCriterionService')
+        
+        ad_group_count = 0
+        keyword_count = 0
+        
+        # Create main ad group for Park City
+        ad_group_name = "Park City Real Estate - Primary"
+        
+        # Create ad group
+        ad_group = {
+            'name': ad_group_name,
+            'campaign': f"customers/{customer_id}/campaigns/{campaign_id}",
+            'status': 'ENABLED',
+            'type': 'SEARCH_STANDARD',
+            'cpc_bid_micros': int(15.00 * 1000000)  # $15 CPC bid for Park City
+        }
+        
+        ad_group_operation = {'create': ad_group}
+        ad_group_response = ad_group_service.mutate_ad_groups(
+            customer_id=str(customer_id),
+            operations=[ad_group_operation]
+        )
+        
+        ad_group_id = ad_group_response.results[0].resource_name.split('/')[-1]
+        ad_group_count += 1
+        
+        # Create keywords for Park City
+        keyword_operations = []
+        
+        # High-priority keywords (exact match)
+        high_priority_keywords = [
+            'park city real estate',
+            'park city utah real estate',
+            'park city real estate for sale',
+            'park city homes for sale',
+            'park city condos for sale',
+            'park city luxury homes'
+        ]
+        
+        for keyword_text in high_priority_keywords:
+            keyword = {
+                'ad_group': f"customers/{customer_id}/adGroups/{ad_group_id}",
+                'status': 'ENABLED',
+                'keyword': {
+                    'text': keyword_text,
+                    'match_type': 'EXACT'
+                },
+                'cpc_bid_micros': int(20.00 * 1000000)  # $20 CPC for exact match
+            }
+            keyword_operations.append({'create': keyword})
+        
+        # Medium-priority keywords (phrase match)
+        medium_priority_keywords = [
+            'utah real estate',
+            'park city utah',
+            'real estate in park city',
+            'park city mountain',
+            'park city ski resort',
+            'park city resort',
+            'park city hotels',
+            'park city resorts',
+            'park city ski resorts',
+            'park city golf',
+            'park city mountain resort'
+        ]
+        
+        for keyword_text in medium_priority_keywords:
+            keyword = {
+                'ad_group': f"customers/{customer_id}/adGroups/{ad_group_id}",
+                'status': 'ENABLED',
+                'keyword': {
+                    'text': keyword_text,
+                    'match_type': 'PHRASE'
+                },
+                'cpc_bid_micros': int(15.00 * 1000000)  # $15 CPC for phrase match
+            }
+            keyword_operations.append({'create': keyword})
+        
+        # Lower-priority keywords (broad match)
+        broad_keywords = [
+            'park city utah homes',
+            'park city real estate agent',
+            'park city townhomes',
+            'park city investment property'
+        ]
+        
+        for keyword_text in broad_keywords:
+            keyword = {
+                'ad_group': f"customers/{customer_id}/adGroups/{ad_group_id}",
+                'status': 'ENABLED',
+                'keyword': {
+                    'text': keyword_text,
+                    'match_type': 'BROAD'
+                },
+                'cpc_bid_micros': int(10.00 * 1000000)  # $10 CPC for broad match
+            }
+            keyword_operations.append({'create': keyword})
+        
+        # Create keywords in batches
+        if keyword_operations:
+            batch_size = 100
+            for i in range(0, len(keyword_operations), batch_size):
+                batch = keyword_operations[i:i + batch_size]
+                keyword_response = keyword_service.mutate_ad_group_criteria(
+                    customer_id=str(customer_id),
+                    operations=batch
+                )
+                keyword_count += len(batch)
+        
+        return ad_group_count, keyword_count
+        
+    except Exception as e:
+        st.error(f"❌ Error creating ad groups and keywords: {e}")
+        return 0, 0
 
 def create_expert_campaign(client, customer_id, group, total_budget):
     """Create a single campaign with expert PPC manager settings."""
@@ -1853,7 +2179,7 @@ def main():
     
     # Quick action buttons
     st.subheader("⚡ Quick Actions")
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         if st.button("🔍 Find Top Keywords", use_container_width=True):
@@ -1866,6 +2192,10 @@ def main():
     with col3:
         if st.button("💰 Budget Allocation", use_container_width=True):
             st.session_state.show_budget = True
+    
+    with col4:
+        if st.button("🏔️ Create Park City Campaign", use_container_width=True):
+            st.session_state.create_campaign = True
     
     st.markdown("---")
     
@@ -1883,6 +2213,11 @@ def main():
     if st.session_state.get('show_budget', False):
         st.header("💰 Budget Allocation Strategy")
         show_budget_allocation(monthly_budget, campaign_phase)
+        st.markdown("---")
+    
+    if st.session_state.get('create_campaign', False):
+        st.header("🏔️ Park City Real Estate Campaign")
+        create_park_city_campaign(monthly_budget)
         st.markdown("---")
     
     # Strategy-based analysis sections
