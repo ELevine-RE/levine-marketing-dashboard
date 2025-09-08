@@ -1931,7 +1931,7 @@ def main():
         
         budget_range = st.selectbox(
             "Monthly Budget Range",
-            ["$5,000 - $10,000", "$10,000 - $25,000", "$25,000 - $50,000", "$50,000+"]
+            ["$750 - $1,500", "$1,500 - $2,500", "$2,500 - $4,000"]
         )
         
         campaign_duration = st.selectbox(
