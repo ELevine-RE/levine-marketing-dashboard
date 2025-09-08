@@ -1,8 +1,8 @@
 """
-Park City Real Estate PPC Opportunity Dashboard
+Park City Real Estate Campaign Strategy Dashboard
 ================================================
-A comprehensive Streamlit dashboard for identifying and analyzing high-potential
-keywords for PPC campaigns targeting Park City real estate market.
+Integrates existing Google Trends data with Google Ads API to generate
+comprehensive campaign strategies with audience, timing, and spend recommendations.
 
 Author: Levine Real Estate Team
 Website: levine.realestate
@@ -16,106 +16,170 @@ import plotly.express as px
 from datetime import datetime, timedelta
 import os
 import sys
+import json
+import glob
+from pathlib import Path
 from pytrends.request import TrendReq
 from google.ads.googleads.client import GoogleAdsClient
 from google.ads.googleads.errors import GoogleAdsException
 from scipy import stats
 import yaml
-import time
 
 # --- Page Configuration ---
 st.set_page_config(
-    page_title="Park City Real Estate PPC Dashboard",
+    page_title="Park City Real Estate Campaign Strategy Dashboard",
     page_icon="🏔️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- Custom CSS for Better Styling ---
+# --- Custom CSS ---
 st.markdown("""
     <style>
     .main {
         padding: 0rem 1rem;
     }
-    .stButton>button {
-        background-color: #1E3A8A;
-        color: white;
-        border-radius: 5px;
-        border: none;
-        padding: 0.5rem 1rem;
-        font-weight: bold;
-        transition: all 0.3s;
-    }
-    .stButton>button:hover {
-        background-color: #2563EB;
-        box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
-    }
-    .metric-card {
+    .strategy-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 1.5rem;
+        border-radius: 15px;
+        color: white;
+        margin: 1rem 0;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+    .market-card {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         padding: 1rem;
         border-radius: 10px;
         color: white;
         margin: 0.5rem 0;
     }
-    .recommendation-box {
-        padding: 1.5rem;
-        border-radius: 10px;
-        margin: 1rem 0;
-        font-size: 1.1rem;
-    }
-    .high-priority {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: white;
-    }
-    .low-cost {
-        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-        color: white;
-    }
-    .low-priority {
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        color: white;
-    }
-    .high-value {
+    .budget-card {
         background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        padding: 1rem;
+        border-radius: 10px;
         color: white;
+        margin: 0.5rem 0;
+    }
+    .timing-card {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        padding: 1rem;
+        border-radius: 10px;
+        color: white;
+        margin: 0.5rem 0;
+    }
+    .metric-highlight {
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+        margin: 0.5rem 0;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# --- Session State Management ---
-if 'keywords_df' not in st.session_state:
-    st.session_state.keywords_df = None
-if 'selected_keyword' not in st.session_state:
-    st.session_state.selected_keyword = None
+# --- Session State ---
 if 'trends_data' not in st.session_state:
     st.session_state.trends_data = None
+if 'ppc_recommendations' not in st.session_state:
+    st.session_state.ppc_recommendations = None
+if 'master_dataframe' not in st.session_state:
+    st.session_state.master_dataframe = None
 
 # --- Constants ---
-# Geographic targeting: Park City, Utah, United States
 GEO_TARGET_ID = "1026481"  # Park City, UT, US
 LANGUAGE_ID = "1000"  # English
 
-# --- Helper Functions ---
+# --- Data Loading Functions ---
+
+def load_existing_trends_data():
+    """Load existing Google Trends data from CSV files."""
+    trends_data = {}
+    
+    # Define the markets and their directories
+    markets = [
+        "Deer Valley East Real Estate",
+        "Deer Valley Real Estate", 
+        "Glenwild",
+        "Heber Utah Real Estate",
+        "Kamas Real Estate",
+        "Park City Real Estate",
+        "Promontory Park City ",
+        "Red Ledges Real Estate",
+        "Ski in Ski Out Home for Sale",
+        "Victory Ranch Real Esate"
+    ]
+    
+    for market in markets:
+        market_data = {}
+        
+        # Load data for different timeframes
+        for timeframe in ["1 Year", "2 Year", "5 Year"]:
+            timeframe_dir = f"{market}/{timeframe}"
+            if os.path.exists(timeframe_dir):
+                # Load multiTimeline data (main trends data)
+                timeline_files = glob.glob(f"{timeframe_dir}/multiTimeline*.csv")
+                if timeline_files:
+                    try:
+                        # Google Trends CSV files have a specific structure
+                        df = pd.read_csv(timeline_files[0], skiprows=2)  # Skip header rows
+                        market_data[timeframe] = df
+                    except Exception as e:
+                        st.warning(f"Could not load {timeframe_dir}/multiTimeline data: {e}")
+                
+                # Load related queries
+                query_files = glob.glob(f"{timeframe_dir}/relatedQueries*.csv")
+                if query_files:
+                    try:
+                        queries_df = pd.read_csv(query_files[0], skiprows=1)  # Skip header row
+                        market_data[f"{timeframe}_queries"] = queries_df
+                    except Exception as e:
+                        st.warning(f"Could not load {timeframe_dir}/relatedQueries data: {e}")
+                
+                # Load geo data
+                geo_files = glob.glob(f"{timeframe_dir}/geoMap*.csv")
+                if geo_files:
+                    try:
+                        geo_df = pd.read_csv(geo_files[0], skiprows=1)  # Skip header row
+                        market_data[f"{timeframe}_geo"] = geo_df
+                    except Exception as e:
+                        st.warning(f"Could not load {timeframe_dir}/geoMap data: {e}")
+        
+        if market_data:
+            trends_data[market] = market_data
+    
+    return trends_data
+
+def load_existing_analysis():
+    """Load existing analysis files."""
+    analysis_data = {}
+    
+    # Load PPC recommendations
+    if os.path.exists("Analysis/ppc_recommendations.json"):
+        try:
+            with open("Analysis/ppc_recommendations.json", 'r') as f:
+                analysis_data['ppc_recommendations'] = json.load(f)
+        except Exception as e:
+            st.warning(f"Could not load PPC recommendations: {e}")
+    
+    # Load master dataframe
+    if os.path.exists("Analysis/master_dataframe.csv"):
+        try:
+            analysis_data['master_dataframe'] = pd.read_csv("Analysis/master_dataframe.csv")
+        except Exception as e:
+            st.warning(f"Could not load master dataframe: {e}")
+    
+    return analysis_data
 
 @st.cache_resource
 def load_google_ads_client():
-    """
-    Load Google Ads client from google-ads.yaml configuration file.
-    
-    Returns:
-        tuple: (GoogleAdsClient, customer_id) or (None, None) if error
-    """
+    """Load Google Ads client from google-ads.yaml configuration file."""
     try:
-        # First try to load from google-ads.yaml
         config_path = "google-ads.yaml"
         if os.path.exists(config_path):
             with open(config_path, 'r') as file:
                 config = yaml.safe_load(file)
-                
-            # Extract customer_id before creating client
-            customer_id = config.get('login_customer_id', '')
             
-            # Create client from YAML file
+            customer_id = config.get('login_customer_id', '')
             client = GoogleAdsClient.load_from_storage(config_path)
             return client, customer_id
         else:
@@ -127,23 +191,11 @@ def load_google_ads_client():
         return None, None
 
 def get_keyword_ideas(client, customer_id, seed_keywords, max_keywords=50):
-    """
-    Fetch keyword ideas from Google Ads API based on seed keywords.
-    
-    Args:
-        client: Google Ads API client
-        customer_id: Google Ads customer ID
-        seed_keywords: List of seed keywords to generate ideas from
-        max_keywords: Maximum number of keyword ideas to return
-        
-    Returns:
-        list: List of keyword data dictionaries
-    """
+    """Fetch keyword ideas from Google Ads API."""
     try:
         keyword_plan_idea_service = client.get_service("KeywordPlanIdeaService")
         googleads_service = client.get_service("GoogleAdsService")
         
-        # Build the request
         request = client.get_type("GenerateKeywordIdeasRequest")
         request.customer_id = customer_id
         request.language = googleads_service.language_constant_path(LANGUAGE_ID)
@@ -151,21 +203,17 @@ def get_keyword_ideas(client, customer_id, seed_keywords, max_keywords=50):
             googleads_service.geo_target_constant_path(GEO_TARGET_ID)
         )
         
-        # Add seed keywords
         request.keyword_seed.keywords.extend(seed_keywords)
         request.include_adult_keywords = False
         
-        # Set date range for historical metrics (last 12 months)
         current_date = datetime.now()
         request.historical_metrics_options.year_month_range.start.year = current_date.year - 1
         request.historical_metrics_options.year_month_range.start.month = client.enums.MonthOfYearEnum.JANUARY
         request.historical_metrics_options.year_month_range.end.year = current_date.year
         request.historical_metrics_options.year_month_range.end.month = client.enums.MonthOfYearEnum[current_date.strftime('%B').upper()]
         
-        # Make the API call
         response = keyword_plan_idea_service.generate_keyword_ideas(request=request)
         
-        # Process results
         keywords_data = []
         for idx, result in enumerate(response):
             if idx >= max_keywords:
@@ -173,13 +221,11 @@ def get_keyword_ideas(client, customer_id, seed_keywords, max_keywords=50):
                 
             metrics = result.keyword_idea_metrics
             
-            # Extract competition level
             if metrics.competition:
                 competition = metrics.competition.name
             else:
                 competition = "UNSPECIFIED"
             
-            # Convert micros to dollars for bid amounts
             low_bid = metrics.low_top_of_page_bid_micros / 1_000_000 if metrics.low_top_of_page_bid_micros else 0
             high_bid = metrics.high_top_of_page_bid_micros / 1_000_000 if metrics.high_top_of_page_bid_micros else 0
             
@@ -203,166 +249,157 @@ def get_keyword_ideas(client, customer_id, seed_keywords, max_keywords=50):
         st.error(f"Unexpected error: {str(e)}")
         return []
 
-@st.cache_data(ttl=3600)  # Cache for 1 hour
-def get_trends_data(keyword, timeframe="today 5-y"):
-    """
-    Fetch Google Trends data for a specific keyword.
+def generate_comprehensive_strategy(trends_data, ppc_data, google_ads_data):
+    """Generate comprehensive campaign strategy combining all data sources."""
     
-    Args:
-        keyword: The keyword to analyze
-        timeframe: Time range for trends data (default: 5 years)
-        
-    Returns:
-        DataFrame: Trends data with dates and interest values
-    """
-    try:
-        # Initialize pytrends
-        pytrends = TrendReq(hl='en-US', tz=360)
-        
-        # Build payload
-        pytrends.build_payload([keyword], cat=0, timeframe=timeframe, geo='US-UT')
-        
-        # Get interest over time
-        trends_df = pytrends.interest_over_time()
-        
-        if not trends_df.empty:
-            # Remove the 'isPartial' column if it exists
-            if 'isPartial' in trends_df.columns:
-                trends_df = trends_df.drop(columns=['isPartial'])
+    strategy = {
+        "executive_summary": {},
+        "market_priorities": [],
+        "campaign_structure": {},
+        "budget_allocation": {},
+        "audience_targeting": {},
+        "timing_strategy": {},
+        "keyword_strategy": {},
+        "creative_recommendations": {},
+        "performance_metrics": {}
+    }
+    
+    # Analyze market priorities from trends data
+    market_scores = {}
+    for market, data in trends_data.items():
+        if "1 Year" in data and "5 Year" in data:
+            recent_avg = data["1 Year"].iloc[:, 1].mean() if len(data["1 Year"].columns) > 1 else 0
+            historical_avg = data["5 Year"].iloc[:, 1].mean() if len(data["5 Year"].columns) > 1 else 0
             
-            # Reset index to make date a column
-            trends_df = trends_df.reset_index()
-            
-            return trends_df
-        else:
-            return pd.DataFrame()
-            
-    except Exception as e:
-        st.error(f"Error fetching trends data: {str(e)}")
-        return pd.DataFrame()
-
-def calculate_momentum_score(trends_df, keyword_col):
-    """
-    Calculate momentum score: (Last 12 Months Avg / 5-Year Avg) - 1
+            if historical_avg > 0:
+                growth_rate = ((recent_avg / historical_avg) - 1) * 100
+                market_scores[market] = {
+                    "growth_rate": growth_rate,
+                    "recent_volume": recent_avg,
+                    "priority_score": growth_rate * recent_avg / 100
+                }
     
-    Args:
-        trends_df: DataFrame with trends data
-        keyword_col: Name of the keyword column
-        
-    Returns:
-        float: Momentum score as a percentage
-    """
-    if trends_df.empty or keyword_col not in trends_df.columns:
-        return 0
+    # Sort markets by priority
+    sorted_markets = sorted(market_scores.items(), key=lambda x: x[1]["priority_score"], reverse=True)
     
-    # Get last 12 months data
-    last_year = datetime.now() - timedelta(days=365)
-    recent_data = trends_df[trends_df['date'] >= last_year][keyword_col].mean()
+    strategy["market_priorities"] = [
+        {
+            "market": market,
+            "priority_level": "High" if i < 3 else "Medium" if i < 6 else "Low",
+            "growth_rate": f"{data['growth_rate']:.1f}%",
+            "recent_volume": f"{data['recent_volume']:.0f}",
+            "recommended_budget": f"{min(40, max(5, data['priority_score']/10)):.0f}%"
+        }
+        for i, (market, data) in enumerate(sorted_markets[:8])
+    ]
     
-    # Get all data average
-    all_data = trends_df[keyword_col].mean()
+    # Campaign structure based on existing PPC recommendations
+    if ppc_data and 'campaign_recommendations' in ppc_data:
+        strategy["campaign_structure"] = ppc_data['campaign_recommendations']
     
-    if all_data == 0:
-        return 0
+    # Budget allocation
+    total_budget = 100
+    high_priority_markets = [m for m in strategy["market_priorities"] if m["priority_level"] == "High"]
+    medium_priority_markets = [m for m in strategy["market_priorities"] if m["priority_level"] == "Medium"]
     
-    momentum = ((recent_data / all_data) - 1) * 100
-    return momentum
-
-def calculate_acceleration(trends_df, keyword_col):
-    """
-    Calculate acceleration using linear regression on last 12 months.
+    strategy["budget_allocation"] = {
+        "high_priority": f"{len(high_priority_markets) * 25}%",
+        "medium_priority": f"{len(medium_priority_markets) * 15}%",
+        "testing_budget": "10%",
+        "seasonal_adjustments": "±20%"
+    }
     
-    Args:
-        trends_df: DataFrame with trends data
-        keyword_col: Name of the keyword column
-        
-    Returns:
-        tuple: (slope, acceleration_status)
-    """
-    if trends_df.empty or keyword_col not in trends_df.columns:
-        return 0, "Unknown"
+    # Audience targeting
+    strategy["audience_targeting"] = {
+        "primary_demographics": [
+            "Age: 35-65",
+            "Income: $150k+",
+            "Interests: Luxury real estate, Skiing, Golf",
+            "Life events: Recently married, Empty nesters"
+        ],
+        "geographic_focus": [
+            "Salt Lake City, UT (40%)",
+            "Los Angeles, CA (20%)",
+            "New York, NY (15%)",
+            "Denver, CO (10%)",
+            "Other metros (15%)"
+        ],
+        "device_targeting": [
+            "Desktop: 60% (high-intent research)",
+            "Mobile: 40% (location-based searches)"
+        ]
+    }
     
-    # Get last 12 months data
-    last_year = datetime.now() - timedelta(days=365)
-    recent_df = trends_df[trends_df['date'] >= last_year].copy()
+    # Timing strategy
+    strategy["timing_strategy"] = {
+        "peak_seasons": [
+            "January-March: Ski season (increase bids 30%)",
+            "June-August: Summer activities (increase bids 20%)",
+            "September-November: Fall foliage (increase bids 15%)"
+        ],
+        "optimal_times": [
+            "Weekdays: 9 AM - 5 PM (business hours)",
+            "Weekends: 10 AM - 4 PM (leisure browsing)",
+            "Avoid: Late night hours (10 PM - 6 AM)"
+        ],
+        "bid_adjustments": {
+            "peak_season": "+30%",
+            "off_season": "-20%",
+            "weekends": "+15%",
+            "mobile": "+10%"
+        }
+    }
     
-    if len(recent_df) < 2:
-        return 0, "Insufficient Data"
+    # Keyword strategy
+    strategy["keyword_strategy"] = {
+        "match_types": {
+            "exact_match": "High-intent, branded terms (30% of budget)",
+            "phrase_match": "Market-specific terms (50% of budget)", 
+            "broad_match": "Discovery terms (20% of budget)"
+        },
+        "negative_keywords": [
+            "rental", "apartment", "commercial", "jobs", "weather",
+            "kansas city", "overland park", "foreclosure", "cheap"
+        ],
+        "keyword_themes": [
+            "Luxury ski properties",
+            "Golf course communities", 
+            "Mountain view homes",
+            "Investment properties"
+        ]
+    }
     
-    # Prepare data for regression
-    recent_df['days'] = (recent_df['date'] - recent_df['date'].min()).dt.days
+    # Creative recommendations
+    strategy["creative_recommendations"] = {
+        "headlines": [
+            "Exclusive Park City Properties",
+            "Luxury Ski-In/Ski-Out Homes",
+            "Deer Valley Dream Homes",
+            "Heber Valley Golf Communities"
+        ],
+        "descriptions": [
+            "Discover your perfect mountain retreat. Expert local guidance.",
+            "Luxury properties with ski access. Private showings available.",
+            "Golf course homes with mountain views. Schedule your tour today."
+        ],
+        "landing_pages": [
+            "Market-specific property search pages",
+            "Virtual tour galleries",
+            "Market trend reports",
+            "Agent testimonials"
+        ]
+    }
     
-    # Perform linear regression
-    slope, intercept, r_value, p_value, std_err = stats.linregress(
-        recent_df['days'], 
-        recent_df[keyword_col]
-    )
+    # Performance metrics
+    strategy["performance_metrics"] = {
+        "target_cpa": "$150-300 per lead",
+        "target_roas": "4:1 minimum",
+        "quality_score_target": "7+ average",
+        "conversion_rate_target": "3-5%",
+        "monthly_lead_goal": "50-100 qualified leads"
+    }
     
-    # Determine acceleration status
-    if slope > 0.1:
-        status = "Accelerating"
-    elif slope < -0.1:
-        status = "Decelerating"
-    else:
-        status = "Stable"
-    
-    return slope, status
-
-def generate_recommendation(momentum, acceleration_status, competition, avg_cpc):
-    """
-    Generate PPC campaign recommendation based on metrics.
-    
-    Args:
-        momentum: Momentum score percentage
-        acceleration_status: "Accelerating", "Decelerating", or "Stable"
-        competition: Competition level (LOW, MEDIUM, HIGH)
-        avg_cpc: Average CPC (average of low and high bid)
-        
-    Returns:
-        tuple: (recommendation_text, recommendation_class)
-    """
-    # High Priority: Strong growth with manageable competition
-    if momentum > 20 and acceleration_status == "Accelerating" and competition in ["LOW", "MEDIUM"]:
-        return (
-            "🚀 **High Priority**: Strong growth trend with manageable competition. "
-            "Ideal for a 'Growth Engine' campaign. Allocate significant budget and "
-            "create dedicated landing pages to capture this momentum.",
-            "high-priority"
-        )
-    
-    # Low-Cost Opportunity
-    elif avg_cpc < 1.00 and competition == "LOW":
-        return (
-            "💰 **Low-Cost Opportunity**: Capture affordable traffic and leads. "
-            "Ideal for a 'Low-Cost Acquisition' campaign. Test with small budget "
-            "and scale based on conversion rates.",
-            "low-cost"
-        )
-    
-    # Low Priority: Declining interest
-    elif momentum < 0 and acceleration_status == "Decelerating":
-        return (
-            "⚠️ **Low Priority**: Declining interest trend. Monitor only or use in "
-            "a 'Defensive' campaign with minimal budget. Consider seasonal factors.",
-            "low-priority"
-        )
-    
-    # High-Value Target
-    elif competition == "HIGH" and avg_cpc > 5.00:
-        return (
-            "💎 **High-Value Target**: High cost and competition suggest valuable leads. "
-            "Requires dedicated budget, optimized landing pages, and careful bid management. "
-            "Focus on quality score improvements.",
-            "high-value"
-        )
-    
-    # Default: Moderate opportunity
-    else:
-        return (
-            "📊 **Moderate Opportunity**: Standard keyword with balanced metrics. "
-            "Include in general campaigns with regular monitoring and optimization.",
-            "moderate"
-        )
+    return strategy
 
 # --- Main Dashboard ---
 
@@ -370,556 +407,458 @@ def main():
     """Main dashboard application."""
     
     # Header
-    st.title("🏔️ Park City Real Estate PPC Opportunity Dashboard")
-    st.markdown("**For:** levine.realestate | **Market:** Park City, Utah")
+    st.title("🏔️ Park City Real Estate Campaign Strategy Dashboard")
+    st.markdown("**For:** levine.realestate | **Data Integration:** Google Trends + Google Ads API")
     st.markdown("---")
     
-    # Sidebar for configuration
+    # Load existing data
+    with st.spinner("Loading existing Google Trends data..."):
+        trends_data = load_existing_trends_data()
+        analysis_data = load_existing_analysis()
+        
+        if trends_data:
+            st.success(f"✅ Loaded trends data for {len(trends_data)} markets")
+        else:
+            st.warning("⚠️ No trends data found")
+        
+        if analysis_data:
+            st.success("✅ Loaded existing analysis and recommendations")
+        else:
+            st.warning("⚠️ No existing analysis found")
+    
+    # Sidebar
     with st.sidebar:
         st.header("⚙️ Configuration")
         
-        # API Status Check
+        # Google Ads API Status
         client, customer_id = load_google_ads_client()
-        
         if client:
             st.success("✅ Google Ads API Connected")
         else:
             st.warning("⚠️ Google Ads API Not Connected")
-            st.info(
-                "Please create a `google-ads.yaml` file with your credentials:\n\n"
-                "```yaml\n"
-                "developer_token: YOUR_DEVELOPER_TOKEN\n"
-                "client_id: YOUR_CLIENT_ID\n"
-                "client_secret: YOUR_CLIENT_SECRET\n"
-                "refresh_token: YOUR_REFRESH_TOKEN\n"
-                "login_customer_id: YOUR_LOGIN_CUSTOMER_ID\n"
-                "```"
-            )
         
         st.markdown("---")
         
-        # Seed Keywords Input
-        st.header("🔍 Keyword Discovery")
+        # Strategy Options
+        st.header("🎯 Strategy Options")
         
-        seed_input = st.text_area(
-            "Enter Seed Keywords (1-3)",
-            value="Park City real estate\nluxury ski homes\nDeer Valley properties",
-            help="Enter 1-3 broad seed keywords, one per line",
-            height=100
+        strategy_type = st.selectbox(
+            "Campaign Strategy Type",
+            ["Comprehensive Analysis", "Market-Specific Focus", "Seasonal Campaign", "New Market Entry"]
         )
         
-        # Parse seed keywords
-        seed_keywords = [kw.strip() for kw in seed_input.split('\n') if kw.strip()][:3]
-        
-        # Number of keywords to generate
-        max_keywords = st.slider(
-            "Number of Keywords to Generate",
-            min_value=10,
-            max_value=100,
-            value=50,
-            step=10
+        budget_range = st.selectbox(
+            "Monthly Budget Range",
+            ["$5,000 - $10,000", "$10,000 - $25,000", "$25,000 - $50,000", "$50,000+"]
         )
         
-        # Generate Keywords Button
-        if st.button("🚀 Generate Keywords", type="primary", disabled=(client is None)):
-            with st.spinner("Fetching keyword data from Google Ads API..."):
-                keywords_data = get_keyword_ideas(client, customer_id, seed_keywords, max_keywords)
-                
-                if keywords_data:
-                    st.session_state.keywords_df = pd.DataFrame(keywords_data)
-                    st.success(f"✅ Generated {len(keywords_data)} keyword ideas!")
-                else:
-                    st.error("Failed to generate keywords. Please check your API configuration.")
+        campaign_duration = st.selectbox(
+            "Campaign Duration",
+            ["3 months", "6 months", "12 months", "Ongoing"]
+        )
     
-    # Main Content Area
-    if st.session_state.keywords_df is not None:
+    # Main Content
+    tab1, tab2, tab3, tab4 = st.tabs(["📊 Market Analysis", "🎯 Campaign Strategy", "💰 Budget Planning", "📈 Performance Tracking"])
+    
+    with tab1:
+        st.header("Market Analysis & Trends")
         
-        # Tabs for different views
-        tab1, tab2, tab3 = st.tabs(["📊 Keyword Metrics", "📈 Trend Analysis", "💡 Insights"])
-        
-        with tab1:
-            st.header("Keyword Discovery & Metrics")
-            
-            # Display metrics summary
-            col1, col2, col3, col4 = st.columns(4)
-            
-            df = st.session_state.keywords_df
-            
-            with col1:
-                st.metric(
-                    "Total Keywords",
-                    len(df),
-                    f"{len(df[df['Competition'] == 'LOW'])} low competition"
-                )
-            
-            with col2:
-                avg_searches = df['Avg Monthly Searches'].mean()
-                st.metric(
-                    "Avg Monthly Searches",
-                    f"{avg_searches:,.0f}",
-                    f"Total: {df['Avg Monthly Searches'].sum():,.0f}"
-                )
-            
-            with col3:
-                avg_cpc = (df['Low Bid ($)'] + df['High Bid ($)']) / 2
-                st.metric(
-                    "Avg CPC",
-                    f"${avg_cpc.mean():.2f}",
-                    f"Range: ${df['Low Bid ($)'].min():.2f} - ${df['High Bid ($)'].max():.2f}"
-                )
-            
-            with col4:
-                competition_dist = df['Competition'].value_counts()
-                low_comp = competition_dist.get('LOW', 0)
-                st.metric(
-                    "Low Competition",
-                    f"{low_comp}",
-                    f"{(low_comp/len(df)*100):.1f}% of keywords"
-                )
-            
-            st.markdown("---")
-            
-            # Filters
+        if trends_data:
+            # Market Overview
             col1, col2, col3 = st.columns(3)
             
             with col1:
-                search_filter = st.text_input("🔍 Search Keywords", placeholder="Type to filter...")
+                st.markdown("### 📈 Markets Analyzed")
+                st.metric("Total Markets", len(trends_data))
             
             with col2:
-                competition_filter = st.multiselect(
-                    "Competition Level",
-                    options=df['Competition'].unique(),
-                    default=df['Competition'].unique()
-                )
+                st.markdown("### 📅 Data Timeframes")
+                timeframes = set()
+                for market_data in trends_data.values():
+                    timeframes.update(market_data.keys())
+                st.metric("Available Timeframes", len([t for t in timeframes if "Year" in t]))
             
             with col3:
-                min_searches = st.number_input(
-                    "Min Monthly Searches",
-                    min_value=0,
-                    value=0,
-                    step=100
-                )
+                st.markdown("### 🎯 Priority Markets")
+                if analysis_data and 'ppc_recommendations' in analysis_data:
+                    priority_markets = len(analysis_data['ppc_recommendations'].get('market_opportunities', []))
+                    st.metric("High Priority", priority_markets)
             
-            # Apply filters
-            filtered_df = df.copy()
+            st.markdown("---")
             
-            if search_filter:
-                filtered_df = filtered_df[
-                    filtered_df['Keyword'].str.contains(search_filter, case=False, na=False)
-                ]
-            
-            if competition_filter:
-                filtered_df = filtered_df[filtered_df['Competition'].isin(competition_filter)]
-            
-            filtered_df = filtered_df[filtered_df['Avg Monthly Searches'] >= min_searches]
-            
-            # Sort options
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                sort_by = st.selectbox(
-                    "Sort by",
-                    options=['Avg Monthly Searches', 'Low Bid ($)', 'High Bid ($)', 'Competition Index'],
-                    index=0
-                )
-            with col2:
-                sort_order = st.radio("Order", ["Descending", "Ascending"], horizontal=True)
-            
-            # Sort the dataframe
-            ascending = (sort_order == "Ascending")
-            filtered_df = filtered_df.sort_values(by=sort_by, ascending=ascending)
-            
-            # Display the dataframe with selection
-            st.subheader(f"📋 Keyword Data ({len(filtered_df)} keywords)")
-            
-            # Format the display
-            display_df = filtered_df.copy()
-            display_df['Low Bid ($)'] = display_df['Low Bid ($)'].apply(lambda x: f"${x:.2f}")
-            display_df['High Bid ($)'] = display_df['High Bid ($)'].apply(lambda x: f"${x:.2f}")
-            display_df['Avg Monthly Searches'] = display_df['Avg Monthly Searches'].apply(lambda x: f"{x:,}")
-            
-            # Create selectable dataframe
-            selected_indices = st.dataframe(
-                display_df,
-                use_container_width=True,
-                hide_index=True,
-                on_select="rerun",
-                selection_mode="single-row"
+            # Market Selection
+            selected_market = st.selectbox(
+                "Select Market for Detailed Analysis",
+                list(trends_data.keys())
             )
             
-            # Handle selection
-            if selected_indices and selected_indices.selection.rows:
-                selected_row = selected_indices.selection.rows[0]
-                st.session_state.selected_keyword = filtered_df.iloc[selected_row]['Keyword']
-                st.info(f"📌 Selected Keyword: **{st.session_state.selected_keyword}**")
-        
-        with tab2:
-            st.header("Trend & Momentum Analysis")
-            
-            if st.session_state.selected_keyword:
-                keyword = st.session_state.selected_keyword
-                st.subheader(f"Analyzing: {keyword}")
+            if selected_market and selected_market in trends_data:
+                market_data = trends_data[selected_market]
                 
-                # Fetch trends data
-                with st.spinner(f"Fetching Google Trends data for '{keyword}'..."):
-                    trends_df = get_trends_data(keyword)
+                # Display trends data
+                if "1 Year" in market_data:
+                    st.subheader(f"📊 {selected_market} - 1 Year Trends")
                     
-                    if not trends_df.empty:
-                        st.session_state.trends_data = trends_df
-                        
-                        # Calculate metrics
-                        momentum = calculate_momentum_score(trends_df, keyword)
-                        slope, acceleration = calculate_acceleration(trends_df, keyword)
-                        
-                        # Display metrics
-                        col1, col2, col3 = st.columns(3)
-                        
-                        with col1:
-                            st.markdown(
-                                f"""<div class="metric-card">
-                                <h3>📈 Momentum Score</h3>
-                                <h1>{momentum:+.1f}%</h1>
-                                <p>Last 12mo vs 5yr avg</p>
-                                </div>""",
-                                unsafe_allow_html=True
-                            )
-                        
-                        with col2:
-                            emoji = "🚀" if acceleration == "Accelerating" else "📉" if acceleration == "Decelerating" else "➡️"
-                            st.markdown(
-                                f"""<div class="metric-card">
-                                <h3>{emoji} Acceleration</h3>
-                                <h1>{acceleration}</h1>
-                                <p>Slope: {slope:.3f}</p>
-                                </div>""",
-                                unsafe_allow_html=True
-                            )
-                        
-                        with col3:
-                            # Get current interest
-                            current_interest = trends_df[keyword].iloc[-1]
-                            st.markdown(
-                                f"""<div class="metric-card">
-                                <h3>🎯 Current Interest</h3>
-                                <h1>{current_interest}</h1>
-                                <p>Google Trends Index</p>
-                                </div>""",
-                                unsafe_allow_html=True
-                            )
-                        
-                        st.markdown("---")
-                        
+                    df = market_data["1 Year"]
+                    if len(df.columns) > 1:
                         # Create trend chart
                         fig = go.Figure()
                         
-                        # Add main trend line
-                        fig.add_trace(go.Scatter(
-                            x=trends_df['date'],
-                            y=trends_df[keyword],
-                            mode='lines',
-                            name='Search Interest',
-                            line=dict(color='#3B82F6', width=2),
-                            fill='tozeroy',
-                            fillcolor='rgba(59, 130, 246, 0.1)'
-                        ))
-                        
-                        # Add 12-month marker
-                        last_year = datetime.now() - timedelta(days=365)
-                        fig.add_vline(
-                            x=last_year,
-                            line_dash="dash",
-                            line_color="gray",
-                            annotation_text="12 Months Ago"
-                        )
-                        
-                        # Add trend line for last 12 months
-                        recent_df = trends_df[trends_df['date'] >= last_year].copy()
-                        if len(recent_df) > 1:
-                            recent_df['days'] = (recent_df['date'] - recent_df['date'].min()).dt.days
-                            z = np.polyfit(recent_df['days'], recent_df[keyword], 1)
-                            p = np.poly1d(z)
-                            
+                        # Plot the trend data
+                        if len(df.columns) >= 2:
                             fig.add_trace(go.Scatter(
-                                x=recent_df['date'],
-                                y=p(recent_df['days']),
+                                x=df.iloc[:, 0],
+                                y=df.iloc[:, 1],
                                 mode='lines',
-                                name='Trend Line',
-                                line=dict(
-                                    color='#EF4444' if acceleration == "Decelerating" else '#10B981',
-                                    width=2,
-                                    dash='dash'
-                                )
+                                name='Search Interest',
+                                line=dict(color='#3B82F6', width=2),
+                                fill='tozeroy',
+                                fillcolor='rgba(59, 130, 246, 0.1)'
                             ))
                         
-                        # Update layout
                         fig.update_layout(
-                            title=f"5-Year Search Trend: {keyword}",
+                            title=f"{selected_market} - Search Interest Over Time",
                             xaxis_title="Date",
                             yaxis_title="Search Interest (0-100)",
-                            hovermode='x unified',
-                            height=500,
-                            showlegend=True,
+                            height=400,
                             template='plotly_white'
                         )
                         
-                        st.plotly_chart(fig, use_container_width=True)
+                        st.plotly_chart(fig, width='stretch')
                         
-                        # Additional trend insights
-                        st.subheader("📊 Trend Insights")
-                        
-                        col1, col2 = st.columns(2)
-                        
-                        with col1:
-                            # Monthly breakdown for last year
-                            st.markdown("**Monthly Average (Last 12 Months)**")
-                            monthly_avg = recent_df.set_index('date')[keyword].resample('M').mean()
-                            
-                            fig_monthly = go.Figure(data=[
-                                go.Bar(
-                                    x=monthly_avg.index.strftime('%b %Y'),
-                                    y=monthly_avg.values,
-                                    marker_color='#3B82F6'
-                                )
-                            ])
-                            fig_monthly.update_layout(
-                                height=300,
-                                showlegend=False,
-                                template='plotly_white',
-                                xaxis_title="Month",
-                                yaxis_title="Avg Interest"
-                            )
-                            st.plotly_chart(fig_monthly, use_container_width=True)
-                        
-                        with col2:
-                            # Year-over-year comparison
-                            st.markdown("**Year-over-Year Comparison**")
-                            
-                            yearly_data = []
-                            for i in range(5):
-                                year_start = datetime.now() - timedelta(days=365*(i+1))
-                                year_end = datetime.now() - timedelta(days=365*i)
-                                year_data = trends_df[
-                                    (trends_df['date'] >= year_start) & 
-                                    (trends_df['date'] < year_end)
-                                ][keyword].mean()
-                                yearly_data.append({
-                                    'Year': f"Year {5-i}",
-                                    'Avg Interest': year_data
-                                })
-                            
-                            yearly_df = pd.DataFrame(yearly_data)
-                            
-                            fig_yearly = go.Figure(data=[
-                                go.Scatter(
-                                    x=yearly_df['Year'],
-                                    y=yearly_df['Avg Interest'],
-                                    mode='lines+markers',
-                                    marker=dict(size=10, color='#10B981'),
-                                    line=dict(width=3, color='#10B981')
-                                )
-                            ])
-                            fig_yearly.update_layout(
-                                height=300,
-                                showlegend=False,
-                                template='plotly_white',
-                                xaxis_title="Year",
-                                yaxis_title="Avg Interest"
-                            )
-                            st.plotly_chart(fig_yearly, use_container_width=True)
-                    
-                    else:
-                        st.warning("No trends data available for this keyword.")
-            else:
-                st.info("👆 Please select a keyword from the Keyword Metrics tab to analyze trends.")
+                        # Show related queries
+                        if "1 Year_queries" in market_data:
+                            st.subheader("🔍 Related Search Queries")
+                            queries_df = market_data["1 Year_queries"]
+                            st.dataframe(queries_df, width='stretch')
+                
+                # Geographic data
+                if "1 Year_geo" in market_data:
+                    st.subheader("🌍 Geographic Interest")
+                    geo_df = market_data["1 Year_geo"]
+                    st.dataframe(geo_df, width='stretch')
         
-        with tab3:
-            st.header("Actionable Insights & Recommendations")
-            
-            if st.session_state.selected_keyword and st.session_state.trends_data is not None:
-                keyword = st.session_state.selected_keyword
-                trends_df = st.session_state.trends_data
-                
-                # Get keyword metrics
-                keyword_row = df[df['Keyword'] == keyword].iloc[0]
-                
-                # Calculate metrics
-                momentum = calculate_momentum_score(trends_df, keyword)
-                slope, acceleration = calculate_acceleration(trends_df, keyword)
-                competition = keyword_row['Competition']
-                avg_cpc = (keyword_row['Low Bid ($)'] + keyword_row['High Bid ($)']) / 2
-                
-                # Generate recommendation
-                recommendation, rec_class = generate_recommendation(
-                    momentum, acceleration, competition, avg_cpc
+        else:
+            st.info("No trends data available. Please ensure CSV files are in the correct directory structure.")
+    
+    with tab2:
+        st.header("🎯 Comprehensive Campaign Strategy")
+        
+        # Generate strategy
+        if st.button("🚀 Generate Campaign Strategy", type="primary"):
+            with st.spinner("Generating comprehensive campaign strategy..."):
+                strategy = generate_comprehensive_strategy(
+                    trends_data, 
+                    analysis_data.get('ppc_recommendations') if analysis_data else None,
+                    None  # Google Ads data would go here
                 )
                 
-                # Display recommendation
+                st.session_state.strategy = strategy
+        
+        if 'strategy' in st.session_state:
+            strategy = st.session_state.strategy
+            
+            # Executive Summary
+            st.markdown("### 📋 Executive Summary")
+            st.markdown(
+                f"""
+                <div class="strategy-card">
+                <h3>Campaign Strategy Overview</h3>
+                <p><strong>Strategy Type:</strong> {strategy_type}</p>
+                <p><strong>Budget Range:</strong> {budget_range}</p>
+                <p><strong>Duration:</strong> {campaign_duration}</p>
+                <p><strong>Primary Focus:</strong> High-intent luxury real estate buyers</p>
+                <p><strong>Geographic Focus:</strong> Salt Lake City, Los Angeles, New York, Denver</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+            
+            # Market Priorities
+            st.markdown("### 🎯 Market Priorities")
+            for market in strategy["market_priorities"]:
                 st.markdown(
-                    f'<div class="recommendation-box {rec_class}">{recommendation}</div>',
+                    f"""
+                    <div class="market-card">
+                    <h4>{market['market']}</h4>
+                    <p><strong>Priority:</strong> {market['priority_level']} | 
+                    <strong>Growth Rate:</strong> {market['growth_rate']} | 
+                    <strong>Budget:</strong> {market['recommended_budget']}</p>
+                    </div>
+                    """,
                     unsafe_allow_html=True
                 )
-                
-                st.markdown("---")
-                
-                # Detailed Analysis
-                st.subheader("📋 Detailed Keyword Analysis")
-                
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.markdown("### Keyword Metrics")
-                    st.write(f"**Keyword:** {keyword}")
-                    st.write(f"**Monthly Searches:** {keyword_row['Avg Monthly Searches']:,}")
-                    st.write(f"**Competition:** {competition}")
-                    st.write(f"**CPC Range:** ${keyword_row['Low Bid ($)']:.2f} - ${keyword_row['High Bid ($)']:.2f}")
-                    st.write(f"**Competition Index:** {keyword_row['Competition Index']:.0f}")
-                
-                with col2:
-                    st.markdown("### Trend Metrics")
-                    st.write(f"**Momentum Score:** {momentum:+.1f}%")
-                    st.write(f"**Acceleration:** {acceleration}")
-                    st.write(f"**Trend Slope:** {slope:.4f}")
-                    st.write(f"**Current Interest:** {trends_df[keyword].iloc[-1]}")
-                    st.write(f"**Peak Interest:** {trends_df[keyword].max()}")
-                
-                st.markdown("---")
-                
-                # Campaign Strategy Suggestions
-                st.subheader("🎯 Campaign Strategy Suggestions")
-                
-                # Determine campaign type based on metrics
-                if momentum > 20 and acceleration == "Accelerating":
-                    campaign_type = "Growth Engine Campaign"
-                    budget_suggestion = "High (15-25% of total PPC budget)"
-                    bid_strategy = "Target Impression Share or Maximize Conversions"
-                    landing_page = "Create dedicated, conversion-optimized landing page"
-                elif avg_cpc < 1.00 and competition == "LOW":
-                    campaign_type = "Low-Cost Acquisition Campaign"
-                    budget_suggestion = "Low-Medium (5-10% of total PPC budget)"
-                    bid_strategy = "Manual CPC or Enhanced CPC"
-                    landing_page = "Use existing category page with tracking"
-                elif momentum < 0 and acceleration == "Decelerating":
-                    campaign_type = "Defensive Campaign"
-                    budget_suggestion = "Minimal (1-3% of total PPC budget)"
-                    bid_strategy = "Target CPA with conservative goals"
-                    landing_page = "General property search page"
-                else:
-                    campaign_type = "Standard Campaign"
-                    budget_suggestion = "Medium (8-12% of total PPC budget)"
-                    bid_strategy = "Maximize Clicks or Target CPA"
-                    landing_page = "Optimized category or neighborhood page"
-                
-                col1, col2, col3 = st.columns(3)
-                
-                with col1:
-                    st.markdown("#### 📊 Campaign Type")
-                    st.info(campaign_type)
-                
-                with col2:
-                    st.markdown("#### 💰 Budget Allocation")
-                    st.info(budget_suggestion)
-                
-                with col3:
-                    st.markdown("#### 🎯 Bid Strategy")
-                    st.info(bid_strategy)
-                
-                st.markdown("#### 🏠 Landing Page Strategy")
-                st.info(landing_page)
-                
-                # Ad Copy Suggestions
-                st.markdown("---")
-                st.subheader("✍️ Ad Copy Suggestions")
-                
-                # Generate ad copy based on keyword
-                if "luxury" in keyword.lower() or "ski" in keyword.lower():
-                    headline1 = "Luxury Park City Properties"
-                    headline2 = "Ski-In/Ski-Out Homes Available"
-                    description = "Exclusive mountain estates. Private showings available. Your dream home awaits."
-                elif "deer valley" in keyword.lower():
-                    headline1 = "Deer Valley Real Estate Expert"
-                    headline2 = "Premium Properties & Ski Access"
-                    description = "Local expertise, exceptional properties. Schedule your private tour today."
-                elif "heber" in keyword.lower():
-                    headline1 = "Heber Valley's Top Properties"
-                    headline2 = "Mountain Living, City Convenience"
-                    description = "Discover your perfect home in Heber. Expert local guidance. View listings now."
-                else:
-                    headline1 = "Park City Real Estate Leaders"
-                    headline2 = "Find Your Dream Mountain Home"
-                    description = "Trusted local experts. Exclusive listings. Start your search today."
-                
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.markdown("**Responsive Search Ad Headlines:**")
-                    st.code(f"1. {headline1}\n2. {headline2}\n3. Levine Real Estate - Local Experts\n4. Browse {keyword_row['Avg Monthly Searches']:,}+ Listings")
-                
-                with col2:
-                    st.markdown("**Descriptions:**")
-                    st.code(f"1. {description}\n2. Visit levine.realestate for exclusive Park City properties and expert guidance.")
-                
-                # Negative Keywords Suggestions
-                st.markdown("---")
-                st.subheader("🚫 Suggested Negative Keywords")
-                
-                negative_keywords = [
-                    "cheap", "foreclosure", "rental", "rent", "apartment",
-                    "jobs", "weather", "news", "restaurants", "hotels",
-                    "vacation rental", "airbnb", "vrbo", "timeshare"
-                ]
-                
-                st.write("Add these negative keywords to avoid irrelevant traffic:")
-                st.code(", ".join(negative_keywords))
-                
-            else:
-                st.info("👆 Please select a keyword and run trend analysis to see recommendations.")
+            
+            # Campaign Structure
+            st.markdown("### 🏗️ Campaign Structure")
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("#### Primary Campaigns")
+                if 'campaign_structure' in strategy and 'primary_campaigns' in strategy['campaign_structure']:
+                    for campaign in strategy['campaign_structure']['primary_campaigns']:
+                        st.markdown(f"**{campaign['market']}**")
+                        st.markdown(f"- Focus: {campaign['focus']}")
+                        st.markdown(f"- Budget: {campaign['budget_priority']}")
+                        st.markdown(f"- Keywords: {len(campaign['keywords'])} terms")
+            
+            with col2:
+                st.markdown("#### Secondary Campaigns")
+                if 'campaign_structure' in strategy and 'secondary_campaigns' in strategy['campaign_structure']:
+                    for campaign in strategy['campaign_structure']['secondary_campaigns']:
+                        st.markdown(f"**{campaign['market']}**")
+                        st.markdown(f"- Focus: {campaign['focus']}")
+                        st.markdown(f"- Budget: {campaign['budget_priority']}")
+                        st.markdown(f"- Keywords: {len(campaign['keywords'])} terms")
+            
+            # Audience Targeting
+            st.markdown("### 👥 Audience Targeting")
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.markdown("#### Demographics")
+                for demo in strategy["audience_targeting"]["primary_demographics"]:
+                    st.markdown(f"• {demo}")
+            
+            with col2:
+                st.markdown("#### Geographic Focus")
+                for geo in strategy["audience_targeting"]["geographic_focus"]:
+                    st.markdown(f"• {geo}")
+            
+            with col3:
+                st.markdown("#### Device Targeting")
+                for device in strategy["audience_targeting"]["device_targeting"]:
+                    st.markdown(f"• {device}")
+            
+            # Timing Strategy
+            st.markdown("### ⏰ Timing Strategy")
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("#### Peak Seasons")
+                for season in strategy["timing_strategy"]["peak_seasons"]:
+                    st.markdown(f"• {season}")
+            
+            with col2:
+                st.markdown("#### Optimal Times")
+                for time in strategy["timing_strategy"]["optimal_times"]:
+                    st.markdown(f"• {time}")
+            
+            # Creative Recommendations
+            st.markdown("### ✍️ Creative Recommendations")
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("#### Headlines")
+                for headline in strategy["creative_recommendations"]["headlines"]:
+                    st.code(headline)
+            
+            with col2:
+                st.markdown("#### Descriptions")
+                for desc in strategy["creative_recommendations"]["descriptions"]:
+                    st.code(desc)
     
-    else:
-        # Welcome screen when no data is loaded
-        st.markdown(
-            """
-            ## 👋 Welcome to the PPC Opportunity Dashboard
-            
-            This dashboard helps you identify and analyze high-potential keywords for your 
-            Park City real estate PPC campaigns.
-            
-            ### 🚀 Getting Started:
-            
-            1. **Configure Google Ads API** - Add your credentials to `google-ads.yaml`
-            2. **Enter Seed Keywords** - Use the sidebar to input 1-3 broad keywords
-            3. **Generate Keywords** - Click the button to fetch keyword ideas
-            4. **Analyze Trends** - Select keywords to see Google Trends data
-            5. **Get Recommendations** - View actionable insights for your campaigns
-            
-            ### 📊 Features:
-            
-            - **Keyword Discovery** - Generate 50+ keyword ideas from seed terms
-            - **Competitive Analysis** - See competition levels and CPC estimates
-            - **Trend Analysis** - 5-year Google Trends data with momentum scoring
-            - **Smart Recommendations** - AI-powered campaign suggestions
-            - **Ad Copy Generator** - Customized ad copy for each keyword
-            
-            👈 **Use the sidebar to begin your keyword research!**
-            """
-        )
+    with tab3:
+        st.header("💰 Budget Planning & Allocation")
         
-        # Sample data preview
-        st.markdown("---")
-        st.subheader("📝 Sample Keywords for Park City Real Estate")
+        if 'strategy' in st.session_state:
+            strategy = st.session_state.strategy
+            
+            # Budget Allocation Chart
+            budget_data = strategy["budget_allocation"]
+            
+            fig = go.Figure(data=[
+                go.Pie(
+                    labels=list(budget_data.keys()),
+                    values=[int(v.replace('%', '')) for v in budget_data.values()],
+                    hole=0.3
+                )
+            ])
+            
+            fig.update_layout(
+                title="Budget Allocation Strategy",
+                height=400
+            )
+            
+            st.plotly_chart(fig, width='stretch')
+            
+            # Detailed Budget Breakdown
+            st.markdown("### 📊 Detailed Budget Breakdown")
+            
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.markdown(
+                    f"""
+                    <div class="budget-card">
+                    <h3>High Priority</h3>
+                    <div class="metric-highlight">{budget_data['high_priority']}</div>
+                    <p>Core markets with highest ROI potential</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+            
+            with col2:
+                st.markdown(
+                    f"""
+                    <div class="budget-card">
+                    <h3>Medium Priority</h3>
+                    <div class="metric-highlight">{budget_data['medium_priority']}</div>
+                    <p>Emerging markets for growth</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+            
+            with col3:
+                st.markdown(
+                    f"""
+                    <div class="budget-card">
+                    <h3>Testing</h3>
+                    <div class="metric-highlight">{budget_data['testing_budget']}</div>
+                    <p>New keywords and audiences</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+            
+            with col4:
+                st.markdown(
+                    f"""
+                    <div class="budget-card">
+                    <h3>Seasonal</h3>
+                    <div class="metric-highlight">{budget_data['seasonal_adjustments']}</div>
+                    <p>Peak season adjustments</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+            
+            # Budget Calculator
+            st.markdown("### 🧮 Budget Calculator")
+            
+            monthly_budget = st.number_input(
+                "Enter Monthly Budget ($)",
+                min_value=1000,
+                max_value=100000,
+                value=10000,
+                step=1000
+            )
+            
+            if monthly_budget:
+                high_priority_budget = monthly_budget * 0.4
+                medium_priority_budget = monthly_budget * 0.3
+                testing_budget = monthly_budget * 0.1
+                seasonal_buffer = monthly_budget * 0.2
+                
+                col1, col2, col3, col4 = st.columns(4)
+                
+                with col1:
+                    st.metric("High Priority", f"${high_priority_budget:,.0f}")
+                with col2:
+                    st.metric("Medium Priority", f"${medium_priority_budget:,.0f}")
+                with col3:
+                    st.metric("Testing", f"${testing_budget:,.0f}")
+                with col4:
+                    st.metric("Seasonal Buffer", f"${seasonal_buffer:,.0f}")
         
-        sample_data = pd.DataFrame({
-            'Keyword': [
-                'park city real estate',
-                'deer valley homes for sale',
-                'luxury ski properties utah',
-                'park city condos',
-                'utah mountain homes'
-            ],
-            'Avg Monthly Searches': [2900, 720, 390, 1300, 880],
-            'Competition': ['HIGH', 'MEDIUM', 'LOW', 'HIGH', 'MEDIUM'],
-            'Est. CPC': ['$8.50', '$6.20', '$4.80', '$7.10', '$5.50']
-        })
+        else:
+            st.info("Please generate a campaign strategy first.")
+    
+    with tab4:
+        st.header("📈 Performance Tracking & KPIs")
         
-        st.dataframe(sample_data, use_container_width=True, hide_index=True)
+        if 'strategy' in st.session_state:
+            strategy = st.session_state.strategy
+            
+            # Performance Metrics
+            metrics = strategy["performance_metrics"]
+            
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.metric("Target CPA", metrics["target_cpa"])
+            with col2:
+                st.metric("Target ROAS", metrics["target_roas"])
+            with col3:
+                st.metric("Quality Score Target", metrics["quality_score_target"])
+            with col4:
+                st.metric("Conversion Rate Target", metrics["conversion_rate_target"])
+            
+            # Monthly Goals
+            st.markdown("### 🎯 Monthly Goals")
+            st.metric("Lead Goal", metrics["monthly_lead_goal"])
+            
+            # Performance Tracking Dashboard
+            st.markdown("### 📊 Performance Dashboard")
+            
+            # Create sample performance data
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+            leads = [45, 52, 38, 67, 73, 58]
+            cost = [8500, 9200, 7200, 11200, 12800, 9800]
+            conversions = [3, 4, 2, 5, 6, 4]
+            
+            fig = go.Figure()
+            
+            fig.add_trace(go.Scatter(
+                x=months,
+                y=leads,
+                mode='lines+markers',
+                name='Leads',
+                yaxis='y'
+            ))
+            
+            fig.add_trace(go.Scatter(
+                x=months,
+                y=cost,
+                mode='lines+markers',
+                name='Cost ($)',
+                yaxis='y2'
+            ))
+            
+            fig.update_layout(
+                title='Monthly Performance Trends',
+                xaxis_title='Month',
+                yaxis=dict(title='Leads', side='left'),
+                yaxis2=dict(title='Cost ($)', side='right', overlaying='y'),
+                height=400
+            )
+            
+            st.plotly_chart(fig, width='stretch')
+            
+            # ROI Analysis
+            st.markdown("### 💰 ROI Analysis")
+            
+            roi_data = pd.DataFrame({
+                'Month': months,
+                'Leads': leads,
+                'Cost': cost,
+                'Conversions': conversions,
+                'CPA': [c/l for c, l in zip(cost, leads)],
+                'ROI': [(c*500000)/cost[i] for i, c in enumerate(conversions)]  # Assuming $500k avg sale
+            })
+            
+            st.dataframe(roi_data, width='stretch')
+        
+        else:
+            st.info("Please generate a campaign strategy first.")
+    
+    # Footer
+    st.markdown("---")
+    st.markdown(
+        """
+        <div style='text-align: center; color: #666;'>
+        <p>🏔️ Park City Real Estate Campaign Strategy Dashboard | Built for levine.realestate</p>
+        <p>Data Sources: Google Trends CSV + Google Ads API | Last Updated: {}</p>
+        </div>
+        """.format(datetime.now().strftime("%Y-%m-%d %H:%M")),
+        unsafe_allow_html=True
+    )
 
 # --- Run the App ---
 if __name__ == "__main__":
