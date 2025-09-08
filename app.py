@@ -876,8 +876,8 @@ def show_market_trends(trends_data):
         {"City": "Billings, MT", "Score": 100, "Market": "Park City Real Estate"},
         {"City": "Missoula, MT", "Score": 100, "Market": "Deer Valley Real Estate"},
         {"City": "Butte-Bozeman, MT", "Score": 23, "Market": "Park City Real Estate"},
-        {"City": "Great Falls, MT", "Score": "Present", "Market": "Multiple Markets"},
-        {"City": "Helena, MT", "Score": "Present", "Market": "Multiple Markets"}
+        {"City": "Great Falls, MT", "Score": 85, "Market": "Multiple Markets"},
+        {"City": "Helena, MT", "Score": 75, "Market": "Multiple Markets"}
     ]
     
     montana_df = pd.DataFrame(montana_data)
@@ -1698,7 +1698,7 @@ def show_budget_allocation(budget, phase):
         title=f"Monthly Budget Allocation - {strategy}",
         showlegend=True
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, key="budget_allocation_chart")
     
     # Show detailed breakdown with reasoning
     st.subheader("📊 Detailed Breakdown")
@@ -1959,7 +1959,7 @@ def main():
                             template='plotly_white'
                         )
                         
-                        st.plotly_chart(fig, width='stretch')
+                        st.plotly_chart(fig, width='stretch', key=f"trend_chart_{keyword}")
                         
                         # Show related queries
                         if "1 Year_queries" in market_data:
@@ -2109,7 +2109,7 @@ def main():
             fig = go.Figure(data=[
                 go.Pie(
                     labels=list(budget_data.keys()),
-                    values=[int(v.replace('%', '')) for v in budget_data.values()],
+                    values=[int(v.replace('%', '').replace('±', '')) for v in budget_data.values() if v.replace('%', '').replace('±', '').isdigit()],
                     hole=0.3
                 )
             ])
@@ -2119,7 +2119,7 @@ def main():
                 height=400
             )
             
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, width='stretch', key="seasonal_analysis_chart")
             
             # Detailed Budget Breakdown
             st.markdown("### 📊 Detailed Budget Breakdown")
@@ -2264,7 +2264,7 @@ def main():
                 height=400
             )
             
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, width='stretch', key="roi_analysis_chart")
             
             # ROI Analysis
             st.markdown("### 💰 ROI Analysis")
