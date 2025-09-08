@@ -990,6 +990,374 @@ def show_new_market_analysis(trends_data, budget):
     st.markdown("3. **Apply group-specific messaging** based on patterns")
     st.markdown("4. **Monitor group performance** vs individual markets")
     st.markdown("5. **Optimize budgets** based on group ROI")
+    
+    # Campaign Creation Section
+    st.markdown("### 🚀 Create Google Ads Campaigns")
+    
+    if st.button("🎯 Create All Campaign Groups in Google Ads", type="primary", use_container_width=True):
+        create_google_ads_campaigns(campaign_groups, monthly_budget)
+
+def create_google_ads_campaigns(campaign_groups, budget):
+    """Create Google Ads campaigns with expert PPC manager settings."""
+    
+    st.subheader("🎯 Creating Google Ads Campaigns...")
+    
+    client, customer_id = load_google_ads_client()
+    if not client:
+        st.error("❌ Google Ads API not connected. Please check your credentials.")
+        return
+    
+    st.success("✅ Google Ads API Connected - Creating campaigns...")
+    
+    # Create campaigns for each group
+    created_campaigns = []
+    
+    for i, group in enumerate(campaign_groups, 1):
+        with st.spinner(f"Creating Campaign Group {i}: {group['name']}..."):
+            try:
+                campaign_result = create_expert_campaign(client, customer_id, group, budget)
+                if campaign_result:
+                    created_campaigns.append(campaign_result)
+                    st.success(f"✅ Created: {group['name']} (Campaign ID: {campaign_result['campaign_id']})")
+                else:
+                    st.warning(f"⚠️ Failed to create: {group['name']}")
+            except Exception as e:
+                st.error(f"❌ Error creating {group['name']}: {e}")
+    
+    # Show summary
+    if created_campaigns:
+        st.markdown("### 📊 Campaign Creation Summary")
+        
+        summary_data = []
+        for campaign in created_campaigns:
+            summary_data.append({
+                'Campaign Name': campaign['name'],
+                'Campaign ID': campaign['campaign_id'],
+                'Daily Budget': f"${campaign['daily_budget']:.2f}",
+                'Keywords': campaign['keyword_count'],
+                'Ad Groups': campaign['ad_group_count'],
+                'Status': 'Active'
+            })
+        
+        df = pd.DataFrame(summary_data)
+        st.dataframe(df, use_container_width=True)
+        
+        st.markdown("**🎯 Next Steps:**")
+        st.markdown("1. **Review campaigns** in Google Ads interface")
+        st.markdown("2. **Add landing pages** for each campaign")
+        st.markdown("3. **Set up conversion tracking**")
+        st.markdown("4. **Monitor performance** for 1-2 weeks")
+        st.markdown("5. **Optimize based on data**")
+
+def create_expert_campaign(client, customer_id, group, total_budget):
+    """Create a single campaign with expert PPC manager settings."""
+    
+    try:
+        # Calculate campaign budget
+        campaign_budget = group['budget']
+        daily_budget = campaign_budget / 30
+        
+        # Create campaign
+        campaign_service = client.get_service('CampaignService')
+        
+        # Campaign settings (expert PPC manager configuration)
+        campaign = {
+            'name': f"{group['name']} - {datetime.now().strftime('%Y%m%d')}",
+            'advertising_channel_type': 'SEARCH',
+            'status': 'PAUSED',  # Start paused for review
+            'campaign_budget': f"customers/{customer_id}/campaignBudgets/{create_campaign_budget(client, customer_id, daily_budget)}",
+            'network_settings': {
+                'target_google_search': True,
+                'target_search_network': True,
+                'target_content_network': False,
+                'target_partner_search_network': False
+            },
+            'geo_targeting': create_geo_targeting(group),
+            'language_settings': ['1000'],  # English
+            'bidding_strategy_type': 'TARGET_CPA',
+            'target_cpa': {
+                'target_cpa_micros': int(daily_budget * 0.3 * 1000000)  # 30% of daily budget as target CPA
+            },
+            'start_date': datetime.now().strftime('%Y-%m-%d'),
+            'end_date': (datetime.now() + timedelta(days=365)).strftime('%Y-%m-%d')
+        }
+        
+        # Create campaign
+        campaign_operation = {'create': campaign}
+        campaign_response = campaign_service.mutate_campaigns(
+            customer_id=customer_id,
+            operations=[campaign_operation]
+        )
+        
+        campaign_id = campaign_response.results[0].resource_name.split('/')[-1]
+        
+        # Create ad groups and keywords
+        ad_group_count, keyword_count = create_ad_groups_and_keywords(
+            client, customer_id, campaign_id, group
+        )
+        
+        return {
+            'name': campaign['name'],
+            'campaign_id': campaign_id,
+            'daily_budget': daily_budget,
+            'keyword_count': keyword_count,
+            'ad_group_count': ad_group_count
+        }
+        
+    except Exception as e:
+        st.error(f"Campaign creation error: {e}")
+        return None
+
+def create_campaign_budget(client, customer_id, daily_budget):
+    """Create campaign budget."""
+    try:
+        budget_service = client.get_service('CampaignBudgetService')
+        
+        budget = {
+            'name': f"Budget - {daily_budget:.2f} daily",
+            'delivery_method': 'STANDARD',
+            'amount_micros': int(daily_budget * 1000000),  # Convert to micros
+            'type': 'STANDARD'
+        }
+        
+        budget_operation = {'create': budget}
+        budget_response = budget_service.mutate_campaign_budgets(
+            customer_id=customer_id,
+            operations=[budget_operation]
+        )
+        
+        return budget_response.results[0].resource_name.split('/')[-1]
+        
+    except Exception as e:
+        st.error(f"Budget creation error: {e}")
+        return None
+
+def create_geo_targeting(group):
+    """Create geographic targeting based on group analysis."""
+    
+    # Geographic targeting based on group patterns
+    geo_targets = []
+    
+    if 'Montana' in group['geographic_focus']:
+        # Montana cities
+        montana_cities = [
+            'Billings, Montana, United States',
+            'Missoula, Montana, United States', 
+            'Bozeman, Montana, United States',
+            'Great Falls, Montana, United States',
+            'Helena, Montana, United States'
+        ]
+        geo_targets.extend(montana_cities)
+    
+    if 'Utah' in group['geographic_focus']:
+        # Utah cities
+        utah_cities = [
+            'Salt Lake City, Utah, United States',
+            'Park City, Utah, United States',
+            'Heber City, Utah, United States',
+            'Kamas, Utah, United States'
+        ]
+        geo_targets.extend(utah_cities)
+    
+    if 'Colorado' in group['geographic_focus']:
+        # Colorado cities
+        colorado_cities = [
+            'Denver, Colorado, United States',
+            'Aspen, Colorado, United States',
+            'Vail, Colorado, United States'
+        ]
+        geo_targets.extend(colorado_cities)
+    
+    if 'California' in group['geographic_focus']:
+        # California cities
+        california_cities = [
+            'Los Angeles, California, United States',
+            'San Francisco, California, United States',
+            'San Diego, California, United States'
+        ]
+        geo_targets.extend(california_cities)
+    
+    # Default to Utah if no specific targeting
+    if not geo_targets:
+        geo_targets = ['Utah, United States']
+    
+    return geo_targets
+
+def create_ad_groups_and_keywords(client, customer_id, campaign_id, group):
+    """Create ad groups and keywords for the campaign."""
+    
+    try:
+        ad_group_service = client.get_service('AdGroupService')
+        keyword_service = client.get_service('AdGroupCriterionService')
+        
+        ad_group_count = 0
+        keyword_count = 0
+        
+        # Create ad groups based on group markets
+        for market in group['markets']:
+            ad_group_name = f"{market} - {group['name']}"
+            
+            # Create ad group
+            ad_group = {
+                'name': ad_group_name,
+                'campaign': f"customers/{customer_id}/campaigns/{campaign_id}",
+                'status': 'ENABLED',
+                'type': 'SEARCH_STANDARD',
+                'cpc_bid_micros': int(get_bid_for_market(market) * 1000000)
+            }
+            
+            ad_group_operation = {'create': ad_group}
+            ad_group_response = ad_group_service.mutate_ad_groups(
+                customer_id=customer_id,
+                operations=[ad_group_operation]
+            )
+            
+            ad_group_id = ad_group_response.results[0].resource_name.split('/')[-1]
+            ad_group_count += 1
+            
+            # Create keywords for this ad group
+            keywords = get_keywords_for_market(market, group)
+            
+            keyword_operations = []
+            for keyword_text in keywords:
+                keyword = {
+                    'ad_group': f"customers/{customer_id}/adGroups/{ad_group_id}",
+                    'status': 'ENABLED',
+                    'keyword': {
+                        'text': keyword_text,
+                        'match_type': 'BROAD' if len(keyword_text.split()) > 2 else 'PHRASE'
+                    },
+                    'cpc_bid_micros': int(get_bid_for_keyword(keyword_text) * 1000000)
+                }
+                
+                keyword_operations.append({'create': keyword})
+            
+            # Create keywords in batches
+            if keyword_operations:
+                keyword_service.mutate_ad_group_criteria(
+                    customer_id=customer_id,
+                    operations=keyword_operations
+                )
+                keyword_count += len(keyword_operations)
+        
+        return ad_group_count, keyword_count
+        
+    except Exception as e:
+        st.error(f"Ad group/keyword creation error: {e}")
+        return 0, 0
+
+def get_bid_for_market(market):
+    """Get optimal bid for market based on analysis."""
+    market_bids = {
+        'Park City Real Estate': 15.00,
+        'Deer Valley Real Estate': 18.50,
+        'Deer Valley East Real Estate': 16.00,
+        'Heber Utah Real Estate': 12.75,
+        'Kamas Real Estate': 10.00,
+        'Glenwild': 14.00,
+        'Promontory Park City ': 13.50,
+        'Red Ledges Real Estate': 11.25,
+        'Ski in Ski Out Home for Sale': 16.50,
+        'Victory Ranch Real Esate': 12.00
+    }
+    return market_bids.get(market, 12.00)
+
+def get_keywords_for_market(market, group):
+    """Get optimized keywords for market based on group analysis."""
+    
+    # Base keywords for each market
+    market_keywords = {
+        'Park City Real Estate': [
+            'park city real estate',
+            'park city utah homes',
+            'park city luxury real estate',
+            'park city ski properties',
+            'park city montana real estate'
+        ],
+        'Deer Valley Real Estate': [
+            'deer valley real estate',
+            'deer valley utah homes',
+            'deer valley luxury properties',
+            'deer valley montana real estate',
+            'deer valley ski homes'
+        ],
+        'Deer Valley East Real Estate': [
+            'deer valley east real estate',
+            'deer valley east utah',
+            'deer valley east homes',
+            'deer valley east montana'
+        ],
+        'Heber Utah Real Estate': [
+            'heber utah real estate',
+            'heber city homes',
+            'heber utah properties',
+            'heber montana real estate'
+        ],
+        'Kamas Real Estate': [
+            'kamas utah real estate',
+            'kamas utah homes',
+            'kamas properties',
+            'kamas montana real estate'
+        ],
+        'Glenwild': [
+            'glenwild real estate',
+            'glenwild utah homes',
+            'glenwild golf community',
+            'glenwild montana'
+        ],
+        'Promontory Park City ': [
+            'promontory park city real estate',
+            'promontory park city homes',
+            'promontory utah properties',
+            'promontory montana'
+        ],
+        'Red Ledges Real Estate': [
+            'red ledges real estate',
+            'red ledges utah homes',
+            'red ledges golf community',
+            'red ledges montana'
+        ],
+        'Ski in Ski Out Home for Sale': [
+            'ski in ski out homes',
+            'ski in ski out properties',
+            'ski in ski out montana',
+            'ski in ski out utah'
+        ],
+        'Victory Ranch Real Esate': [
+            'victory ranch real estate',
+            'victory ranch utah homes',
+            'victory ranch properties',
+            'victory ranch montana'
+        ]
+    }
+    
+    base_keywords = market_keywords.get(market, [])
+    
+    # Add group-specific keywords
+    if 'Montana' in group['geographic_focus']:
+        base_keywords.extend([
+            f'{market.lower()} montana',
+            f'montana {market.lower()}',
+            'montana real estate',
+            'billings montana real estate',
+            'missoula montana real estate'
+        ])
+    
+    return base_keywords[:10]  # Limit to 10 keywords per ad group
+
+def get_bid_for_keyword(keyword):
+    """Get optimal bid for keyword."""
+    keyword_lower = keyword.lower()
+    
+    # High-value keywords
+    if any(term in keyword_lower for term in ['luxury', 'deer valley', 'park city']):
+        return 18.50
+    elif any(term in keyword_lower for term in ['montana', 'ski in ski out']):
+        return 15.00
+    elif any(term in keyword_lower for term in ['real estate', 'homes', 'properties']):
+        return 12.75
+    else:
+        return 10.00
 
 def analyze_campaign_groups(trends_data):
     """Analyze trends data to create intelligent campaign groups."""
