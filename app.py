@@ -171,7 +171,6 @@ def load_existing_analysis():
     
     return analysis_data
 
-@st.cache_resource
 def load_google_ads_client():
     """Load Google Ads client from google-ads.yaml configuration file."""
     try:
@@ -190,6 +189,9 @@ def load_google_ads_client():
             if isinstance(customer_id, str) and customer_id.startswith('"') and customer_id.endswith('"'):
                 customer_id = customer_id[1:-1]
             
+            # Debug info
+            print(f"🔍 Debug: Customer ID = {customer_id}, Type = {type(customer_id)}")
+            
             return client, customer_id
         else:
             st.error("⚠️ google-ads.yaml file not found. Please create it with your Google Ads API credentials.")
@@ -201,6 +203,7 @@ def load_google_ads_client():
         st.markdown("• Check that google-ads.yaml exists")
         st.markdown("• Verify login_customer_id format (should be 10 digits)")
         st.markdown("• Ensure all required fields are present")
+        print(f"🔍 Debug: Exception = {e}, Type = {type(e)}")
         return None, None
 
 def get_keyword_ideas(client, customer_id, seed_keywords, max_keywords=50):
@@ -210,7 +213,7 @@ def get_keyword_ideas(client, customer_id, seed_keywords, max_keywords=50):
         googleads_service = client.get_service("GoogleAdsService")
         
         request = client.get_type("GenerateKeywordIdeasRequest")
-        request.customer_id = customer_id
+        request.customer_id = str(customer_id)
         request.language = googleads_service.language_constant_path(LANGUAGE_ID)
         request.geo_target_constants.append(
             googleads_service.geo_target_constant_path(GEO_TARGET_ID)
@@ -1100,7 +1103,10 @@ def check_existing_campaigns():
         ORDER BY campaign.name
         """
         
-        response = campaign_service.search(customer_id=customer_id, query=query)
+        # Ensure customer_id is a string
+        customer_id_str = str(customer_id)
+        print(f"🔍 Debug: Using customer_id = {customer_id_str} (type: {type(customer_id_str)})")
+        response = campaign_service.search(customer_id=customer_id_str, query=query)
         
         campaigns = []
         for row in response:
@@ -1186,7 +1192,7 @@ def create_expert_campaign(client, customer_id, group, total_budget):
         # Create campaign
         campaign_operation = {'create': campaign}
         campaign_response = campaign_service.mutate_campaigns(
-            customer_id=customer_id,
+            customer_id=str(customer_id),
             operations=[campaign_operation]
         )
         
@@ -1223,7 +1229,7 @@ def create_campaign_budget(client, customer_id, daily_budget):
         
         budget_operation = {'create': budget}
         budget_response = budget_service.mutate_campaign_budgets(
-            customer_id=customer_id,
+            customer_id=str(customer_id),
             operations=[budget_operation]
         )
         
@@ -1309,7 +1315,7 @@ def create_ad_groups_and_keywords(client, customer_id, campaign_id, group):
             
             ad_group_operation = {'create': ad_group}
             ad_group_response = ad_group_service.mutate_ad_groups(
-                customer_id=customer_id,
+                customer_id=str(customer_id),
                 operations=[ad_group_operation]
             )
             
@@ -1336,7 +1342,7 @@ def create_ad_groups_and_keywords(client, customer_id, campaign_id, group):
             # Create keywords in batches
             if keyword_operations:
                 keyword_service.mutate_ad_group_criteria(
-                    customer_id=customer_id,
+                    customer_id=str(customer_id),
                     operations=keyword_operations
                 )
                 keyword_count += len(keyword_operations)
