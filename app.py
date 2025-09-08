@@ -1959,7 +1959,7 @@ def main():
                             template='plotly_white'
                         )
                         
-                        st.plotly_chart(fig, width='stretch', key=f"trend_chart_{keyword}")
+                        st.plotly_chart(fig, width='stretch', key=f"trend_chart_{selected_market}")
                         
                         # Show related queries
                         if "1 Year_queries" in market_data:
@@ -2106,10 +2106,17 @@ def main():
             # Budget Allocation Chart
             budget_data = strategy["budget_allocation"]
             
+            # Filter out non-numeric values and create clean data
+            clean_budget_data = {}
+            for key, value in budget_data.items():
+                clean_value = value.replace('%', '').replace('±', '').replace(' ', '')
+                if clean_value.isdigit():
+                    clean_budget_data[key] = int(clean_value)
+            
             fig = go.Figure(data=[
                 go.Pie(
-                    labels=list(budget_data.keys()),
-                    values=[int(v.replace('%', '').replace('±', '')) for v in budget_data.values() if v.replace('%', '').replace('±', '').isdigit()],
+                    labels=list(clean_budget_data.keys()),
+                    values=list(clean_budget_data.values()),
                     hole=0.3
                 )
             ])
