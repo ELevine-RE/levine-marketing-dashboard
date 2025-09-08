@@ -524,15 +524,15 @@ def rank_keywords(keywords):
 def get_market_bonus(market):
     """Get market bonus score."""
     market_scores = {
-        'Park City Real Estate': 100,
-        'Deer Valley Real Estate': 95,
+        'Park City Real Estate': 100,  # Montana shows as #1 market (Billings, MT = 100)
+        'Deer Valley Real Estate': 95,  # Montana shows as #1 market (Missoula, MT = 100)
         'Deer Valley East Real Estate': 90,
         'Heber Utah Real Estate': 85,
         'Kamas Real Estate': 80,
         'Glenwild': 75,
         'Promontory Park City ': 70,
         'Red Ledges Real Estate': 65,
-        'Ski in Ski Out Home for Sale': 60,
+        'Ski in Ski Out Home for Sale': 60,  # Montana shows high interest (62 score)
         'Victory Ranch Real Esate': 55
     }
     return market_scores.get(market, 50)
@@ -622,7 +622,14 @@ def estimate_monthly_searches(keyword):
         'kamas real estate': 2000,
         'utah real estate': 15000,
         'ski in ski out': 3000,
-        'luxury real estate': 8000
+        'luxury real estate': 8000,
+        # Montana-specific keywords (high opportunity based on trends data)
+        'montana real estate': 8000,
+        'billings montana real estate': 3000,
+        'missoula montana real estate': 2500,
+        'bozeman montana real estate': 2000,
+        'montana ski real estate': 1500,
+        'montana luxury real estate': 1200
     }
     
     keyword_lower = keyword.lower()
@@ -631,6 +638,10 @@ def estimate_monthly_searches(keyword):
     for base_keyword, searches in base_searches.items():
         if base_keyword in keyword_lower:
             return searches
+    
+    # Montana bonus for any Montana-related keyword
+    if 'montana' in keyword_lower:
+        return 2000  # Montana keywords get bonus
     
     # Estimate based on keyword length and terms
     if len(keyword.split()) >= 3:
@@ -645,8 +656,14 @@ def estimate_competition(keyword):
     
     high_competition_keywords = ['real estate', 'park city', 'utah', 'luxury']
     medium_competition_keywords = ['deer valley', 'heber', 'kamas', 'ski']
+    montana_keywords = ['montana', 'billings', 'missoula', 'bozeman']
     
     keyword_lower = keyword.lower()
+    
+    # Montana keywords are likely lower competition (emerging market)
+    for montana_kw in montana_keywords:
+        if montana_kw in keyword_lower:
+            return 'Low'  # Montana is likely lower competition
     
     for high_kw in high_competition_keywords:
         if high_kw in keyword_lower:
@@ -664,8 +681,14 @@ def estimate_cpc(keyword):
     # Base CPC estimates for real estate
     high_cpc_keywords = ['luxury', 'deer valley', 'park city']
     medium_cpc_keywords = ['real estate', 'utah', 'ski']
+    montana_keywords = ['montana', 'billings', 'missoula', 'bozeman']
     
     keyword_lower = keyword.lower()
+    
+    # Montana keywords likely have lower CPC (emerging market, less competition)
+    for montana_kw in montana_keywords:
+        if montana_kw in keyword_lower:
+            return 6.50  # Lower CPC for Montana market
     
     for high_kw in high_cpc_keywords:
         if high_kw in keyword_lower:
@@ -822,6 +845,37 @@ def show_market_trends(trends_data):
     st.markdown("1. **Park City Real Estate** - Highest search volume")
     st.markdown("2. **Deer Valley Real Estate** - Premium market")
     st.markdown("3. **Heber Utah Real Estate** - Growing market")
+    
+    # Montana Analysis Section
+    st.markdown("### 🏔️ **MONTANA MARKET OPPORTUNITY**")
+    st.success("🚨 **CRITICAL INSIGHT:** Montana is showing as a TOP market across multiple timeframes!")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Park City → Montana", "100 Score", "Billings, MT = #1 Market")
+    with col2:
+        st.metric("Deer Valley → Montana", "100 Score", "Missoula, MT = #1 Market")
+    with col3:
+        st.metric("Ski Properties → Montana", "62 Score", "High Interest")
+    
+    st.markdown("**📊 Montana Geographic Breakdown:**")
+    montana_data = [
+        {"City": "Billings, MT", "Score": 100, "Market": "Park City Real Estate"},
+        {"City": "Missoula, MT", "Score": 100, "Market": "Deer Valley Real Estate"},
+        {"City": "Butte-Bozeman, MT", "Score": 23, "Market": "Park City Real Estate"},
+        {"City": "Great Falls, MT", "Score": "Present", "Market": "Multiple Markets"},
+        {"City": "Helena, MT", "Score": "Present", "Market": "Multiple Markets"}
+    ]
+    
+    montana_df = pd.DataFrame(montana_data)
+    st.dataframe(montana_df, use_container_width=True)
+    
+    st.markdown("**🎯 Montana Strategy Recommendations:**")
+    st.markdown("1. **Geographic Targeting:** Add Montana cities to your Google Ads campaigns")
+    st.markdown("2. **Keyword Expansion:** Include 'Montana real estate' variations")
+    st.markdown("3. **Budget Allocation:** Consider 15-20% of budget for Montana targeting")
+    st.markdown("4. **Market Research:** Investigate Montana buyer motivations and preferences")
 
 def show_budget_allocation(budget, phase):
     """Show data-driven budget allocation strategy."""
