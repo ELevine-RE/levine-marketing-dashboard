@@ -172,8 +172,25 @@ def load_existing_analysis():
     return analysis_data
 
 def load_google_ads_client():
-    """Load Google Ads client from google-ads.yaml configuration file."""
+    """Load Google Ads client from google-ads.yaml configuration file or environment variables."""
     try:
+        # First try to load from environment variables (for Streamlit Cloud)
+        if os.getenv('GOOGLE_ADS_DEVELOPER_TOKEN'):
+            # Create client from environment variables
+            client = GoogleAdsClient.load_from_dict({
+                'developer_token': os.getenv('GOOGLE_ADS_DEVELOPER_TOKEN'),
+                'client_id': os.getenv('GOOGLE_ADS_CLIENT_ID'),
+                'client_secret': os.getenv('GOOGLE_ADS_CLIENT_SECRET'),
+                'refresh_token': os.getenv('GOOGLE_ADS_REFRESH_TOKEN'),
+                'login_customer_id': os.getenv('GOOGLE_ADS_LOGIN_CUSTOMER_ID'),
+                'use_proto_plus': True
+            })
+            
+            customer_id = os.getenv('GOOGLE_ADS_LOGIN_CUSTOMER_ID', '5426234549')
+            print(f"🔍 Debug: Using environment variables - Customer ID = {customer_id}, Type = {type(customer_id)}")
+            return client, customer_id
+        
+        # Fallback to YAML file (for local development)
         config_path = "google-ads.yaml"
         if os.path.exists(config_path):
             # Load the client directly from the YAML file
@@ -190,17 +207,21 @@ def load_google_ads_client():
                 customer_id = customer_id[1:-1]
             
             # Debug info
-            print(f"🔍 Debug: Customer ID = {customer_id}, Type = {type(customer_id)}")
+            print(f"🔍 Debug: Using YAML file - Customer ID = {customer_id}, Type = {type(customer_id)}")
             
             return client, customer_id
         else:
-            st.error("⚠️ google-ads.yaml file not found. Please create it with your Google Ads API credentials.")
+            st.error("⚠️ No Google Ads credentials found. Please set up environment variables or create google-ads.yaml file.")
+            st.markdown("**For Streamlit Cloud deployment:**")
+            st.markdown("• Set environment variables in Streamlit Cloud secrets")
+            st.markdown("• For local development: Create google-ads.yaml file")
             return None, None
             
     except Exception as e:
         st.error(f"❌ Error loading Google Ads client: {str(e)}")
         st.markdown("**Troubleshooting:**")
-        st.markdown("• Check that google-ads.yaml exists")
+        st.markdown("• Check environment variables (Streamlit Cloud)")
+        st.markdown("• Check google-ads.yaml file (local development)")
         st.markdown("• Verify login_customer_id format (should be 10 digits)")
         st.markdown("• Ensure all required fields are present")
         print(f"🔍 Debug: Exception = {e}, Type = {type(e)}")
