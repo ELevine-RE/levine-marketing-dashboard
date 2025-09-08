@@ -177,11 +177,19 @@ def load_google_ads_client():
     try:
         config_path = "google-ads.yaml"
         if os.path.exists(config_path):
+            # Load the client directly from the YAML file
+            client = GoogleAdsClient.load_from_storage(config_path)
+            
+            # Extract customer ID from the config for our use
             with open(config_path, 'r') as file:
                 config = yaml.safe_load(file)
             
-            customer_id = config.get('login_customer_id', '')
-            client = GoogleAdsClient.load_from_storage(config_path)
+            customer_id = config.get('login_customer_id', '5426234549')
+            
+            # Remove quotes if present
+            if isinstance(customer_id, str) and customer_id.startswith('"') and customer_id.endswith('"'):
+                customer_id = customer_id[1:-1]
+            
             return client, customer_id
         else:
             st.error("⚠️ google-ads.yaml file not found. Please create it with your Google Ads API credentials.")
@@ -189,6 +197,10 @@ def load_google_ads_client():
             
     except Exception as e:
         st.error(f"❌ Error loading Google Ads client: {str(e)}")
+        st.markdown("**Troubleshooting:**")
+        st.markdown("• Check that google-ads.yaml exists")
+        st.markdown("• Verify login_customer_id format (should be 10 digits)")
+        st.markdown("• Ensure all required fields are present")
         return None, None
 
 def get_keyword_ideas(client, customer_id, seed_keywords, max_keywords=50):
