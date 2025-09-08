@@ -994,8 +994,15 @@ def show_new_market_analysis(trends_data, budget):
     # Campaign Creation Section
     st.markdown("### 🚀 Create Google Ads Campaigns")
     
-    if st.button("🎯 Create All Campaign Groups in Google Ads", type="primary", use_container_width=True):
-        create_google_ads_campaigns(campaign_groups, monthly_budget)
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if st.button("🎯 Create All Campaign Groups in Google Ads", type="primary", use_container_width=True):
+            create_google_ads_campaigns(campaign_groups, monthly_budget)
+    
+    with col2:
+        if st.button("🔍 Check Existing Campaigns", use_container_width=True):
+            check_existing_campaigns()
 
 def create_google_ads_campaigns(campaign_groups, budget):
     """Create Google Ads campaigns with expert PPC manager settings."""
@@ -1020,9 +1027,14 @@ def create_google_ads_campaigns(campaign_groups, budget):
                     created_campaigns.append(campaign_result)
                     st.success(f"✅ Created: {group['name']} (Campaign ID: {campaign_result['campaign_id']})")
                 else:
-                    st.warning(f"⚠️ Failed to create: {group['name']}")
+                    st.warning(f"⚠️ Failed to create: {group['name']} - Check error logs above")
             except Exception as e:
                 st.error(f"❌ Error creating {group['name']}: {e}")
+                st.markdown("**Debug Info:**")
+                st.markdown(f"• Customer ID: {customer_id}")
+                st.markdown(f"• Group: {group['name']}")
+                st.markdown(f"• Budget: ${group['budget']}")
+                st.markdown("• Check Google Ads API permissions")
     
     # Show summary
     if created_campaigns:
@@ -1048,6 +1060,83 @@ def create_google_ads_campaigns(campaign_groups, budget):
         st.markdown("3. **Set up conversion tracking**")
         st.markdown("4. **Monitor performance** for 1-2 weeks")
         st.markdown("5. **Optimize based on data**")
+
+def check_existing_campaigns():
+    """Check what campaigns exist in the Google Ads account."""
+    
+    st.subheader("🔍 Checking Existing Campaigns...")
+    
+    client, customer_id = load_google_ads_client()
+    if not client:
+        st.error("❌ Google Ads API not connected. Please check your credentials.")
+        return
+    
+    try:
+        campaign_service = client.get_service('CampaignService')
+        
+        # Query to get all campaigns
+        query = """
+        SELECT 
+            campaign.id,
+            campaign.name,
+            campaign.status,
+            campaign.advertising_channel_type,
+            campaign.start_date,
+            campaign.end_date,
+            campaign_budget.amount_micros
+        FROM campaign
+        ORDER BY campaign.name
+        """
+        
+        response = campaign_service.search(customer_id=customer_id, query=query)
+        
+        campaigns = []
+        for row in response:
+            campaigns.append({
+                'Campaign ID': row.campaign.id,
+                'Campaign Name': row.campaign.name,
+                'Status': row.campaign.status.name,
+                'Type': row.campaign.advertising_channel_type.name,
+                'Start Date': row.campaign.start_date,
+                'End Date': row.campaign.end_date,
+                'Budget': f"${row.campaign_budget.amount_micros / 1000000:.2f}"
+            })
+        
+        if campaigns:
+            st.success(f"✅ Found {len(campaigns)} campaigns in your account")
+            
+            df = pd.DataFrame(campaigns)
+            st.dataframe(df, use_container_width=True)
+            
+            # Check for our created campaigns
+            our_campaigns = [c for c in campaigns if any(group_name in c['Campaign Name'] for group_name in ['Premium Ski Markets', 'Growing Utah Markets', 'Niche Communities', 'Specialized Properties'])]
+            
+            if our_campaigns:
+                st.success(f"🎯 Found {len(our_campaigns)} campaigns created by our system!")
+                st.markdown("**Our Campaigns:**")
+                for campaign in our_campaigns:
+                    status_color = "🟢" if campaign['Status'] == 'ENABLED' else "🟡" if campaign['Status'] == 'PAUSED' else "🔴"
+                    st.markdown(f"{status_color} **{campaign['Campaign Name']}** - Status: {campaign['Status']}")
+                
+                st.markdown("**💡 Next Steps:**")
+                st.markdown("1. **If campaigns are PAUSED:** Enable them in Google Ads interface")
+                st.markdown("2. **If campaigns are ENABLED:** They should be running")
+                st.markdown("3. **Check your Google Ads interface** for the campaigns")
+            else:
+                st.warning("⚠️ No campaigns created by our system found. They may not have been created successfully.")
+                st.markdown("**Possible reasons:**")
+                st.markdown("• Campaign creation failed silently")
+                st.markdown("• Campaigns created in different account")
+                st.markdown("• API permissions issue")
+        else:
+            st.warning("⚠️ No campaigns found in your account")
+            
+    except Exception as e:
+        st.error(f"❌ Error checking campaigns: {e}")
+        st.markdown("**Troubleshooting:**")
+        st.markdown("• Check your Google Ads API credentials")
+        st.markdown("• Verify you have the correct customer ID")
+        st.markdown("• Ensure you have campaign management permissions")
 
 def create_expert_campaign(client, customer_id, group, total_budget):
     """Create a single campaign with expert PPC manager settings."""
