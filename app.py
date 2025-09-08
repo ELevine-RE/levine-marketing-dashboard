@@ -1707,30 +1707,30 @@ def show_budget_allocation(budget, phase):
     
     with col2:
         st.markdown("**💡 Allocation Rationale:**")
-        st.markdown("• **70% Google Ads** - Direct traffic generation")
-        st.markdown("• **20% Testing** - A/B testing & optimization")
-        st.markdown("• **10% Tools** - Analytics & management")
+        st.markdown("• **70-85% Google Ads** - Direct traffic generation")
+        st.markdown("• **10-25% Testing** - A/B testing & optimization")
+        st.markdown("• **5% Tools** - Analytics & management")
     
     # Calculate allocations based on budget and data
     if budget <= 1500:
         allocations = {
-            "Google Ads": budget * 0.80,  # 80% to ads
-            "Testing & Optimization": budget * 0.15,  # 15% for testing
+            "Google Ads": budget * 0.85,  # 85% to ads (maximize spend on small budget)
+            "Testing & Optimization": budget * 0.10,  # 10% for testing
             "Tools & Software": budget * 0.05  # 5% for tools
         }
         strategy = "Conservative approach - maximize ad spend"
-    elif budget <= 2200:
+    elif budget <= 2500:
         allocations = {
-            "Google Ads": budget * 0.70,  # 70% to ads
+            "Google Ads": budget * 0.75,  # 75% to ads
             "Testing & Optimization": budget * 0.20,  # 20% for testing
-            "Tools & Software": budget * 0.10  # 10% for tools
+            "Tools & Software": budget * 0.05  # 5% for tools
         }
         strategy = "Balanced approach - optimize for growth"
     else:
         allocations = {
-            "Google Ads": budget * 0.65,  # 65% to ads
+            "Google Ads": budget * 0.70,  # 70% to ads
             "Testing & Optimization": budget * 0.25,  # 25% for testing
-            "Tools & Software": budget * 0.10  # 10% for tools
+            "Tools & Software": budget * 0.05  # 5% for tools
         }
         strategy = "Growth approach - scale with data"
     
@@ -1804,14 +1804,14 @@ def main():
     
     # Header
     st.title("🏔️ Evan Levine Real Estate - PPC Campaign Planner")
-    st.markdown("**Budget: $1.5k-$3k | Single Agent | Actionable Next Steps**")
+    st.markdown("**Budget: $750-$4k | Single Agent | Actionable Next Steps**")
     
     # Budget input
     col1, col2 = st.columns(2)
     with col1:
-        monthly_budget = st.number_input("Monthly PPC Budget ($)", min_value=500, max_value=5000, value=2000, step=100)
+        monthly_budget = st.number_input("Monthly PPC Budget ($)", min_value=750, max_value=4000, value=2000, step=100)
     with col2:
-        campaign_phase = st.selectbox("Campaign Phase", ["Starting Out ($1.5k)", "Growing ($2.2k)", "Scaling ($3k+)"])
+        campaign_phase = st.selectbox("Campaign Phase", ["Starting Out ($750-$1.5k)", "Growing ($1.5k-$2.5k)", "Scaling ($2.5k-$4k)"])
     
     st.markdown("---")
     
@@ -1845,11 +1845,11 @@ def main():
     
     # Action steps based on budget
     if monthly_budget <= 1500:
-        st.info("**🚀 Starting Phase ($1.5k):** Focus on 2-3 high-converting keywords, test 1 market")
-    elif monthly_budget <= 2200:
-        st.info("**📈 Growing Phase ($2.2k):** Expand to 3-4 keywords, test 2 markets")
+        st.info("**🚀 Starting Phase ($750-$1.5k):** Focus on 2-3 high-converting keywords, test 1 market")
+    elif monthly_budget <= 2500:
+        st.info("**📈 Growing Phase ($1.5k-$2.5k):** Expand to 3-4 keywords, test 2 markets")
     else:
-        st.info("**🎯 Scaling Phase ($3k+):** Multiple campaigns, 5+ keywords, full market coverage")
+        st.info("**🎯 Scaling Phase ($2.5k-$4k):** Multiple campaigns, 5+ keywords, full market coverage")
     
     # Quick action buttons
     st.subheader("⚡ Quick Actions")
@@ -2233,9 +2233,9 @@ def main():
             
             monthly_budget = st.number_input(
                 "Enter Monthly Budget ($)",
-                min_value=1000,
-                max_value=100000,
-                value=10000,
+                min_value=750,
+                max_value=4000,
+                value=2000,
                 step=1000
             )
             
