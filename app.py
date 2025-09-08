@@ -172,9 +172,29 @@ def load_existing_analysis():
     return analysis_data
 
 def load_google_ads_client():
-    """Load Google Ads client from google-ads.yaml configuration file or environment variables."""
+    """Load Google Ads client from google-ads.yaml configuration file, environment variables, or Streamlit secrets."""
     try:
-        # First try to load from environment variables (for Streamlit Cloud)
+        # First try to load from Streamlit secrets (for Streamlit Cloud)
+        try:
+            import streamlit as st
+            if hasattr(st, 'secrets') and 'google_ads' in st.secrets:
+                secrets = st.secrets['google_ads']
+                client = GoogleAdsClient.load_from_dict({
+                    'developer_token': secrets['developer_token'],
+                    'client_id': secrets['client_id'],
+                    'client_secret': secrets['client_secret'],
+                    'refresh_token': secrets['refresh_token'],
+                    'login_customer_id': secrets['login_customer_id'],
+                    'use_proto_plus': True
+                })
+                
+                customer_id = secrets['login_customer_id']
+                print(f"🔍 Debug: Using Streamlit secrets - Customer ID = {customer_id}, Type = {type(customer_id)}")
+                return client, customer_id
+        except Exception:
+            pass  # Fall through to environment variables
+        
+        # Second try to load from environment variables (for Streamlit Cloud)
         if os.getenv('GOOGLE_ADS_DEVELOPER_TOKEN'):
             # Create client from environment variables
             client = GoogleAdsClient.load_from_dict({
