@@ -130,7 +130,8 @@ def load_existing_trends_data():
                 query_files = glob.glob(f"{timeframe_dir}/relatedQueries*.csv")
                 if query_files:
                     try:
-                        queries_df = pd.read_csv(query_files[0], skiprows=1)  # Skip header row
+                        # Related queries CSV has a specific structure with category header
+                        queries_df = pd.read_csv(query_files[0], skiprows=3)  # Skip category and header rows
                         market_data[f"{timeframe}_queries"] = queries_df
                     except Exception as e:
                         st.warning(f"Could not load {timeframe_dir}/relatedQueries data: {e}")

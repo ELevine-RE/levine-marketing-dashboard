@@ -23,7 +23,8 @@ refresh_token: INSERT_YOUR_REFRESH_TOKEN_HERE
 
 # Google Ads Login Customer ID (MCC Account ID without hyphens)
 # This is your manager account ID if you're using an MCC account
-login_customer_id: INSERT_YOUR_LOGIN_CUSTOMER_ID_HERE
+# Must be a string with quotes: "1234567890"
+login_customer_id: "INSERT_YOUR_LOGIN_CUSTOMER_ID_HERE"
 
 # Optional: Use proto-plus messages (recommended for better performance)
 use_proto_plus: true
