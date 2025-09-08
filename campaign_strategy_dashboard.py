@@ -120,7 +120,8 @@ def load_existing_trends_data():
                 timeline_files = glob.glob(f"{timeframe_dir}/multiTimeline*.csv")
                 if timeline_files:
                     try:
-                        df = pd.read_csv(timeline_files[0])
+                        # Google Trends CSV files have a specific structure
+                        df = pd.read_csv(timeline_files[0], skiprows=2)  # Skip header rows
                         market_data[timeframe] = df
                     except Exception as e:
                         st.warning(f"Could not load {timeframe_dir}/multiTimeline data: {e}")
@@ -129,7 +130,7 @@ def load_existing_trends_data():
                 query_files = glob.glob(f"{timeframe_dir}/relatedQueries*.csv")
                 if query_files:
                     try:
-                        queries_df = pd.read_csv(query_files[0])
+                        queries_df = pd.read_csv(query_files[0], skiprows=1)  # Skip header row
                         market_data[f"{timeframe}_queries"] = queries_df
                     except Exception as e:
                         st.warning(f"Could not load {timeframe_dir}/relatedQueries data: {e}")
@@ -138,7 +139,7 @@ def load_existing_trends_data():
                 geo_files = glob.glob(f"{timeframe_dir}/geoMap*.csv")
                 if geo_files:
                     try:
-                        geo_df = pd.read_csv(geo_files[0])
+                        geo_df = pd.read_csv(geo_files[0], skiprows=1)  # Skip header row
                         market_data[f"{timeframe}_geo"] = geo_df
                     except Exception as e:
                         st.warning(f"Could not load {timeframe_dir}/geoMap data: {e}")
